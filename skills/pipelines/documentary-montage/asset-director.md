@@ -57,6 +57,7 @@ clip with full provenance.
 | Tool (fast path) | `direct_clip_search` | Lightweight multi-provider search + download |
 | Tool (standard path) | `corpus_builder` | Populates the retrieval index with CLIP embeddings |
 | Tool (standard path) | `clip_search` | Ranks clips against slot descriptions |
+| Tool (editorial) | `open_design_tool` | Anti-AI Slop publication-grade cards & alpha overlays |
 | Tool (optional) | `music_gen`, user's `music_library/` | Score bed |
 
 ## Mental Model
@@ -379,6 +380,29 @@ recorded — do not invent a new source here:
 **Never switch music source at this stage.** That's a Decision
 Communication Contract violation — changing music mode is a major
 production change and needs user approval at proposal time.
+
+### 8b. Generate Editorial & Title Assets with Open Design
+
+For slots allocated for title cards, lower thirds, or statistical callouts (`type: "graphic"` or `open_design_tool`):
+
+1. **Read Layer 3 Guidance**: Consult `.agents/skills/open-design/SKILL.md`.
+2. **Call `open_design_tool`**:
+   - `mode="template"`
+   - `theme_id`: Maintain visual consistency across the documentary:
+     * Documentary / History / Humanist: `"editorial"`, `"swiss-editorial"`, or `"warm-editorial"`
+     * Technical / Financial / Data: `"dark-data"` or `"trading-terminal"`
+     * Architectural / Minimalist: `"atelier-zero"`
+   - `component_type`:
+     * `"fullscreen_card"`: Chapter titles and act transitions.
+     * `"lower_third"`: Speaker/witness attribution, archival location or source tag.
+     * `"stat_callout"`: Monumental metrics, dates, and quantitative findings.
+     * `"split_screen"`: Thesis vs. antithesis or comparative evidence.
+     * `"quote_card"`: Archival or witness testimony quotes.
+   - `output_format`:
+     * `"webm_alpha"`: Transparent video overlay, composited directly over B-roll via FFmpeg or Remotion.
+     * `"dom_snippet"`: Semantic DOM nodes for direct insertion into HyperFrames.
+   - `props`: Clean typographic hierarchy (`kicker`, `title`, `subtitle`, `stat`, `meta`).
+3. **Register in Asset Manifest**: Store the generated output file with `type: "graphic"` or `type: "video"`, noting `tool: "open_design_tool"`.
 
 ### 9. Record The Asset Manifest
 

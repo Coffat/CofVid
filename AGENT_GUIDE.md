@@ -120,15 +120,17 @@ The `decision_log` is the board's Decisions rail and the run's audit trail. It i
 
 Editing only a downstream artifact (the `asset_manifest`, a prop) while leaving the old decision in the log is a defect: the board keeps showing the stale choice (e.g. `voice → openai_onyx` after the user moved to Chirp3). The board identifies a decision by its **(category, subject) pair** and renders the latest entry for that pair as current (tagged "revised") — so the fix is to append the new entry with an identical `subject`, never to silently mutate the old one or reword the subject (a reworded subject reads as a different decision and both will show). Keeping distinct decisions in one category (e.g. TTS vs image `provider_selection`) is exactly why the pair, not the category alone, is the key. This applies at every stage, not just `idea`.
 
-### Present Both Composition Runtimes (HARD RULE)
+### Present Both Composition Runtimes — HyperFrames as Primary Default (HARD RULE)
 
-When both Remotion and HyperFrames are available on the machine (check `video_compose.get_info()["render_engines"]`), the agent **MUST present both options to the user** before locking `render_runtime` at the proposal stage. The agent MAY recommend one with rationale — but silently picking a "default" is forbidden even when the pipeline manifest or a director skill suggests one.
+When both Remotion and HyperFrames are available on the machine (check `video_compose.get_info()["render_engines"]`), the agent **MUST present both options to the user** before locking `render_runtime` at the proposal stage, designating **HyperFrames (`render_runtime="hyperframes"`) as the PRIMARY DEFAULT** for all template-driven, kinetic typography, motion graphics, and explainer pipelines.
+
+Remotion remains available as a secondary/specialized runtime when React component stacks, legacy TalkingHead avatars, or React-based terminal scenes are strictly required. The agent should recommend HyperFrames by default with clear rationale:
 
 The presentation MUST include, for each runtime:
 
 1. A one-sentence plain-language description of what it is best at for **this specific brief**.
 2. A one-sentence honest tradeoff (why it might not be the right pick here).
-3. The agent's recommendation and the reason, tied to the brief's delivery_promise and visual approach.
+3. The agent's recommendation (defaulting to HyperFrames for motion/typography/explainers) and the reason, tied to the brief's delivery_promise and visual approach.
 
 Then wait for explicit user approval before advancing. Record the full shortlist — BOTH runtimes plus any "ffmpeg" option that applies — as `options_considered` in the `render_runtime_selection` decision logged in `decision_log`. A decision log entry with only one runtime considered when both were available is a CRITICAL reviewer finding.
 
@@ -140,10 +142,10 @@ This rule applies to every pipeline that invokes `video_compose` — not just Wa
 
 Orthogonal to *runtime* is *authoring mode*: **how** the composition is built. Present it as its own proposal decision and log it in `decision_log` (`category: "composition_mode"`).
 
-- **Templated** — assemble the stock `cut.type` scene-types (`text_card`, `stat_card`, `bar_chart`, …) into the `Explainer`/`CinematicRenderer` compositions. Fast, cheap, reliable — and the reason most videos look alike. Right for batch output, localization variants, quick drafts, and low-stakes internal clips.
-- **Atelier** — **hand-author the composition from scratch**: bespoke scenes, a one-off theme, and motion written for this piece, rendered via `composition_mode: "atelier"` (see `video_compose` → `_render_via_atelier`). No reusable creative components; a fresh visual language every time.
+- **Templated** — assemble the stock `cut.type` scene-types (`text_card`, `stat_card`, `bar_chart`, …) into HyperFrames HTML compositions or Remotion React compositions. Fast, cheap, reliable — and the reason most videos look alike. Right for batch output, localization variants, quick drafts, and low-stakes internal clips.
+- **Atelier** — **hand-author the composition from scratch**: bespoke scenes, a one-off theme, and motion written for this piece, rendered via `composition_mode: "atelier"` (see `video_compose` → `_render_via_atelier`). Hand-authoring is **HyperFrames-first** (HTML/CSS/GSAP/SVG/Canvas) by default, or Remotion (React) when React component trees are required. No reusable creative components; a fresh visual language every time.
 
-**Default to atelier for hero work** — marketing, launches, brand pieces, any single-deliverable explainer that must impress. The deciding rule: *reuse engine knowledge, never creative components.* In atelier mode the stock scene-type catalog, `hyperframes-registry` blocks, fixtures, and finished components are **off-limits** — they are frozen looks that reintroduce sameness. Before building, route through **`skills/meta/taste-direction.md`** to set the design read and taste dials, then **`skills/meta/bespoke-composition.md`**, which sequences: art direction (`visual-style`) → motion principles (Disney 12 via `framer-motion`/`lottie-bodymovin`) → engine mechanics (`remotion-best-practices` + the stock components read *only as a mechanics codex*) → render via the atelier path. Close with a **distinctness review**: *could this be any other product's video? does it reuse a look I've made before?* — the inverse of "does it match the reference." Atelier costs more tokens and iteration than templated; say so at proposal so the user opts in knowingly.
+**Default to atelier for hero work** — marketing, launches, brand pieces, any single-deliverable explainer that must impress. The deciding rule: *reuse engine knowledge, never creative components.* In atelier mode the stock scene-type catalog, `hyperframes-registry` blocks, fixtures, and finished components are **off-limits** — they are frozen looks that reintroduce sameness. Before building, route through **`skills/meta/taste-direction.md`** to set the design read and taste dials, then **`skills/meta/bespoke-composition.md`**, which sequences: art direction (`visual-style`) → motion principles (Disney 12 via GSAP / Framer Motion) → engine mechanics (`hyperframes-core` / `hyperframes-animation` as default, or `remotion-best-practices` when React is chosen) → render via the atelier path. Close with a **distinctness review**: *could this be any other product's video? does it reuse a look I've made before?* — the inverse of "does it match the reference." Atelier costs more tokens and iteration than templated; say so at proposal so the user opts in knowingly.
 
 ### Escalate Blockers Explicitly
 
@@ -367,7 +369,7 @@ When tools are `UNAVAILABLE` but can be fixed with simple configuration, **offer
 
 ### Composition Runtimes (Inside video_compose)
 
-`video_compose` has **three** render engines / runtimes. They are parallel, not ranked — the choice is made at proposal and locked in `edit_decisions.render_runtime`. Check which are available:
+`video_compose` has **three** render engines / runtimes. **HyperFrames is the PRIMARY DEFAULT runtime** (`render_runtime="hyperframes"`) for all template-driven, kinetic typography, motion graphics, and explainer pipelines. **Remotion** is the secondary / specialized runtime when React components or legacy TalkingHead avatars are strictly required. **FFmpeg** handles simple concat and cuts. Check which are available:
 
 ```bash
 python -c "
@@ -380,11 +382,11 @@ print('HyperFrames note:', info.get('hyperframes_note'))
 "
 ```
 
-| Engine | Used For | Requires |
-|--------|----------|----------|
-| **FFmpeg** | Video-only cuts, concat, trim, subtitle burn | `ffmpeg` binary (always available) |
-| **Remotion** | React-based composition: still images → animated video, text cards, stat cards, charts, callouts, comparisons, transitions with spring physics, word-level caption burn, TalkingHead avatar | Node.js (`npx`) + `remotion-composer/` + `node_modules` |
-| **HyperFrames** | HTML/CSS/GSAP composition: kinetic typography, product promos, launch reels, website-to-video, registry-block-driven scenes, SVG character rigs | Node.js ≥ 22 + FFmpeg + `npx` (consumed via `npx hyperframes`) |
+| Engine | Role | Used For | Requires |
+|--------|------|----------|----------|
+| **HyperFrames** | **Primary Default** | HTML/CSS/GSAP composition: kinetic typography, animated explainers, motion graphics, product promos, launch reels, website-to-video, registry-block-driven scenes, SVG character rigs | Node.js ≥ 22 + FFmpeg + `npx` (consumed via `npx hyperframes`) |
+| **Remotion** | **Secondary / Fallback** | React-based composition: still images → animated video, text cards, stat cards, charts, callouts, comparisons, transitions with spring physics, word-level caption burn, TalkingHead avatar | Node.js (`npx`) + `remotion-composer/` + `node_modules` |
+| **FFmpeg** | Basic / Concat | Video-only cuts, concat, trim, subtitle burn | `ffmpeg` binary (always available) |
 
 `render_runtime` is **locked at proposal** (`proposal_packet.production_plan.render_runtime`) and **carried through edit_decisions unchanged**. `video_compose` routes based on this field; silent runtime swaps are forbidden. If the chosen runtime becomes unavailable at compose time, surface a structured blocker per "Escalate Blockers Explicitly" above. See `skills/core/hyperframes.md` for the Remotion-vs-HyperFrames decision matrix.
 
@@ -400,18 +402,23 @@ For any request where the deliverable inherently depends on motion rather than s
 
 For these requests:
 
-- The `render_runtime` chosen at proposal (Remotion, HyperFrames, or FFmpeg) must be confirmed available up front if the planned visual treatment depends on it.
+- The `render_runtime` chosen at proposal (HyperFrames as primary default, or Remotion/FFmpeg) must be confirmed available up front if the planned visual treatment depends on it.
 - Still-image fallback is forbidden. Do not quietly convert the job into a Ken Burns teaser, animatic, or slide-based video.
 - FFmpeg-only fallback is forbidden when it changes the approved deliverable from motion-led video to still-led video.
 - **Silent runtime swap is forbidden.** If `render_runtime="hyperframes"` was locked and HyperFrames is unavailable, do NOT route to Remotion instead. Surface the blocker, propose options, get user approval, log a `render_runtime_selection` decision — then proceed.
 - Bubble critical issues immediately. If the chosen runtime is unavailable, fails to render, or provider clip generation fails in a way that blocks the approved treatment, stop and tell the user before proceeding.
 - Do not spend more tokens or time on downgraded output unless the user explicitly approves the downgrade as an animatic or proof-of-concept.
 
-**When Remotion is available**, the agent should design production plans around it:
-- Explainer videos with `flat-motion-graphics` playbook -> Remotion animated scenes, not Ken Burns
-- Data-driven videos -> Remotion stat cards and charts, not static image screenshots
-- Any pipeline using still images -> Remotion spring animations, not FFmpeg pan-and-zoom
-- **Screen demos of a CLI/terminal/install flow -> `TerminalScene` (synthetic screen recording), not OS-level capture.** See `.agents/skills/synthetic-screen-recording/SKILL.md`. Faster, deterministic, privacy-safe. Use real capture (`screen_recorder`, `cap_recorder`, `playwright-recording`) only when the demo is a real app UI or requires unpredictable live behavior.
+**When HyperFrames is available (PRIMARY DEFAULT)**, the agent should design production plans around it:
+- Explainer videos with kinetic typography or motion graphics -> HyperFrames HTML/CSS/GSAP scenes
+- Product promos, launch reels, and website-to-video -> HyperFrames composition
+- Audio cues (SFX hits, BGM ducking) -> HyperFrames audio engine (`scripts/audio.mjs` / `assets/sfx/`)
+- SVG character rigs & procedural animations -> HyperFrames composition
+
+**When Remotion is selected (Secondary / Specialized)**:
+- Explainer videos requiring complex React-state charts or interactive components
+- **Screen demos of a CLI/terminal/install flow -> `TerminalScene` (synthetic screen recording), not OS-level capture.** See `.agents/skills/synthetic-screen-recording/SKILL.md`. Faster, deterministic, privacy-safe.
+- Pipelines requiring legacy TalkingHead avatar integration.
 
 ### Remotion scene types available in `remotion-composer/`
 
@@ -424,7 +431,7 @@ These stock scene-types are the **templated** path — fast and reliable, but th
 
 When `render_runtime="hyperframes"` is locked and HyperFrames is unavailable (Node < 22, missing `ffmpeg`/`npx`, or `hyperframes doctor` reports issues), that's also a blocker. Do not substitute Remotion or FFmpeg without user approval + a logged `render_runtime_selection` decision.
 
-Routing is automatic — `video_compose` reads `edit_decisions.render_runtime` and dispatches to the matching engine (`_render_via_hyperframes`, `_remotion_render`, or `_render_via_ffmpeg`). But the **agent must know both Remotion and HyperFrames exist at proposal time** so it can design the visual approach intentionally. Don't default to Remotion for motion-graphics-heavy concepts that HTML/GSAP would express more naturally, and don't default to HyperFrames for briefs that reuse the existing React scene stack.
+Routing is automatic — `video_compose` reads `edit_decisions.render_runtime` and dispatches to the matching engine (`_render_via_hyperframes`, `_remotion_render`, or `_render_via_ffmpeg`). The agent should default to HyperFrames for motion graphics, typography, explainers, and promos, reserving Remotion for briefs that strictly demand the React component stack or TalkingHead avatars.
 
 ## Capability Discovery
 
@@ -465,20 +472,24 @@ python -c "from tools.tool_registry import registry; import json; registry.disco
 
 Key capability families to look for in the output:
 
-- **tts** — Text-to-speech providers. Route via `tts_selector`.
-- **video_generation** — Video generation providers (cloud, local GPU, stock). Route via `video_selector`.
-- **image_generation** — Image generation providers (cloud, local GPU, stock). Route via `image_selector`.
-- **music_generation** — Music and sound effect generation.
+- **tts** — Text-to-speech providers. **Default primary provider is `vieneu_tts`** (100% offline, local ONNX on Apple Silicon/CPU, zero cost, Vietnamese voices 'Hải Đăng' & 'Mai Anh'). Alternate/fallback: `piper_tts`. Route via `tts_selector`.
+- **video_generation** — Video generation & composition. **Active paths:** `coverr_video` (curated HD/4K stock B-roll, zero API key), `mixkit_video` (curated Envato stock footage, zero API key), `pixabay_video` (optional free stock footage), along with Remotion and HyperFrames composition runtimes. (Pexels has been deprecated and replaced by Coverr & Mixkit). Route via `video_selector`.
+- **image_generation** — Image providers. **Active paths:** `pixabay_image` (free stock images). Route via `image_selector`.
+- **music_generation** — Music providers. **Active paths:** `pixabay_music`, `music_library/` (local user tracks).
 - **video_post** — Composition, stitching, trimming (FFmpeg-based, always local).
 - **audio_processing** — Mixing, enhancement (FFmpeg-based, always local).
 - **analysis** — Transcription, scene detection, frame sampling.
 - **avatar** — Talking head and lip sync generation.
 - **character_animation** — Local character specs, SVG rigs, pose libraries, action timelines, previews, and QA.
-- **3d_world_generation** — Local semantic terrain, procedural biome scattering, explicit landmarks, diagnostic passes, and deterministic HyperFrames/Three.js camera fly-throughs. Route through `threejs_world` and read `skills/creative/3d-world-generation.md` plus `.agents/skills/threejs-world-generation/SKILL.md`.
-- **3d_asset_acquisition** — Rights-safe GLTF/GLB catalogs for production-tier Three.js worlds. Route through `threejs_asset_catalog`; never substitute blockout primitives for a requested detailed or reference-grade environment.
-- **3d_asset_generation** — Unique textured/PBR meshes from text or concept images. Route text-described hero assets through `atlas_3d`, image-conditioned assets and regional object extraction through `fal_3d`, and read `.agents/skills/3d-asset-generation/SKILL.md`. Announce provider/model/unit cost before every first paid call and sample before batching.
-- **3d_world_rendering** — Production assembly, terrain, lighting, materials, camera, and image-sequence rendering in Blender. Route through `blender_world`; use Three.js for interactive/blockout review, not as a substitute for Blender when reference-grade scene density is requested.
+- **3d_world_generation** — Local semantic terrain, procedural biome scattering, explicit landmarks, diagnostic passes, and deterministic HyperFrames/Three.js camera fly-throughs.
 - **enhancement** — Upscale, background removal, face enhance, color grading.
+
+> [!NOTE]
+> **Zero-Key Architecture & Provider Status:**
+> - **Gemini / LLM:** Operates directly via the Gemini Desktop App (`/Applications/Gemini.app` & CLI `agy` bridge), requiring **NO** Google API key.
+> - **Vietnamese TTS:** Powered 100% offline by **VieNeu-TTS** ('Hải Đăng' & 'Mai Anh') via local ONNX.
+> - **Stock Footage:** **Coverr & Mixkit** provide rich, high-quality curated B-roll footage **completely free without API keys**. Pexels has been deprecated as API keys are no longer issued. Pixabay remains an optional supplementary source.
+> - Third-party paid cloud models (ElevenLabs, FAL.ai, Kling, Seedance/Ark, Suno, MiniMax, Higgsfield, Replicate, Runway, Doubao, Fish Audio, DashScope) are marked as disabled/deprecated in this lean zero-cost stack.
 
 Each tool in the registry declares `best_for`, `install_instructions`, `runtime` (LOCAL, API, LOCAL_GPU, HYBRID), and `status`. Read these fields — do not assume tool strengths from memory.
 
@@ -505,9 +516,9 @@ Three selector tools abstract multi-provider capabilities. **Selectors auto-disc
 
 | Selector | Routes to | How it discovers |
 |----------|-----------|-----------------|
-| `tts_selector` | All tools with `capability="tts"` (ElevenLabs, Google TTS, OpenAI, Piper, Azure, fish.audio) | `registry.get_by_capability("tts")` |
-| `image_selector` | All tools with `capability="image_generation"` (FLUX, Google Imagen, GPT Image, Recraft, etc.) | `registry.get_by_capability("image_generation")` |
-| `video_selector` | All tools with `capability="video_generation"` | `registry.get_by_capability("video_generation")` |
+| `tts_selector` | All tools with `capability="tts"` (Primary: `vieneu_tts` [Local/Free]; Alternates: `piper_tts`. Legacy cloud providers disabled.) | `registry.get_by_capability("tts")` |
+| `image_selector` | All tools with `capability="image_generation"` (Active: `pixabay_image`. Legacy paid cloud providers disabled.) | `registry.get_by_capability("image_generation")` |
+| `video_selector` | All tools with `capability="video_generation"` (Active: `coverr_video`, `mixkit_video`, `pixabay_video`, Remotion, HyperFrames. Legacy cloud/paid providers disabled; Pexels replaced by Coverr & Mixkit.) | `registry.get_by_capability("video_generation")` |
 
 Selectors route based on: user preference > availability > discovery order. They adapt input schemas between providers transparently.
 
@@ -680,18 +691,38 @@ The `.agents/skills/` directory is large. When you're not coming in through a to
 | **Composition runtime** | `remotion`, `remotion-best-practices`, `synthetic-screen-recording` (fake terminal/UI demos via Remotion TerminalScene), `threejs-world-generation` (semantic terrain and free-viewpoint HyperFrames worlds) |
 | **Animation knowledge (generic)** | `gsap-core`, `gsap-timeline`, `gsap-plugins` (SplitText / MorphSVG / DrawSVG / MotionPath / Flip / CustomEase), `gsap-utils`, `gsap-react`, `gsap-performance`, `gsap-scrolltrigger`, `gsap-frameworks`, `framer-motion` (Disney 12 principles), `lottie-bodymovin` (Lottie export) |
 | **Character animation** | `character-rigging`, `svg-character-animation`, `pose-library-design`, `canvas-procedural-animation`, `character-animation-qa` |
-| **Image generation** | `bfl-api`, `flux-best-practices` |
-| **Video generation** | `seedance-2-0` (preferred premium default — cinematic, trailer, multi-shot, synced audio, lip-sync), `gemini-omni` (conversational video editing, reference tags, timecoded beats), `ai-video-gen`, `ltx2` |
-| **Audio** | `elevenlabs`, `music`, `sound-effects`, `acestep`, `text-to-speech`, `azure-text-to-speech` (optional cloud TTS — tool `azure_tts`, same Speech key as `azure_stt`), `setup-api-key` |
+| **Image generation** | `google_imagen` (via Gemini/Google Studio), `pixabay_image` (free stock); *[deprecated: bfl-api, flux-best-practices]* |
+| **Video generation** | `coverr_video` & `mixkit_video` (curated free stock footage, zero key), Remotion, HyperFrames, `pixabay_video` (free stock); *[deprecated: pexels, seedance-2-0, ai-video-gen, ltx2]* |
+| **Audio** | `vieneu-tts` (**primary default** — local offline Vietnamese v3-Turbo), `text-to-speech`, `google_music`; *[deprecated: elevenlabs, music, sound-effects, acestep, azure-text-to-speech]* |
 | **Speech-to-text** | `speech-to-text` (whisper `transcriber` — default, offline), `azure-speech-to-text` (optional cloud STT — tool `azure_stt`, preferred when `AZURE_SPEECH_KEY` is set) |
 | **Avatar / lip-sync** | `avatar-video`, `heygen`, `create-video`, `faceswap`, `video-translate`, `agents` |
 | **Capture** | `playwright-recording` (browser flows), `ffmpeg` (post) |
 | **Visualization** | `beautiful-mermaid`, `d3-viz`, `manim-composer`, `manimce-best-practices`, `manimgl-best-practices` |
+| **Editorial graphics / Anti-AI Slop** | `open-design` (`.agents/skills/open-design/SKILL.md` — Anti-AI Slop publication-grade editorial design systems, typography, title cards, stat callouts, and alpha motion overlays; tool `open_design_tool`), `brand-icon` (`.agents/skills/brand-icon/SKILL.md` — official authentic vector brand & UI icons; tool `brand_icon_tool`) |
+| **Analysis & Grounding** | `web-data-grounding` (`.agents/skills/web-data-grounding/SKILL.md` — live GitHub & web fact extraction and grounding; tool `web_data_grounder`) |
 | **Media editing** | `video-edit`, `video-download`, `video-understand`, `video-toolkit`, `visual-style` |
 
 **When in doubt, read the category's meta routing file first:**
 - Picking an animation runtime? → `skills/meta/animation-runtime-selector.md` routes between Remotion primitives, GSAP plugins, framer-motion, Lottie, Manim, D3.
 - Picking a screen-recording mode (real capture vs synthetic terminal)? → `pipeline_defs/screen-demo.yaml` + `skills/pipelines/screen-demo/idea-director.md`.
+
+## Coffat Media 5-Channel Routing Rule
+
+When producing vertical video content (9:16, 1080 × 1920) for any of **COFFAT MEDIA's 5 channels**, agents MUST activate `.agents/skills/coffat-media-director/SKILL.md` and operate in **Atelier Mode (Dynamic Hand-Authoring)** using the channel's authoritative design specification in `vertical-video-brand-kit/<channel>/design.md`:
+
+1. **Mạch Số (`mach-so`)**: Swiss Editorial × Technology Magazine × Data Journalism. Nền `paper` (`#FAFAF7`) / `white`, text `ink` (`#222222`), accent `signal-blue` (`#3157A4`). Font: `Inter` / `Manrope` + `IBM Plex Mono`. VieNeu-TTS: `Hải Đăng`. Open Design: `theme_id: "swiss-editorial"` hoặc `"dark-data"`.
+2. **Vạn Vật (`van-vat`)**: Scientific Editorial × Natural History Museum × Minimalist Infographic. Nền `paper` (`#FAFAF7`), accent `botanical-teal` (`#397B72`), `mineral-blue` (`#83A7B4`). Font: `Source Serif 4` / `Lora` + `Inter`. VieNeu-TTS: `Mai Anh`. Open Design: `theme_id: "atelier-zero"`.
+3. **Dấu Mốc (`dau-moc`)**: Historical Editorial × Archive Newspaper × Contemporary Documentary. Nền `paper` (`#FAF8F3`), accent `burgundy` (`#873F43`), `antique-gold` (`#B18B55`). Bắt buộc gắn tem: `[TÁI HIỆN MINH HỌA // AI RECONSTRUCTION]`. Font: `Playfair Display` + `Inter`. VieNeu-TTS: `Hải Đăng`. Open Design: `theme_id: "editorial"`.
+4. **Tâm Trí (`tam-tri`)**: Humanist Editorial × Psychology Magazine × Swiss Minimalism. Nền `paper` (`#FAFAF7`), accent `muted-plum` (`#795C76`), `terracotta` (`#C47C70`). Font: `Lora` / `Source Serif 4` + `Inter`. VieNeu-TTS: `Mai Anh`. Open Design: `theme_id: "warm-editorial"`.
+5. **Bàn Cờ (`ban-co`)**: Financial Journalism × Swiss Editorial × Corporate Annual Report. Nền `paper` (`#FAFAF7`), accent `forest-green` (`#376B50`), `brass` (`#B18D55`). Font: `Source Serif 4` + `Inter` + `IBM Plex Mono`. VieNeu-TTS: `Hải Đăng`. Open Design: `theme_id: "trading-terminal"` hoặc `"editorial"`.
+
+**Atelier Hand-Authoring Mandate**: Agents must dynamically code bespoke HTML/CSS/GSAP Hyperframes compositions per scene based on `design.md`. Do NOT use rigid pre-baked templates. Adhere strictly to the conservative mobile safe margins (Left/Right 90px, Top 140px, Bottom 300px; Subtitle: 44-54px, max 2 lines).
+
+**Anti-AI Slop Rhythm Rule**: Trong quy chuẩn dựng hình của Agent, mỗi video phải phân bổ ít nhất 1 Title Card chuyển đoạn (fullscreen chapter card) và 1-2 Stat/Quote/Lower-third card từ `open_design_tool` để ngắt nhịp footage AI hoặc stock B-roll. Việc chèn các thẻ đồ họa xuất bản tĩnh/chuyển động có chiều sâu typography giúp triệt tiêu cảm giác "AI Slop", tạo nhịp điệu báo chí/phóng sự tài liệu được con người biên tập công phu.
+
+**No AI Logos Rule (HARD MANDATE)**: CẤM TUYỆT ĐỐI dùng các model sinh ảnh AI (như Imagen, Flux, Midjourney, DALL-E) để sinh logo hay icon thương hiệu. Các model diffusion luôn bịa đặt, sai font chữ, méo lệch chi tiết và làm giảm nghiêm trọng uy tín tác phẩm. Bắt buộc 100% phải dùng `brand_icon_tool` để giải quyết vector SVG chuẩn xác từ kho chính thức (GitHub Octocat, Python, Docker, React, AWS, Google, Apple, OpenAI, v.v.), Simple Icons, hoặc trích xuất favicon/SVG thực tế từ website.
+
+**Fact-Grounded Sourcing Rule (HARD MANDATE)**: Mọi số liệu trong kịch bản (stars, forks, ngày phát hành, thông số kỹ thuật, số liệu tăng trưởng) khi đưa vào title card hoặc lời bình video bắt buộc phải trích xuất và xác thực qua `web_data_grounder` và ghi nhận trong artifact `grounded_facts.json`. Nghiêm cấm agent tự suy diễn hoặc bịa số liệu ảo không có căn cứ. Reviewer sẽ từ chối nghiệm thu (REJECT) nếu số liệu xuất hiện trong card mà không tồn tại trong `grounded_facts.json`.
 
 ## Quick Lookup
 

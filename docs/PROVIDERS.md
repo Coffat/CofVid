@@ -30,64 +30,37 @@ quality require live validation in the intended environment.
 
 ---
 
-## Quick Start: What Should I Set Up?
+## Quick Start: What Should I Set Up? (Current Lean Stack)
 
-**Start free, add paid providers as you need them.** Here's the recommended order:
+**CofVid defaults to a 100% free / lean production architecture.** You only need:
 
-| Step | Cost | What to set up | What it unlocks |
-|------|------|----------------|-----------------|
-| 1 | **$0** | Pexels + Pixabay | Stock photos and videos — enough to produce basic videos |
-| 2 | **$0** | Google API key | TTS with 700+ voices (1M chars/month free) + $300 new account credit |
-| 3 | **$0** | ElevenLabs | Premium TTS + music + SFX (10K chars/month free) |
-| 4 | **$0** | Piper (local install) | Fully offline TTS — no API key, no cost, no network |
-| 5 | **~$0.03/image** | fal.ai | FLUX images + Kling/Veo/MiniMax video + Recraft — broad single-key image + video coverage |
-| 6 | **~$0.05/image** | OpenAI | GPT Image 2 images + OpenAI TTS |
-| 7 | **~$0.04/image** | Google Imagen | Imagen 4 images (shares the Google API key) |
-| 8 | **pay-as-you-go** | Kling Official | Official direct Kling video, image, TTS, avatar, and lip-sync API, separate from fal.ai Kling |
-| 9 | **pay-as-you-go** | Volcengine Ark | Official direct Seedance 2.0 Standard/Fast/Mini API |
-| 10 | **$12/month** | Runway | Gen-4 video — highest quality AI video |
-| 11 | **pay-as-you-go** | Hunyuan cloud video | Chinese-friendly T2V + I2V |
-| 12 | **pay-as-you-go** | HeyGen | Avatar videos, multi-model video gateway |
-| 13 | **pay-as-you-go** | Suno | Full song generation with vocals and lyrics |
-| 14 | **$0 + GPU** | Local video gen | WAN 2.1, Hunyuan, CogVideo, LTX — free, offline |
-| 15 | **$0 + GPU** | Local Diffusion | Stable Diffusion images — free, offline |
+| Step | Cost | What to set up | What it unlocks | Status |
+|------|------|----------------|-----------------|--------|
+| 1 | **$0** | **VieNeu-TTS** (local install) | High-fidelity offline Vietnamese neural TTS ('Hải Đăng' & 'Mai Anh') via ONNX on Apple Silicon/CPU | **Active / Primary** |
+| 2 | **$0** | **Pixabay API key** | Free stock photos, vector graphics, motion video clips, and background music | **Active** |
+| 3 | **$0** | **Google Gemini** (`GEMINI_API_KEY` / `GOOGLE_API_KEY` or Desktop Bridge) | Script generation, Imagen 3 image generation, Gemini Omni video editing/generation, Lyria music | **Active** |
+| 4 | **$0** | **Pexels API key** (optional) | Supplementary free stock images & footage | **Active** |
+
+*(Note: Third-party paid cloud providers such as ElevenLabs, FAL.ai, Kling, Seedance/Ark, Suno, MiniMax, Higgsfield, Runway, and HeyGen have been deprecated / disabled in this setup).*
 
 ### Environment Variable Summary
 
 ```bash
-# .env — add your keys here
+# .env — Lean Active Setup (Zero-Key by Default)
 
-# FREE (no cost, ever)
-PEXELS_API_KEY=              # Stock photos + videos
-PIXABAY_API_KEY=             # Stock photos + videos
+# 1. Gemini / LLM Bridge
+# Operates directly via Gemini Desktop App (/Applications/Gemini.app & CLI agy bridge)
+# Zero API key required!
 
-# GOOGLE (one key, multiple tools, generous TTS free tier)
-GOOGLE_API_KEY=              # Google TTS + Imagen + Lyria music + Gemini Omni/Veo video
+# 2. Stock Media (Zero Key Required)
+# Coverr and Mixkit work directly out-of-the-box for curated HD/4K stock video footage.
 
-# VOICE + MUSIC
-ELEVENLABS_API_KEY=          # TTS, music, sound effects (10K chars/month free)
-FISH_AUDIO_API_KEY=          # fish.audio TTS (voice cloning via reference_id, inline emotion tags)
-OPENAI_API_KEY=              # OpenAI TTS + GPT Image 2 images
-XAI_API_KEY=                 # xAI Grok image generation/editing + Grok video generation
-DOUBAO_SPEECH_API_KEY=       # Volcengine Doubao Speech TTS (strong Mandarin narration)
-DOUBAO_SPEECH_VOICE_TYPE=    # Default Doubao speaker/voice type
-DASHSCOPE_API_KEY=           # Alibaba DashScope (Qwen image gen, TTS, ASR with word timestamps)
+# 3. Pixabay (Optional free stock footage, images, background music)
+PIXABAY_API_KEY=
 
-# AZURE AI SPEECH (optional cloud STT + TTS; one key unlocks both directions)
-AZURE_SPEECH_KEY=            # Azure AI Speech — azure_stt (Fast Transcription) + azure_tts (neural narration)
-AZURE_SPEECH_REGION=         # Speech resource region, e.g. eastus
-
-# MULTI-MODEL GATEWAY (one key, 6+ tools)
-FAL_KEY=                     # FLUX, Recraft, Kling, Veo, MiniMax video
-MINIMAX_API_KEY=             # MiniMax first-party image + MiniMax H3 video generation
-ATLASCLOUD_API_KEY=          # Atlas Cloud image/video gateway
-
-# KLING OFFICIAL DIRECT API
-KLING_API_KEY=               # Official Kling video, image, TTS, avatar, lip sync
-KLING_API_BASE_URL=          # Optional; default https://api-singapore.klingai.com
-
-# VOLCENGINE ARK DIRECT SEEDANCE 2.0 / 2.5 API
-ARK_API_KEY=                 # API key body only; do not include the "Bearer " prefix
+# 4. VieNeu-TTS (Local, Offline, 100% Free)
+# Installed locally in python environment. No API keys required.
+```
 
 # VIDEO
 HEYGEN_API_KEY=              # HeyGen avatar video gateway
@@ -1074,28 +1047,41 @@ Gen-3 Alpha Turbo and Gen-4 Aleph were removed from the Runway API on
 
 ---
 
-### Pexels — Free Stock Media
+### Coverr — Free Stock Video (Active)
 
-> **Completely free.** No cost, no attribution required, commercial use allowed.
+> **Completely free.** No API key required, commercial use allowed, no attribution required.
 
-**Tools unlocked:** `pexels_image`, `pexels_video`
-**Env var:** `PEXELS_API_KEY`
+**Tools unlocked:** `coverr_video`
+**Env var:** None (optional `COVERR_API_KEY` for Pro tier)
 
-#### Setup
+#### Features
+- Modern lifestyle, cinematic, technology, nature B-roll (HD and 4K)
+- Free tier: 50 requests/hour without any API key
+- Direct video download with multiple resolutions
 
-1. Go to [pexels.com/join](https://www.pexels.com/join/) and create a free account
-2. Navigate to [pexels.com/api](https://www.pexels.com/api/)
-3. Click **Your API Key** or request API access
-4. Copy your key from the dashboard
-5. Add to `.env`: `PEXELS_API_KEY=your-key-here`
+---
 
-#### Pricing
+### Mixkit — Curated Free Stock Video by Envato (Active)
 
-**Completely free.** No paid tiers. No attribution required. Commercial use allowed.
+> **Completely free.** Curated by Envato, commercial use allowed, no attribution required.
 
-- 200 requests/hour
-- 20,000 requests/month
-- Photo and video search + download
+**Tools unlocked:** `mixkit_video`
+**Env var:** None (Zero key required)
+
+#### Features
+- High-quality curated footage (nature, business, tech, lifestyle)
+- Clean, modern B-roll with consistent high production values
+- Requires `beautifulsoup4` for web scraping
+
+---
+
+### Pexels — Free Stock Media (Deprecated)
+
+> [!WARNING]
+> **Deprecated:** Pexels has halted issuing new public API keys. The `pexels_image` and `pexels_video` tools are deprecated and replaced by **Coverr & Mixkit** (videos) and **Pixabay** (images & videos).
+
+**Former tools:** `pexels_image`, `pexels_video`
+**Env var:** `PEXELS_API_KEY` (no longer required)
 
 ---
 
@@ -1438,48 +1424,57 @@ These tools require only FFmpeg or Python packages — no GPU, no API key.
 
 ## Provider-to-Tool Mapping
 
-| Provider | Env Var | Tools Unlocked | Cost |
-|----------|---------|---------------|------|
-| **Pexels** | `PEXELS_API_KEY` | `pexels_image`, `pexels_video` | Free |
-| **Pixabay** | `PIXABAY_API_KEY` | `pixabay_image`, `pixabay_video` | Free |
-| **Piper** | — (install only) | `piper_tts` | Free |
-| **Azure AI Speech** | `AZURE_SPEECH_KEY` + `AZURE_SPEECH_REGION` | `azure_stt`, `azure_tts` | Free tier + paid |
-| **Google** | `GOOGLE_API_KEY` (or `GEMINI_API_KEY`) | `google_tts`, `google_imagen`, `google_music`, `gemini_omni_video`, `veo_video` | Free tier (TTS) + paid |
-| **ElevenLabs** | `ELEVENLABS_API_KEY` | `elevenlabs_tts`, `music_gen` | Free tier + paid |
-| **fish.audio** | `FISH_AUDIO_API_KEY` | `fish_audio_tts` | Free tier (s2.1-pro-free) + paid |
-| **fal.ai** | `FAL_KEY` | `flux_image`, `recraft_image`, `kling_video`, `veo_video`, `seedance_video`, `gemini_omni_fal`, `minimax_fal_video` | Pay-as-you-go |
-| **Atlas Cloud** | `ATLASCLOUD_API_KEY` | `atlas_image`, `atlas_video` | Pay-as-you-go |
-| **Kling Official** | `KLING_API_KEY` | `kling_official_video`, `kling_official_image`, `kling_tts`, `kling_avatar`, `kling_lip_sync` | Pay-as-you-go |
-| **Volcengine Ark** | `ARK_API_KEY` | `seedance_ark` | Pay-as-you-go |
-| **MiniMax direct** | `MINIMAX_API_KEY` | `minimax_image`, `minimax_video` | Pay-as-you-go |
-| **OpenAI** | `OPENAI_API_KEY` | `openai_tts`, `openai_image` | Paid only |
-| **xAI** | `XAI_API_KEY` | `grok_image`, `grok_video` | Paid only |
-| **Runway** | `RUNWAY_API_KEY` | `runway_video` | Free trial + paid |
-| **Higgsfield** | `HIGGSFIELD_API_KEY` + `HIGGSFIELD_API_SECRET` | `higgsfield_video` | Subscription ($15-84/mo) |
-| **HeyGen** | `HEYGEN_API_KEY` | `heygen_video` | Pay-as-you-go |
-| **Suno** | `SUNO_API_KEY` | `suno_music` | Pay-as-you-go |
-| **Tencent Hunyuan** | `TENCENT_TOKENHUB_API_KEY` | `hunyuan_cloud_video` | Pay-as-you-go (~$0.25–0.83/gen) |
-| **Local GPU** | `VIDEO_GEN_LOCAL_ENABLED` | `wan_video`, `hunyuan_video`, `cogvideo_video`, `ltx_video_local` | Free (GPU required) |
-| **Local Diffusion** | — (install only) | `local_diffusion` | Free (GPU required) |
-| **Modal** | `MODAL_LTX2_ENDPOINT_URL` | `ltx_video_modal` | Self-hosted cloud |
-| **ComfyUI** | optional server URL overrides | `comfyui_video` | Local GPU, or paid Partner Node credits |
+### Active Providers (Zero-Key / Lean Stack)
+
+| Provider | Env Var / Requirement | Tools Unlocked | Cost | Status |
+|----------|-----------------------|---------------|------|--------|
+| **VieNeu-TTS** | Local Install (`pip install -e ...`) | `vieneu_tts` | **Free (100% Offline)** | **Active / Primary** |
+| **Gemini Desktop Bridge** | CLI `agy` & Gemini Desktop App | Planning, scripting, reasoning | **Free (Zero Key)** | **Active** |
+| **Coverr** | None (Zero Key Required) | `coverr_video` | **Free (Zero Key)** | **Active** |
+| **Mixkit** | None (Zero Key Required, `bs4`) | `mixkit_video` | **Free (Zero Key)** | **Active** |
+| **Pixabay** | `PIXABAY_API_KEY` (Optional) | `pixabay_image`, `pixabay_video`, `pixabay_music` | **Free** | **Active (Optional)** |
+| **Piper** | — (install only) | `piper_tts` | Free (offline) | Active (Multilingual fallback) |
+
+### Deprecated / Disabled Legacy Providers
+
+| Provider | Env Var | Former Tools Unlocked | Status |
+|----------|---------|-----------------------|--------|
+| **Pexels** | `PEXELS_API_KEY` | `pexels_image`, `pexels_video` | Deprecated (Keys halted, replaced by Coverr & Mixkit) |
+| **ElevenLabs** | `ELEVENLABS_API_KEY` | `elevenlabs_tts`, `music_gen` | Deprecated / Disabled |
+| **fal.ai** | `FAL_KEY` | `flux_image`, `recraft_image`, `kling_video`, `veo_video`, `seedance_video`, `gemini_omni_fal`, `minimax_fal_video` | Deprecated / Disabled |
+| **Kling Official** | `KLING_API_KEY` | `kling_official_video`, `kling_official_image`, `kling_tts`, `kling_avatar`, `kling_lip_sync` | Deprecated / Disabled |
+| **Volcengine Ark** | `ARK_API_KEY` | `seedance_ark` | Deprecated / Disabled |
+| **Suno** | `SUNO_API_KEY` | `suno_music` | Deprecated / Disabled |
+| **Atlas Cloud** | `ATLASCLOUD_API_KEY` | `atlas_image`, `atlas_video` | Deprecated / Disabled |
+| **MiniMax direct** | `MINIMAX_API_KEY` | `minimax_image`, `minimax_video` | Deprecated / Disabled |
+| **OpenAI** | `OPENAI_API_KEY` | `openai_tts`, `openai_image` | Deprecated / Disabled |
+| **xAI** | `XAI_API_KEY` | `grok_image`, `grok_video` | Deprecated / Disabled |
+| **Runway** | `RUNWAY_API_KEY` | `runway_video` | Deprecated / Disabled |
+| **Higgsfield** | `HIGGSFIELD_API_KEY` + `HIGGSFIELD_API_SECRET` | `higgsfield_video` | Deprecated / Disabled |
+| **HeyGen** | `HEYGEN_API_KEY` | `heygen_video` | Deprecated / Disabled |
+| **Azure AI Speech** | `AZURE_SPEECH_KEY` + `AZURE_SPEECH_REGION` | `azure_stt`, `azure_tts` | Deprecated / Disabled |
+| **fish.audio** | `FISH_AUDIO_API_KEY` | `fish_audio_tts` | Deprecated / Disabled |
+| **Tencent Hunyuan** | `TENCENT_TOKENHUB_API_KEY` | `hunyuan_cloud_video` | Deprecated / Disabled |
+| **Local GPU** | `VIDEO_GEN_LOCAL_ENABLED` | `wan_video`, `hunyuan_video`, `cogvideo_video`, `ltx_video_local` | Deprecated / Disabled |
+| **Modal** | `MODAL_LTX2_ENDPOINT_URL` | `ltx_video_modal` | Deprecated / Disabled |
+| **ComfyUI** | optional server URL overrides | `comfyui_video` | Deprecated / Disabled |
 
 ---
 
 ## Capability Coverage
 
-How many providers cover each capability:
+How capabilities map in the active lean architecture:
 
-| Capability | Cloud Providers | Local Providers | Free Options |
-|-----------|----------------|-----------------|--------------|
-| **Image Generation** | FLUX, Kling Official, Grok, Google Imagen, GPT Image 2, Recraft | Local Diffusion | Pexels, Pixabay (stock) |
-| **Video Generation** | Grok, Kling Official, fal.ai, Seedance via Volcengine Ark, Runway, Veo, Gemini Omni, Higgsfield, MiniMax, HeyGen, Tencent Hunyuan, ComfyUI Partner Nodes | WAN, Hunyuan, CogVideo, LTX, ComfyUI WAN, ComfyUI MiniMax H3 | Pexels, Pixabay (stock) |
-| **Text-to-Speech** | Azure AI Speech, ElevenLabs, fish.audio, Google TTS, Kling Official, OpenAI | Piper | Piper, Google free tier, ElevenLabs free tier, Azure free tier, fish.audio s2.1-pro-free |
-| **Music Generation** | ElevenLabs, Suno, Google Lyria | — | ElevenLabs free tier |
+| Capability | Active Providers | Local / Free Providers | Deprecated Cloud Providers |
+|-----------|------------------|------------------------|---------------------------|
+| **Text-to-Speech** | **VieNeu-TTS** (Primary), Google TTS | **VieNeu-TTS** (offline v3turbo), Piper (offline) | ElevenLabs, Azure AI Speech, OpenAI, fish.audio, Kling |
+| **Image Generation** | Pixabay (Stock), Google Imagen | Local Diffusion, Pixabay, Pexels | FLUX, Kling Official, Grok, GPT Image 2, Recraft |
+| **Video Generation** | Pixabay (Stock Video), Gemini Omni Video, Remotion, HyperFrames | Pixabay, Remotion, HyperFrames | Grok, Kling, fal.ai, Volcengine Ark, Runway, MiniMax, HeyGen |
+| **Music Generation** | Pixabay Music, Local `music_library/`, Google Lyria | Pixabay, Local `music_library/` | ElevenLabs, Suno |
 | **Post-Production** | — | FFmpeg (compose, stitch, trim, mix, enhance, grade) | All free |
-| **Analysis** | — | WhisperX, Scene Detect, Frame Sampler, CLIP/BLIP-2 | All free |
+| **Analysis** | — | WhisperX / Transcriber, Scene Detect, Frame Sampler | All free |
 | **Enhancement** | — | Upscale, BG Remove, Face Enhance, Face Restore | All free |
-| **Avatar** | Kling Official | SadTalker, Wav2Lip | Local tools are free |
+| **Avatar** | — | SadTalker, Wav2Lip | Kling Official, HeyGen |
 
 ---
 

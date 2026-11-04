@@ -14,7 +14,7 @@ This stage is what separates an CofVid video from generic AI slop. Without resea
 |-------|----------|---------|
 | Schema | `schemas/artifacts/research_brief.schema.json` | Artifact validation |
 | User input | Topic, audience hint, platform hint | Research scope |
-| Tools | Web search, web fetch | Research execution |
+| Tools | `web_data_grounder`, Web search, web fetch | Live fact grounding & provenance extraction |
 
 ## Process
 

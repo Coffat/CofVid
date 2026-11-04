@@ -9,25 +9,22 @@
 
 <h1 align="center">CofVid</h1>
 
-<p align="center"><strong>The first open-source, agentic video production system.</strong></p>
+<p align="center"><strong>The open-source, instruction-driven agentic video production system.</strong></p>
 
 <p align="center">
-  <a href="https://cofvid.video"><img src="https://img.shields.io/badge/Website-cofvid.video-d14a28?style=for-the-badge" alt="cofvid.video"></a>
+  <a href="https://github.com/Coffat/CofVid"><img src="https://img.shields.io/badge/GitHub-Coffat%2FCofVid-181717?style=for-the-badge&logo=github" alt="GitHub"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-AGPLv3-blue.svg?style=for-the-badge" alt="License"></a>
 </p>
 
 <p align="center">
-  <a href="#start-from-a-video-you-already-love">Paste A Video</a> &nbsp;·&nbsp;
   <a href="#quick-start">Quick Start</a> &nbsp;·&nbsp;
-  <a href="#try-these-prompts">Try These Prompts</a> &nbsp;·&nbsp;
-  <a href="#pipelines">Pipelines</a> &nbsp;·&nbsp;
+  <a href="#what-you-get-with-zero-api-keys">Zero-Dollar Stack</a> &nbsp;·&nbsp;
+  <a href="#pipelines--coffat-media-channels">Pipelines & Channels</a> &nbsp;·&nbsp;
   <a href="#how-it-works">How It Works</a> &nbsp;·&nbsp;
+  <a href="#architecture">Architecture</a> &nbsp;·&nbsp;
   <a href="docs/PROVIDERS.md">Providers</a> &nbsp;·&nbsp;
-  <a href="docs/PR_REVIEW_GUIDE.md">Review Guide</a> &nbsp;·&nbsp;
-  <a href="AGENT_GUIDE.md">Agent Guide</a>
-</p>
-
-<p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-AGPLv3-blue.svg" alt="License"></a>
+  <a href="AGENT_GUIDE.md">Agent Guide</a> &nbsp;·&nbsp;
+  <a href="COFVID_SYSTEM_ANALYSIS.md">System Analysis</a>
 </p>
 
 <p align="center">
@@ -39,12 +36,10 @@
   </a>
 </p>
 
-<p align="center"><strong>Follow The Build</strong></p>
+<p align="center"><strong>COFFAT MEDIA Engineering</strong></p>
 
 <p align="center">
-  <a href="https://www.youtube.com/@CofVid"><img src="https://img.shields.io/badge/YouTube-%40CofVid-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="YouTube"></a>
-  <a href="https://x.com/calesthioailabs"><img src="https://img.shields.io/badge/X-%40calesthioailabs-111111?style=for-the-badge&logo=x&logoColor=white" alt="X"></a>
-  <a href="https://github.com/calesthio/CofVid/discussions"><img src="https://img.shields.io/badge/Community-GitHub%20Discussions-0b1220?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Discussions"></a>
+  <a href="https://github.com/Coffat/CofVid/discussions"><img src="https://img.shields.io/badge/Community-GitHub%20Discussions-0b1220?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Discussions"></a>
 </p>
 
 ---
@@ -169,33 +164,40 @@ And when a run is done, hit **▶ REPLAY RUN** — the whole production replays 
 - **Python 3.10+** — [python.org](https://www.python.org/downloads/)
 - **FFmpeg** — `brew install ffmpeg` / `sudo apt install ffmpeg` / [ffmpeg.org](https://ffmpeg.org/download.html)
 - **Node.js 18+** — [nodejs.org](https://nodejs.org/)
+- **VieNeu-TTS** — Installed locally (`pip install -e /Users/vuthang/Documents/VieNeu-TTS`) for 100% offline, zero-cost Vietnamese neural TTS on Apple Silicon / CPU
 - **An AI coding assistant** — Claude Code, Cursor, Copilot, Windsurf, or Codex
 
 ### Install & Run
 
 ```bash
-git clone https://github.com/calesthio/CofVid.git
+git clone https://github.com/Coffat/CofVid.git
 cd CofVid
 make setup
+```
+
+Configure your `.env` file (only free/essential keys needed):
+
+```bash
+cp .env.example .env
 ```
 
 Open the project in your AI coding assistant and tell it what you want:
 
 ```
-"Make a 60-second animated explainer about how neural networks learn"
+"Make a 60-second animated explainer about how neural networks learn with Vietnamese voiceover"
 ```
 
 Or if you want the real-footage path:
 
 ```text
-"Make a 75-second documentary montage about city life in the rain. Use real footage only, no narration, elegiac tone, with music."
+"Make a 75-second documentary montage about city life in the rain. Use real footage only, Vietnamese voiceover by Hải Đăng, with background music."
 ```
 
-That's it. The agent researches your topic with live web search, generates AI images, writes and narrates the script with voice direction, finds royalty-free background music automatically, burns in word-level subtitles, and renders the final video. Before you see anything, the system runs a multi-point self-review — ffprobe validation, frame sampling, audio level analysis, delivery promise verification, and subtitle checks. Every provider selection is scored across 7 dimensions with an auditable decision log. Every creative decision gets your approval.
+That's it. The agent researches your topic, writes the script, generates Vietnamese narration with VieNeu-TTS, gathers stock assets from Pixabay, structures scenes, burns in word-level subtitles, and renders the final video.
 
-> **No `make`?** macOS/Linux: `python3 -m venv .venv && source .venv/bin/activate && python -m pip install -r requirements.txt && cd remotion-composer && npm install && cd .. && python -m pip install piper-tts && cp .env.example .env`
+> **No `make`?** macOS/Linux: `python3 -m venv .venv && source .venv/bin/activate && python -m pip install -r requirements.txt && cd remotion-composer && npm install && cd .. && cp .env.example .env`
 >
-> Windows PowerShell: `py -3 -m venv .venv; .\.venv\Scripts\Activate.ps1; python -m pip install -r requirements.txt; cd remotion-composer; npm install; cd ..; python -m pip install piper-tts; Copy-Item .env.example .env`
+> Windows PowerShell: `py -3 -m venv .venv; .\.venv\Scripts\Activate.ps1; python -m pip install -r requirements.txt; cd remotion-composer; npm install; cd ..; Copy-Item .env.example .env`
 >
 > **Windows:** If `npm install` fails with `ERR_INVALID_ARG_TYPE`, use `npx --yes npm install` instead.
 
@@ -216,37 +218,27 @@ This repo is built for agentic operation. If you're an OpenClaw-style agent, her
 4. **Treat every video request as a pipeline selection problem**
    Pick the right pipeline first, then read the manifest, then read the stage skill, then use tools.
 
-### Add API Keys (optional — more keys = more tools)
+### Configuration & Credentials (Zero-Cost / Zero-Key Setup)
+
+CofVid is optimized for a zero-cost, high-speed production workflow. You only need:
 
 ```bash
-# .env — every key is optional, add what you have
+# .env
 
-# Image + video gateway:
-FAL_KEY=your-key               # FLUX images + Google Veo, Kling, MiniMax video + Recraft images
-ATLASCLOUD_API_KEY=your-key    # Atlas Cloud — Seedream/Nano Banana/GPT Image + Kling/Seedance/Hailuo video
+# 1. Gemini / LLM Bridge
+# Operates directly via Gemini Desktop App (/Applications/Gemini.app & CLI agy bridge)
+# Zero API key required!
 
-# Kling official direct API:
-KLING_API_KEY=your-key         # Official Kling video, image, TTS, avatar, lip sync
-KLING_API_BASE_URL=            # Optional; default Singapore API endpoint
+# 2. Free Stock Media (Zero Key Required)
+# Coverr and Mixkit work directly out-of-the-box for curated HD/4K stock footage.
 
-# Free stock media:
-PEXELS_API_KEY=your-key        # Free stock footage and images
-PIXABAY_API_KEY=your-key       # Free stock footage and images
-UNSPLASH_ACCESS_KEY=your-key   # Free stock images
+# 3. Pixabay (Optional free stock footage, images, and background music)
+# Get an optional free key in 30 seconds at https://pixabay.com/api/docs/
+PIXABAY_API_KEY=
 
-# Music:
-SUNO_API_KEY=your-key          # Full songs, instrumentals, any genre
-
-# Voice & images:
-ELEVENLABS_API_KEY=your-key    # Premium TTS, AI music, sound effects
-OPENAI_API_KEY=your-key        # OpenAI TTS, GPT Image 2 images
-XAI_API_KEY=your-key           # xAI Grok image edits/generation + Grok video generation
-GOOGLE_API_KEY=your-key        # Google Imagen images, Google TTS (700+ voices)
-
-# More video providers:
-ARK_API_KEY=your-key           # Volcengine Ark direct — Seedance 2.0 Standard/Fast/Mini
-HEYGEN_API_KEY=your-key        # HeyGen — VEO, Sora, Runway, Kling via single gateway
-RUNWAY_API_KEY=your-key        # Runway Gen-4 direct
+# 4. VieNeu-TTS (Zero cost, 100% offline)
+# Pre-installed locally — no API key or network required!
+# Features high-quality Vietnamese voices: 'Hải Đăng' (male) & 'Mai Anh' (female).
 ```
 
 <details>
@@ -266,81 +258,32 @@ VIDEO_GEN_LOCAL_MODEL=wan2.2-ti2v-5b  # or wan2.1-1.3b, wan2.1-14b, hunyuan-1.5,
 
 ## What You Get With Zero API Keys
 
-You don't need paid API keys to make real videos. Out of the box, `make setup` gives you:
+You don't need paid API keys to make professional videos. Out of the box, `make setup` gives you a complete, authentic media stack:
 
 | Capability | Free Tool | What It Does |
 |-----------|-----------|-------------|
-| **Narration** | Piper TTS | Free offline text-to-speech — real human-sounding narration |
-| **Open footage** | Archive.org + NASA + Wikimedia Commons | Free/open archival footage, educational media, and documentary texture |
-| **Extra stock** | Pexels + Unsplash + Pixabay | Free stock footage/images (developer keys are free to get) |
-| **Composition (React)** | Remotion | React-based rendering — spring-animated image scenes, text cards, stat cards, charts, TikTok-style word-level captions, TalkingHead |
-| **Composition (HTML/GSAP)** | HyperFrames | HTML/CSS/GSAP rendering — kinetic typography, product promos, launch reels, registry blocks, website-to-video, rigged SVG character animation |
-| **Post-production** | FFmpeg | Encoding, subtitle burn-in, audio mixing, color grading |
-| **Subtitles** | Built-in | Auto-generated captions with word-level timing |
+| **Vietnamese Narration** | **VieNeu-TTS v3-Turbo** | Local neural TTS on Apple Silicon / CPU via ONNX Runtime — 100% offline, zero-cost, natural voices (*Hải Đăng*, *Mai Anh*) |
+| **Multilingual Narration** | **Piper TTS** | Fast, lightweight local neural narration for English and 30+ languages |
+| **Fact Grounding** | **Web Data Grounder** | Live GitHub metrics (stars, forks, commits), search grounding, OpenGraph metadata — eliminates AI hallucination |
+| **Authentic Marks** | **Brand Icon & UI Icon Tools** | Official authentic SVGs for tech marks (GitHub, Docker, React, Python, AWS) — zero hallucinated logos |
+| **Anti-AI Slop Design** | **Open Design Tool** | 150+ editorial design systems: monumental stat cards, split screens, minimal HUD callouts |
+| **Open Stock Footage** | **Coverr + Mixkit** | Zero-key direct curated HD/4K stock video sourcing |
+| **Public Archives** | **Archive.org + NASA + Wikimedia** | Free historical, public domain, and scientific space archives |
+| **Stock Media** | **Pixabay (+ Unsplash)** | Free stock footage, photos, and music (optional free developer keys) |
+| **Composition (HTML/GSAP)** | **HyperFrames** (Primary Default) | Deterministic HTML/CSS/GSAP paused-timeline rendering — kinetic typography, bento cards, 17 animation presets |
+| **Composition (React)** | **Remotion** | React-based programmatic rendering — spring animations, TikTok-style word-level captions, TalkingHead |
+| **Post-production** | **FFmpeg** | Encoding, word-level subtitle burn-in, multi-channel audio mixing, loudness normalization |
+| **Subtitles & Captions** | **Built-in Transcriber** | Word-level timing and animated kinetic captions |
 
-CofVid picks between Remotion and HyperFrames at proposal time (locked as `render_runtime`). Remotion is the default for data-driven explainers and anything using the existing React scene stack; HyperFrames is the default for motion-graphics-heavy briefs that express naturally as HTML + GSAP, including the `character-animation` pipeline's SVG/GSAP rig output. See `skills/core/hyperframes.md` for the full decision matrix.
-
-**Two free-ish paths:**
-
-- **Image-based video:** Piper narrates your script, images provide the visuals, and Remotion animates them into a polished edit.
-- **Local character animation:** SVG rigs, pose libraries, GSAP timelines, and HyperFrames render cartoon character acting to `projects/<project-name>/renders/final.mp4`.
-- **Real-footage video:** the documentary montage pipeline builds a CLIP-searchable corpus from Archive.org, NASA, Wikimedia Commons, and optional free-key sources like Pexels and Unsplash, then cuts together actual motion footage into a finished video.
-
-If you want the second one, prompt for a **documentary montage**, **tone poem**, or **stock-footage collage**, and explicitly say **use real footage only**.
+CofVid selects between HyperFrames and Remotion at proposal time (locked as `render_runtime_selection`). **HyperFrames** is the primary default for modern motion design, editorial bento layouts, and Atelier hand-authoring; **Remotion** is selected for React-first component compositions.
 
 ---
 
-## Try These Prompts
+## Pipelines & COFFAT MEDIA Channels
 
-Copy any of these into your AI coding assistant after setup. Each one runs a full production pipeline.
+### 13 Production Pipeline Templates
 
-### Start from a reference video
-
-> "Here's a YouTube short I love. Make me something like this, but about CRISPR for high school students."
-
-> "Analyze this Reel and give me 3 original variants I could make for my own product launch."
-
-> "I like the pacing and hook in this video. Keep that energy, but turn it into a 45-second explainer about black holes."
-
-### Zero keys needed
-
-> "Make a 45-second animated explainer about why the sky is blue"
-
-> "Create a 60-second video about the history of the internet, with narration and captions"
-
-> "Make a data-driven explainer about coffee consumption around the world"
-
-### Free real-footage documentary path
-
-> "Make a 90-second documentary montage about what a city feels like at 4am. Use real footage only, no narration, elegiac tone."
-
-> "Create a 60-second Adam-Curtis-style archival collage about 1950s consumer optimism. Prefer Archive.org and Wikimedia footage."
-
-> "Cut together a dreamlike montage about coming home in the rain using real stock footage only. Music yes, narration no."
-
-### With an image/video provider configured (~$0.15–$1.50)
-
-> "Create a 30-second Ghibli-style animated video of a magical floating library in the clouds at golden hour"
-
-> "Make a 30-second anime-style animation of an underwater temple with bioluminescent coral and ancient ruins"
-
-> "Create an animated explainer about how CRISPR gene editing works, using AI-generated visuals"
-
-> "Make a product launch teaser for a fictional smart water bottle called AquaPulse"
-
-### Full setup (~$1–$3)
-
-> "Create a cinematic 30-second trailer for a sci-fi concept: humanity receives a warning from 1000 years in the future"
-
-> "Make a 90-second animated explainer about quantum computing for middle school students, with a fun narrator voice and custom soundtrack"
-
-Want more? See the full **[Prompt Gallery](PROMPT_GALLERY.md)** for tested prompts with expected costs and output examples, or run `make demo` to render zero-key demo videos instantly.
-
----
-
-## Pipelines
-
-Each pipeline is a complete production workflow, from idea to finished video.
+Each pipeline is a complete, self-contained production workflow defined in `pipeline_defs/`:
 
 | Pipeline | What It Produces | Best For |
 |----------|-----------------|----------|
@@ -349,114 +292,128 @@ Each pipeline is a complete production workflow, from idea to finished video.
 | **Avatar Spokesperson** | Avatar-driven presenter videos | Corporate comms, training, announcements |
 | **Cinematic** | Trailer, teaser, and mood-driven edits | Brand films, teasers, promotional content |
 | **Clip Factory** | Batch of ranked short-form clips from one long source | Repurposing long content for social media |
-| **Documentary Montage** | Thematic montage cut from a CLIP-indexed corpus of free stock footage and open archives (Pexels, Archive.org, NASA, Wikimedia, Unsplash) | Video essays, mood pieces, retrieval-first B-roll edits, real-footage videos without paid generation APIs |
+| **Documentary Montage** | Thematic montage cut from a CLIP-indexed corpus of free stock footage and open archives | Video essays, mood pieces, archival real-footage edits |
 | **Hybrid** | Source footage + AI-generated support visuals | Enhancing existing footage with graphics |
 | **Localization & Dub** | Subtitle, dub, and translate existing video | Multi-language distribution |
 | **Podcast Repurpose** | Podcast highlights to video | Podcast marketing, audiogram videos |
 | **Screen Demo** | Polished software screen recordings and walkthroughs | Product demos, tutorials, documentation |
 | **Talking Head** | Footage-led speaker videos | Presentations, vlogs, interviews |
+| **Music-to-Video** | Beat-synced visual cuts driven by music analysis | Music videos, trailers, rhythm-first promos |
+| **3D World** | Free-viewpoint 3D environment flythroughs via Three.js / Blender | Procedural biomes, fantasy worlds, sci-fi landscapes |
+
+### COFFAT MEDIA: 5 Dedicated Faceless Channels
+
+CofVid powers the daily automated video production for **COFFAT MEDIA's 5 faceless vertical channels** (9:16 format). Each channel is governed by a dedicated **Stage Director Skill** and strict **Brand Kit** (`vertical-video-brand-kit/<channel>/design.md`):
+
+```mermaid
+graph TD
+    UserPrompt["User Video Brief"] --> Router["coffat-media-director<br/>(Master Router)"]
+    Router --> Ch1["Mạch Số (mach-so)<br/>Tech, AI & Architecture"]
+    Router --> Ch2["Vạn Vật (van-vat)<br/>Natural History & Science"]
+    Router --> Ch3["Dấu Mốc (dau-moc)<br/>History & Civilizations"]
+    Router --> Ch4["Tâm Trí (tam-tri)<br/>Psychology & Behavior"]
+    Router --> Ch5["Bàn Cờ (ban-co)<br/>Business & Economics"]
+```
+
+| Channel | Focus & Domain | Visual Style & Motion Standards | Voice & Rhythm | Dedicated Director Skill |
+|---------|---------------|---------------------------------|----------------|--------------------------|
+| **Mạch Số** (`mach-so`) | High-Tech, AI, Software Architecture, Developer Motion | **Neo-Brutalist Tactile Bento** (1px crisp borders, 6 developer interaction primitives, HUD counters) | Hải Đăng (1.05x speed) | `.agents/skills/mach-so-director` |
+| **Vạn Vật** (`van-vat`) | Natural History, Biology, Physics, Space Science | **NatGeo Field Journal & Blueprint** (Earth tones, Vernier Caliper meters, topographic grids) | Mai Anh (1.0x speed) | `.agents/skills/van-vat-director` |
+| **Dấu Mốc** (`dau-moc`) | History, Turning Points, Decisive Battles | **Vox Paper Collage & Archival** (Torn paper edges, animated pencil routes, parchment textures) | Hải Đăng (1.0x speed) | `.agents/skills/dau-moc-director` |
+| **Tâm Trí** (`tam-tri`) | Human Psychology, Emotion, Cognitive Science | **Humanist Editorial & Kinetic Thought** (Editorial serif typography, candid B-roll, fluid cards) | Mai Anh (1.0x speed) | `.agents/skills/tam-tri-director` |
+| **Bàn Cờ** (`ban-co`) | Business Strategy, Macroeconomics, Market Battles | **Swiss Financial Bento Monolith** (Deep monochrome, frosted glass cards blur 16px, SEC footnotes) | Hải Đăng (1.05x speed) | `.agents/skills/ban-co-director` |
+
+All 5 channels operate in **Atelier Hand-Authoring Mode** via HyperFrames and undergo mandatory **UI/UX Pro Max Audits** (WCAG 4.5:1 contrast, 8px modular grid, GSAP easing curves).
 
 Every pipeline follows the same structured flow:
 
-```
-research -> proposal -> script -> scene_plan -> assets -> edit -> compose
+```mermaid
+flowchart LR
+    A["1. Research<br/><i>Fact Grounding</i>"] --> B["2. Proposal<br/><b>[HARD GATE]</b><br/><i>7 Core Decisions</i>"]
+    B --> C["3. Script<br/><i>Pacing & Voice</i>"]
+    C --> D["4. Scene Plan<br/><b>[HARD GATE]</b><br/><i>Storyboard & Timing</i>"]
+    D --> E["5. Assets<br/><i>Audio, Stock & Graphics</i>"]
+    E --> F["6. Edit<br/><i>Timeline Assembly</i>"]
+    F --> G["7. Compose<br/><b>HyperFrames / Remotion</b>"]
 ```
 
-Each stage has a dedicated **director skill** — a markdown instruction file that teaches the agent exactly how to execute that stage. The agent reads the skill, uses the tools, self-reviews, checkpoints state, and asks for human approval at creative decision points.
+Each stage is strictly governed by a dedicated **Director Skill** (Markdown) and programmatic **Tool Contracts** (Python):
 
-> **Web research is a first-class stage.** Before writing a single word of script, the agent searches YouTube, Reddit, Hacker News, news sites, and academic sources. It gathers data points, audience questions, trending angles, and visual references — then cites everything in a structured research brief. Your videos are grounded in real, current information, not hallucinated facts.
+- **Proposal Gate (Hard Gate)**: Synthesizes and locks 7 mandatory decisions in `decision_log.json` before any asset generation starts:
+  1. `approval_policy`: Stop gates at proposal & scene_plan
+  2. `music_source`: Music library track or local selection
+  3. `voice_selection`: Voice and pacing profile (e.g. VieNeu-TTS Hải Đăng 1.05x / Mai Anh 1.0x)
+  4. `playbook_selection`: Visual playbook (e.g. Mạch Số Neo-Brutalist Tactile Bento)
+  5. `composition_mode`: Hand-authored `atelier` mode vs `templated`
+  6. `render_runtime_selection`: `hyperframes` primary default vs `remotion`
+  7. `concept_selection`: Selected angle from 3+ considered options
+- **Scene Plan Gate (Hard Gate)**: Validates visual contact sheet, scene durations, and delivery promises on the Backlot storyboard before rendering.
+- **Web Research & Data Grounding**: Runs live web searches and GitHub fact-grounding (`web_data_grounder`) to guarantee real metrics and prevent hallucination.
 
 ---
 
 ## Why CofVid?
 
-Most AI video tools give you a single clip from a prompt. CofVid gives you an **end-to-end production pipeline** — the same structured process a real production team follows, automated by your AI agent.
+Most AI video tools output a single disconnected clip from a prompt. CofVid is an **instruction-driven video production studio** — mirroring the rigorous division of labor of a world-class production agency, automated by your AI agent.
 
-Most "free AI video" stacks quietly mean "animate still images." CofVid can do that too, but it can also build a finished video from **real footage** pulled from free/open sources, ranked semantically, edited intentionally, and rendered as a proper timeline.
-
-Edit your own talking-head footage. Generate a fully animated explainer from scratch. Cut a 2-hour podcast into a dozen social clips. Translate and dub your content into 10 languages. Build a cinematic brand teaser from stock footage and AI-generated scenes. **If a production team can make it, CofVid can orchestrate it.**
-
-- **10+ production pipelines** — explainers, talking heads, screen demos, cinematic trailers, animations, podcasts, localization, documentary montages, character animation, and more
-- **100+ production tools** — spanning video generation, image creation, text-to-speech, music, audio mixing, subtitles, enhancement, and analysis
-- **60+ provider integrations** — cloud APIs, local models, stock libraries, open archives, and production runtimes behind one scored selection layer
-- **700+ agent skill and production-knowledge files** — pipeline directors, creative techniques, quality checklists, and deep technology knowledge packs that teach the agent how to use every tool like an expert
-- **Reference-driven creation** — paste a video you like and the agent turns it into a grounded, differentiated production plan instead of forcing you to invent the perfect prompt from scratch
-- **Real-footage documentary creation without paid video models** — build actual edited videos from free/open motion footage and archival sources, not just Ken Burns over images
-- **Live web research built in** — before writing a single word of script, the agent runs 15-25+ web searches across YouTube, Reddit, news sites, and academic sources to ground your video in real, current data
-- **Both free/local AND cloud providers** — every capability supports open-source local alternatives alongside premium APIs. Use what you have.
-- **No vendor lock-in** — swap providers freely. The scored selector ranks every provider across 7 dimensions (task fit, output quality, control, reliability, cost efficiency, latency, continuity) and picks the best match automatically.
-- **Production-grade quality gates** — delivery promise enforcement blocks slideshow-looking renders, pre-compose validation catches broken plans before wasting GPU time, and mandatory post-render self-review (ffprobe + frame extraction + audio analysis) ensures the agent never presents garbage. Every provider choice, style decision, and fallback gets logged in an auditable decision trail.
-- **Budget governance built in** — cost estimation before execution, spend caps, per-action approval thresholds. No surprise bills.
-
----
-
-## How It Works
-
-CofVid uses an **agent-first architecture**. There is no code orchestrator. Your AI coding assistant IS the orchestrator.
-
-```
-You: "Make an explainer video about how black holes form"
- |
- v
-Agent reads pipeline manifest (YAML) -- stages, tools, review criteria, success gates
- |
- v
-Agent reads stage director skill (Markdown) -- HOW to execute each stage
- |
- v
-Agent calls Python tools -- scored provider selection ranks every tool across 7 dimensions
- |
- v
-Agent self-reviews using reviewer skill -- schema validation, playbook compliance, quality checks
- |
- v
-Agent checkpoints state (JSON) -- resumable, with decision log and cost snapshot
- |
- v
-Agent presents for your approval -- you stay in control at every creative decision
- |
- v
-Pre-compose validation gate -- delivery promise, slideshow risk, renderer governance
- |
- v
-Render (Remotion or FFmpeg) -- composition engine matched to visual grammar
- |
- v
-Post-render self-review -- ffprobe, frame extraction, audio analysis, promise verification
- |
- v
-Final video output -- only if self-review passes
-```
-
-**Python provides tools and persistence.** All creative decisions, orchestration logic, review criteria, and quality standards live in readable instruction files (YAML manifests + Markdown skills) that you can inspect and customize. Every decision is logged with alternatives considered, confidence scores, and the reasoning behind each choice.
+- **13 Production Pipelines** — Explainers, documentary montages, motion graphics, 3D worlds, talking heads, screen demos, cinematic teasers, and repurposing
+- **162 Production Tools across 27 Capability Categories** — Built on a standardized `BaseTool` contract with life-cycle tracking, Backlot event emission, and gate validation
+- **240 Agent Skills (144 Pipeline & Creative Skills + 96 Vendor & Technology Skills)** — Teaching your agent expert director instincts, 12 Disney animation principles, and framework-level execution
+- **5 Dedicated COFFAT MEDIA Channels** — Out-of-the-box brand kits and channel directors for vertical content (Mạch Số, Vạn Vật, Dấu Mốc, Tâm Trí, Bàn Cờ)
+- **Authentic Zero-Dollar Stack** — VieNeu-TTS offline neural voiceover, Web Data Grounder, Brand Icon SVGs, Open Design systems, Coverr/Mixkit open stock footage
+- **Dual Composition Engine** — HyperFrames (HTML5/CSS3/GSAP deterministic paused-timeline rendering) as primary default + Remotion (React)
+- **Scored Selection Engine** — Ranks providers across 7 dimensions (task fit, quality, control, reliability, cost efficiency, latency, continuity)
+- **Production Governance & Audit Trail** — Slideshow risk scoring, pre-compose validation, ffprobe post-render checks, and auditable `decision_log.json`
 
 ---
 
 ## Architecture
 
+CofVid separates capabilities, business rules, and technical knowledge into a clean **3-Layer Architecture**:
+
+```mermaid
+graph TD
+    subgraph Layer3["Layer 3: Vendor & Technology Skills (.agents/skills/)"]
+        L3_1["HyperFrames Engine & GSAP Codices"]
+        L3_2["VieNeu-TTS & Offline Speech Models"]
+        L3_3["Open Design & Authentic Brand Icons"]
+        L3_4["3D Worlds, Seedance 2.5, Kling, FLUX"]
+    end
+
+    subgraph Layer2["Layer 2: Pipeline & Creative Skills (skills/)"]
+        L2_1["Stage Directors (Research, Proposal, Script, Scene, Compose)"]
+        L2_2["Meta Protocols (Reviewer, Checkpoint, Delivery Promise)"]
+        L2_3["Creative Standards (Storytelling, Sound Design, Typography)"]
+    end
+
+    subgraph Layer1["Layer 1: Base Tools & Registries (tools/)"]
+        L1_1["162 Registered Tools (BaseTool Contract)"]
+        L1_2["ToolRegistry (Auto-discovery & Preflight Support)"]
+        L1_3["Gate Violations & Cost Governance"]
+    end
+
+    Layer3 --> Layer2
+    Layer2 --> Layer1
+```
+
 ```
 CofVid/
-├── tools/              # 100+ registered production tools (the agent's hands)
-│   ├── video/          # 20+ generation providers + compose, stitch, trim
-│   ├── audio/          # 10+ speech providers + music, mixing, enhancement
-│   ├── graphics/       # 15+ image providers + diagrams, code snippets, math
-│   ├── enhancement/    # Upscale, bg remove, face enhance, color grade
-│   ├── analysis/       # Transcription, scene detect, frame sampling
-│   ├── avatar/         # Talking head, lip sync
-│   └── subtitle/       # SRT/VTT generation
+├── tools/                       # 162 production tools across 27 capability categories
+│   ├── analysis/                # Web data grounder, Whisper transcriber, scene detect
+│   ├── audio/                   # VieNeu-TTS, Piper, Google music, audio mixer, SFX
+│   ├── graphics/                # Brand icon tool, UI icon tool, Open Design tool, Imagen
+│   ├── video/                   # Video compose (HyperFrames/Remotion), Coverr, Mixkit, Pexels
+│   ├── enhancement/             # Upscaler, rembg background removal, face restore
+│   ├── avatar/                  # SadTalker, Kling avatar presenter, lip sync
+│   └── subtitle/                # Word-level SRT/VTT generation
 │
-├── pipeline_defs/      # YAML pipeline manifests (the agent's playbook)
-├── skills/             # Markdown skill files (the agent's knowledge)
-│   ├── pipelines/      # Per-pipeline stage director skills
-│   ├── creative/       # Creative technique skills
-│   ├── core/           # Core tool skills
-│   └── meta/           # Reviewer, checkpoint protocol
-│
-├── schemas/            # 20+ JSON Schemas (contract validation)
-├── styles/             # Visual style playbooks (YAML)
-├── remotion-composer/  # React/Remotion video composition engine
-├── lib/                # Core infrastructure (config, checkpoints, pipeline loader)
-└── tests/              # Contract tests, QA integration tests, eval harness
+├── pipeline_defs/               # 13 YAML pipeline specifications
+├── skills/                      # 144 pipeline stage directors and creative standards
+├── .agents/skills/              # 96 technology and vendor knowledge skills
+├── vertical-video-brand-kit/    # Official brand kits for COFFAT MEDIA's 5 channels
+├── remotion-composer/           # React/Remotion composition engine
+├── lib/                         # State machine, checkpointing, scoring, budget engine
+└── tests/                       # Unit tests, tool gate tests, contract verification
 ```
 
 ### Three-Layer Knowledge Architecture
@@ -720,11 +677,9 @@ Made something cool? Post it in Show and Tell — we'd love to see what you buil
 
 ---
 
-## Contact
+## Contact & Community
 
-For updates, releases, and behind-the-scenes build notes, follow [@calesthioailabs](https://x.com/calesthioailabs).
-
-For bugs, feature requests, and workflow discussions, use [GitHub Issues](https://github.com/calesthio/CofVid/issues) and [GitHub Discussions](https://github.com/calesthio/CofVid/discussions) so everything stays visible and actionable.
+For bugs, feature requests, and workflow discussions, use [GitHub Issues](https://github.com/Coffat/CofVid/issues) and [GitHub Discussions](https://github.com/Coffat/CofVid/discussions) so everything stays visible and actionable.
 
 ---
 
@@ -742,11 +697,11 @@ make test
 
 ## Star History
 
-<a href="https://star-history.dera.page/#calesthio/CofVid&type=date&legend=top-left">
+<a href="https://star-history.dera.page/#Coffat/CofVid&type=date&legend=top-left">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://star-history.dera.page/svg?repos=calesthio/CofVid&type=date&theme=dark&legend=top-left" />
-    <source media="(prefers-color-scheme: light)" srcset="https://star-history.dera.page/svg?repos=calesthio/CofVid&type=date&legend=top-left" />
-    <img alt="Star History Chart" src="https://star-history.dera.page/svg?repos=calesthio/CofVid&type=date&legend=top-left" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://star-history.dera.page/svg?repos=Coffat/CofVid&type=date&theme=dark&legend=top-left" />
+    <source media="(prefers-color-scheme: light)" srcset="https://star-history.dera.page/svg?repos=Coffat/CofVid&type=date&legend=top-left" />
+    <img alt="Star History Chart" src="https://star-history.dera.page/svg?repos=Coffat/CofVid&type=date&legend=top-left" />
   </picture>
 </a>
 
@@ -761,5 +716,3 @@ make test
 **CofVid** — Production-grade video with real quality enforcement, orchestrated by your AI assistant.
 
 If this project looks useful to you, a ⭐ would really mean a lot — it helps others discover it too.
-
-If you'd like to go further, [sponsor the project](https://github.com/sponsors/calesthio) — CofVid is built nights and weekends, and your support makes that sustainable.

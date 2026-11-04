@@ -58,6 +58,15 @@ Then plan the arc according to shape:
 
 Write the beat count down before writing any slot.
 
+### 1b. Anti-AI Slop Rhythm Rule (Open Design Allocation)
+
+Continuous stock footage or AI-generated clips quickly cause visual fatigue and feel like low-effort "AI Slop". To create a genuine human-edited documentary feel, you **MUST allocate slots for Open Design editorial graphics**:
+
+1. **At least 1 Fullscreen Title / Chapter Card** (`fullscreen_card`): Placed at the intro or act transition to establish chapter context, historical timeframe, or thesis statement.
+2. **1-2 Stat Callout / Lower-Third Cards** (`stat_callout`, `lower_third`, or `quote_card`): Placed over or between footage shots to anchor hard data, cite archival sources, or identify key figures.
+
+Tag these slots with `type: "graphic"` and specify `tool: "open_design_tool"`.
+
 ### 2. Decompose The Thematic Question Into Concrete Beats
 
 Take the ONE thematic question from the brief and answer it in
@@ -144,10 +153,10 @@ based on what footage lives where:
 
 | Source | Strengths | Use when |
 |--------|-----------|----------|
-| `pexels` | Modern HD footage, clean shots, people, cities, nature | Default for modern/any era |
-| `pixabay_video` | Large community library, nature, people, technology, lifestyle | Gap-fills when Pexels misses; broad general footage |
-| `coverr` | Curated cinematic B-roll, nature, urban, abstract backgrounds | High-quality establishing shots, mood-setters, modern lifestyle |
-| `mixkit` | Curated HD/4K by Envato, nature, business, technology | Premium-feel B-roll, clean nature footage, no attribution needed |
+| `coverr` | Curated cinematic B-roll, nature, urban, abstract backgrounds | Default for modern/any era (Zero API key) |
+| `mixkit` | Curated HD/4K by Envato, nature, business, technology | Default for modern B-roll, clean footage (Zero API key) |
+| `pixabay_video` | Large community library, nature, people, technology, lifestyle | Broad general footage (Optional API key) |
+| `pexels` | (Deprecated — keys halted) Modern HD footage | Replaced by coverr & mixkit |
 | `archive_org` | Prelinger home movies, mid-century educational film, 1940s-1980s texture | Vintage, wry, dreamlike, anything nostalgic |
 | `nara` | U.S. National Archives — WWII, Cold War, Apollo, civil rights, presidential | Historical American documentary, military, government, space race |
 | `loc` | Library of Congress — early cinema, newsreels, cultural recordings | Pre-1928 public domain footage, American history, folk traditions |
@@ -260,7 +269,7 @@ For this pipeline, put documentary-montage-specific fields inside
         "id": "slot_01",
         "description": "a single raindrop hitting dry asphalt, close up, slow motion, warm streetlamp glow",
         "hero": true,
-        "preferred_sources": ["pexels", "archive_org"],
+        "preferred_sources": ["coverr", "mixkit", "archive_org"],
         "queries": [
           "raindrop on asphalt slow motion",
           "wet pavement close up",
@@ -283,6 +292,7 @@ retrieval-specific fields (`queries`, `preferred_sources`, `hero`,
 ### 9. Quality Gate
 
 - Slot count matches the beat-count math from step 1.
+- Anti-AI Slop Rhythm Rule satisfied: at least 1 fullscreen chapter card and 1-2 lower-third/stat-callout slots allocated for `open_design_tool`.
 - Every slot `description` follows the noun-and-adjective template —
   no emotion words, no verbs of intention.
 - Every slot has 2-3 short queries (5 words or fewer each).
@@ -341,8 +351,8 @@ Each slot gets:
 - `description` in the noun-and-adjective template,
 - 2-3 short queries (e.g. slot 5: `"taxi heavy rain", "yellow cab
   wet street night", "city traffic downpour"`),
-- `preferred_sources` (slots 1-6 → pexels+archive_org, slot 8 →
-  archive_org for period texture, slot 11 → pexels),
+- `preferred_sources` (slots 1-6 → coverr+mixkit+archive_org, slot 8 →
+  archive_org for period texture, slot 11 → coverr),
 - `hero: true` on slots 1, 11, 15,
 - `target_hold_seconds` summing to ~90.
 

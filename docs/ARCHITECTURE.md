@@ -45,13 +45,14 @@ CofVid/
 │   ├── tool_registry.py    # Auto-discovery singleton registry
 │   ├── cost_tracker.py     # Budget governance (estimate → reserve → reconcile)
 │   ├── analysis/           # Transcription, scene detection, frame sampling, video understanding
-│   ├── audio/              # TTS (ElevenLabs, OpenAI, Piper, Azure, Google), music gen, mixing, enhancement
+│   ├── audio/              # TTS (VieNeu-TTS [primary offline], Google, Piper), music gen, mixing, enhancement
 │   ├── avatar/             # Talking head animation, lip sync
 │   ├── enhancement/        # Upscale, bg removal, face enhance/restore, color grading
-│   ├── graphics/           # Image gen (FLUX, GPT Image, Recraft, local diffusion), stock, diagrams, code snippets, math animation
+│   ├── graphics/           # Image gen (Google Imagen, stock, local diffusion), diagrams, code snippets, math animation
 │   ├── publishers/         # (Reserved)
 │   ├── subtitle/           # SRT/VTT generation from timestamps
-│   └── video/              # 13 video gen providers, composition, stitching, trimming
+│   ├── video/              # Gemini Omni video, stock video, composition, stitching, trimming
+│   └── gemini_desktop_bridge.py # Local bridge to Gemini Desktop app (agy CLI)
 │
 ├── pipeline_defs/          # YAML pipeline manifests
 ├── schemas/                # JSON Schema definitions for validation
@@ -381,24 +382,35 @@ All config is validated via Pydantic models in `lib/config_model.py`.
 
 ### Environment Variables (.env)
 
-| Variable | Used By | Purpose |
-|----------|---------|---------|
-| `ELEVENLABS_API_KEY` | elevenlabs_tts, music_gen | TTS, music, sound effects |
-| `AZURE_SPEECH_KEY` + `AZURE_SPEECH_REGION` | azure_stt, azure_tts | Azure AI Speech cloud transcription + neural TTS (one resource, both directions) |
-| `OPENAI_API_KEY` | openai_tts, openai_image | TTS fallback, GPT Image 2 |
-| `XAI_API_KEY` | grok_image, grok_video | Grok image editing/generation, Grok video generation |
-| `FAL_KEY` | flux_image, kling_video, veo_video, minimax_video, recraft_image | fal.ai hosted models (FLUX, Veo, Kling, MiniMax, Recraft) |
-| `KLING_API_KEY` | kling_official_video, kling_official_image, kling_tts, kling_avatar, kling_lip_sync | Official Kling direct API for video, image, TTS, avatar, and lip sync |
-| `KLING_API_BASE_URL` | kling_official_video, kling_official_image, kling_tts, kling_avatar, kling_lip_sync | Optional official Kling API endpoint override |
-| `HEYGEN_API_KEY` | heygen_video | Multi-provider video generation |
-| `PEXELS_API_KEY` | pexels_image, pexels_video | Stock media |
-| `PIXABAY_API_KEY` | pixabay_image, pixabay_video | Stock media |
-| `GOOGLE_API_KEY` | google_imagen, google_tts | Google Imagen images, Google Cloud TTS |
-| `RUNWAY_API_KEY` | runway_video | Runway Gen-3/Gen-4 direct |
-| `HIGGSFIELD_API_KEY` + `HIGGSFIELD_API_SECRET` | higgsfield_video | Higgsfield multi-model video |
-| `MODAL_LTX2_ENDPOINT_URL` | ltx_video_modal | Self-hosted LTX-2 |
-| `VIDEO_GEN_LOCAL_ENABLED` | local video tools | Enable local GPU generation |
-| `VIDEO_GEN_LOCAL_MODEL` | wan, hunyuan, ltx, cogvideo | Select local model |
+#### Active Providers (Current Lean Architecture)
+
+| Variable | Used By | Status | Purpose |
+|----------|---------|--------|---------|
+| *(None - Local Install)* | `vieneu_tts` | **Active / Primary** | Offline Vietnamese neural TTS on Apple Silicon/CPU ('Hải Đăng' & 'Mai Anh', free) |
+| `GEMINI_API_KEY` / `GOOGLE_API_KEY` | `gemini_omni_video`, `google_imagen`, `google_tts`, `google_music` | **Active** | Gemini Omni video editing/generation, Imagen 3, Google TTS, Lyria music |
+| `GOOGLE_APPLICATION_CREDENTIALS` | Vertex AI / Google Cloud | **Active** | Optional service account auth for Google Cloud |
+| `GOOGLE_CLOUD_PROJECT` | Vertex AI | **Active** | GCP Project ID |
+| `GOOGLE_CLOUD_LOCATION` | Vertex AI | **Active** | GCP Region (default us-central1) |
+| `PIXABAY_API_KEY` | `pixabay_image`, `pixabay_video`, `pixabay_music` | **Active** | Free stock footage, photos, vector graphics, and music |
+| `PEXELS_API_KEY` | `pexels_image`, `pexels_video` | **Active** | Supplementary free stock media |
+
+#### Deprecated / Disabled Legacy Cloud Providers
+
+| Variable | Used By | Status |
+|----------|---------|--------|
+| `ELEVENLABS_API_KEY` | elevenlabs_tts, music_gen | Deprecated / Disabled |
+| `FAL_KEY` / `FAL_AI_API_KEY` | flux_image, kling_video, veo_video, minimax_video, recraft_image | Deprecated / Disabled |
+| `KLING_API_KEY` | kling_official_video, kling_official_image, kling_tts, kling_avatar, kling_lip_sync | Deprecated / Disabled |
+| `ARK_API_KEY` | seedance_video (Volcengine Ark) | Deprecated / Disabled |
+| `SUNO_API_KEY` | suno_music | Deprecated / Disabled |
+| `OPENAI_API_KEY` | openai_tts, openai_image | Deprecated / Disabled |
+| `XAI_API_KEY` | grok_image, grok_video | Deprecated / Disabled |
+| `DOUBAO_SPEECH_API_KEY` | doubao_tts | Deprecated / Disabled |
+| `FISH_AUDIO_API_KEY` | fish_audio_tts | Deprecated / Disabled |
+| `DASHSCOPE_API_KEY` | dashscope_image, dashscope_tts, dashscope_asr | Deprecated / Disabled |
+| `HEYGEN_API_KEY` | heygen_video | Deprecated / Disabled |
+| `RUNWAY_API_KEY` | runway_video | Deprecated / Disabled |
+| `HIGGSFIELD_API_KEY` | higgsfield_video | Deprecated / Disabled |
 
 Kling Official support stays inside the existing provider and capability model.
 `kling_official_video` and `kling_official_image` handle Classic, Turbo, and Omni
@@ -502,9 +514,10 @@ tests/
 - FFmpeg (used by ~15 tools)
 
 **Optional (extend capabilities):**
+- VieNeu-TTS (primary offline Vietnamese neural TTS, Apple Silicon ONNX)
 - Node.js (for Remotion composer)
 - GPU + CUDA (for local video/image generation)
-- Piper (offline TTS)
+- Piper (offline multilingual TTS)
 - ManimCE (math animations)
 - Mermaid CLI (diagram generation)
 

@@ -29,6 +29,12 @@ Use support scenes for:
 - CTA or summary moments,
 - gap-filling inserts.
 
+### 2b. Anti-AI Slop Rhythm Rule
+
+When combining anchor footage with B-roll or AI inserts, prevent visual fatigue ("AI Slop") by structuring editorial design beats:
+- **At least 1 Fullscreen Chapter / Title Card** (`fullscreen_card` via `open_design_tool`) to demarcate act or thematic transitions.
+- **1-2 Stat Callout / Lower-Third / Quote Cards** (`stat_callout`, `lower_third`, or `quote_card`) as transparent motion overlays or editorial cards to anchor factual claims.
+
 ### 3. Plan Variant Safety
 
 If the project needs multiple aspect ratios, define where:
@@ -52,6 +58,7 @@ Recommended metadata keys:
 
 - the anchor medium stays primary where intended,
 - support layers are limited and purposeful,
+- Anti-AI Slop rhythm satisfied: at least 1 fullscreen chapter card and 1-2 lower-third/stat-callout slots allocated via `open_design_tool`,
 - aspect-ratio planning is explicit,
 - no scene relies on invisible future magic.
 

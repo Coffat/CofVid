@@ -40,14 +40,23 @@ Layer 3: .agents/skills/            → "How the technology works" (generic API 
 
 Each tool's `agent_skills[]` field bridges Layer 1 → Layer 3. See `skills/INDEX.md` for the full mapping.
 
+## Current Lean Production Architecture
+
+CofVid is configured with a cost-free, high-efficiency, privacy-first zero-key production stack:
+- **TTS (Voiceover):** **VieNeu-TTS v3-Turbo** (`tools/audio/vieneu_tts.py`) — 100% local, offline ONNX inference on Apple Silicon/CPU, studio 48kHz audio, zero API cost, voices `'Hải Đăng'` (male) & `'Mai Anh'` (female). Fallback: `piper_tts`.
+- **Reasoning & Multimodal Intelligence:** **Gemini Desktop Bridge** (`tools/gemini_desktop_bridge.py` via `agy` CLI & `/Applications/Gemini.app`), operating directly with zero Google API key required.
+- **Visuals & B-Roll / Graphics & Motion:** **Coverr & Mixkit** (`coverr_video`, `mixkit_video`) for zero-key curated HD/4K stock video footage, plus **Pixabay Free Stock** (`pixabay_image`, `pixabay_video`, `pixabay_music`), code-driven motion graphics in **Remotion** and **HyperFrames**, and **Open Design** (`open_design_tool`) — a 100% local, zero-key editorial graphics engine providing 150+ design systems to generate publication-grade Title cards, Stat callouts, Split screens, and Lower-thirds as WebM Alpha or DOM HyperFrames, decisively eliminating "AI Slop". Pexels is deprecated/removed.
+- *Legacy Cloud Models:* Paid cloud providers (ElevenLabs, FAL.ai, Kling, Seedance, Suno, MiniMax, Replicate, etc.) are deprecated/disabled in the standard workflow.
+
 ## Key Patterns
 
 - **Pipeline state machine:** `idea -> script -> scene_plan -> assets -> edit -> compose -> publish`
 - **Instruction-driven stages:** Each stage has a director skill (MD) that teaches the agent HOW
 - **Pipeline manifests:** Declarative YAML defining stages, skills, tools, review focus, approval gates
-- **Capability-first tool design:** Each major family should expose a selector tool plus explicit provider tools
-  - Example: `tts_selector` + `elevenlabs_tts` / `google_tts` / `openai_tts` / `piper_tts`
-  - Example: `video_selector` + `heygen_video` / `wan_video` / `hunyuan_video` / `ltx_video_local` / `ltx_video_modal` / `cogvideo_video`
+- **Capability-first tool design:** Each major family exposes a selector tool plus explicit provider tools
+  - Example: `tts_selector` routes to `vieneu_tts` (default) / `piper_tts`
+  - Example: `image_selector` routes to `pixabay_image`
+  - Example: `video_selector` routes to `coverr_video` / `mixkit_video` / `pixabay_video` / Remotion / HyperFrames
 - **Style playbooks:** YAML defining visual language, typography, motion, audio, asset generation constraints
 - **Artifacts are canonical:** `brief`, `script`, `scene_plan`, `asset_manifest`, `edit_decisions`, `render_report`, `publish_log`
 - **Every tool inherits from `tools/base_tool.py`** (ToolContract)
@@ -55,6 +64,11 @@ Each tool's `agent_skills[]` field bridges Layer 1 → Layer 3. See `skills/INDE
 - **Reviewer** is a meta skill (`skills/meta/reviewer.md`), advisory, max 2 rounds
 - **Cost tracker** (`tools/cost_tracker.py`) manages budget: estimate -> reserve -> reconcile
 - **Canonical artifacts** validated against JSON schemas in `schemas/artifacts/`
+- **Composition Runtime Defaults:** HyperFrames (`render_runtime="hyperframes"`) is the primary default composition engine across animated explainers, kinetic typography, motion graphics, and promo reels. Remotion (`render_runtime="remotion"`) is the secondary/specialized runtime for React components and TalkingHead avatars.
+- **Audio Asset Libraries:** Pre-indexed, zero-API, offline-ready libraries:
+  - `music_library/`: 14 CC-BY Kevin MacLeod BGM tracks across 4 moods, indexed via `music_library/manifest.json` and discovered via `tools/audio/music_library.py`.
+  - `assets/sfx/`: 23 creator sound effects (UI, transitions, impacts, glitches, ambient), indexed via `assets/sfx/manifest.json`.
+  - Sound design standards and ducking rules codified in `docs/AUDIO_SOUND_DESIGN_GUIDE.md`.
 
 ## Key Files
 
@@ -69,9 +83,15 @@ Each tool's `agent_skills[]` field bridges Layer 1 → Layer 3. See `skills/INDE
 | `tools/base_tool.py` | ToolContract base class |
 | `tools/tool_registry.py` | Tool discovery and reporting |
 | `tools/cost_tracker.py` | Budget governance |
+| `tools/audio/vieneu_tts.py` | Primary local Vietnamese TTS (VieNeu-TTS v3-Turbo, ONNX Apple Silicon/CPU, zero-cost, 'Hải Đăng' & 'Mai Anh') |
+| `tools/gemini_desktop_bridge.py` | Local subprocess bridge to Gemini Desktop app helper (`agy`) CLI |
 | `tools/video/video_stitch.py` | Multi-clip assembly (stitch, spatial, validate, preview) |
-| `tools/video/video_compose.py` | Runtime-aware composition orchestrator — routes to Remotion / HyperFrames / FFmpeg based on `edit_decisions.render_runtime` |
+| `tools/video/video_compose.py` | Runtime-aware composition orchestrator — HyperFrames (primary default) / Remotion (secondary/fallback) / FFmpeg based on `edit_decisions.render_runtime` |
 | `tools/video/hyperframes_compose.py` | HyperFrames runtime — templated workspace materialization plus authored-workspace unified `check`/`render`, FFmpeg floor check |
+| `tools/audio/music_library.py` | Local royalty-free BGM track discovery tool, scanning `music_library/` |
+| `music_library/` | Curated royalty-free BGM library (14 Kevin MacLeod CC-BY 4.0 tracks across 4 core genres) indexed by `manifest.json` |
+| `assets/sfx/` | Comprehensive creator SFX library (23 sound effects: UI, transitions, impacts, glitches, ambient) indexed by `manifest.json` |
+| `docs/AUDIO_SOUND_DESIGN_GUIDE.md` | Authoritative audio and sound design guide for AI agents and human creators |
 | `tools/graphics/threejs_world.py` | Local semantic 3D-world authoring with explicit blockout/production fidelity tiers, region-aware terrain, diagnostics, and HyperFrames atelier workspaces |
 | `tools/graphics/threejs_asset_catalog.py` | CC0 GLTF/GLB catalog acquisition, inventory, and provenance for production-fidelity world builds |
 | `tools/graphics/atlas_3d.py` | Atlas Cloud Tripo H3.1 text-to-3D for unique textured/PBR GLB assets |

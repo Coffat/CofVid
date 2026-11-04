@@ -5,42 +5,42 @@
 
 ## Available Stock Tools
 
-| Tool | Provider | Content | Cost | Rate Limit | Best For |
+| Tool | Provider | Content | Cost | Auth / Key | Best For |
 |------|----------|---------|------|-----------|----------|
-| `pexels_image` | Pexels | Photos | Free | 200/hr | High-quality photography, diverse library |
-| `pixabay_image` | Pixabay | Photos, illustrations, vectors | Free | 100/min | Category filtering, large library (5M+) |
-| `pexels_video` | Pexels | Video clips | Free | 200/hr | HD/4K real-world footage |
-| `pixabay_video` | Pixabay | Video clips | Free | 100/min | Category-filtered video, animation clips |
+| `coverr_video` | Coverr | Video clips | Free | None (Zero key) | Modern lifestyle, cinematic, nature, urban B-roll (HD/4K) |
+| `mixkit_video` | Mixkit (Envato) | Video clips | Free | None (Zero key) | High-quality curated footage, clean tech & business scenes |
+| `pixabay_video` | Pixabay | Video clips | Free | Optional key | Category-filtered video, animation clips |
+| `pixabay_image` | Pixabay | Photos, illustrations | Free | Optional key | Large library (5M+), category filtering |
+| `pexels_video` | Pexels | Video clips | Free | *Deprecated* | Keys halted; replaced by Coverr & Mixkit |
+| `pexels_image` | Pexels | Photos | Free | *Deprecated* | Keys halted; replaced by Pixabay |
 
 ## Provider Selection Guide
 
-### When to Use Pexels
-- Need **high-quality photography** (curated, professional)
-- Need **video** (larger video library than Pixabay)
-- Want **orientation filtering** (landscape/portrait/square)
-- Want **color filtering** (match playbook palette)
-- Need results in **multiple languages** (28 locales)
+### When to Use Coverr (`coverr_video`)
+- Need **cinematic B-roll** (urban, nature, technology, lifestyle)
+- Want **HD and 4K quality** with zero API keys required
+- Fast, reliable stock footage with commercial license
 
-### When to Use Pixabay
-- Need **category-based filtering** (nature, business, science, etc.)
-- Want **illustrations or vectors** in addition to photos
-- Want **editor's choice** curated results
-- Need **higher rate limits** (100/min vs 200/hr)
-- Need **video type filtering** (film vs animation)
+### When to Use Mixkit (`mixkit_video`)
+- Need **curated Envato stock footage** with consistent production value
+- Business, tech, nature, and office B-roll
+- Completely free without API key (via local scraping)
+
+### When to Use Pixabay (`pixabay_video` / `pixabay_image`)
+- Need **category-based filtering** (nature, science, computer, etc.)
+- Want **illustrations, vectors**, or animation clips
+- Optional free developer key in `.env`
 
 ### Decision Flow
 ```
 Need stock image?
-├── Need specific category (science, business, etc.)? → pixabay_image
-├── Need illustration/vector? → pixabay_image
-├── Need color matching? → pexels_image
-└── General photo? → pexels_image (higher quality curation)
+└── General photo / illustration / vector? → pixabay_image
 
 Need stock video?
-├── Need 4K? → pexels_video (supports 4K via size="large")
-├── Need animation clips? → pixabay_video (video_type="animation")
-├── Need category filter? → pixabay_video
-└── General footage? → pexels_video (better HD quality)
+├── Need cinematic lifestyle / urban / nature B-roll? → coverr_video (zero key)
+├── Need clean curated business / tech B-roll? → mixkit_video (zero key)
+├── Need animation clips or category filter? → pixabay_video
+└── Auto-selection? → video_selector (picks best available)
 ```
 
 ## Input Parameters Guide

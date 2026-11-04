@@ -1,4 +1,4 @@
-﻿# CofVid â€" Skill Index
+# CofVid â€" Skill Index
 
 > For the full agent onboarding guide, see [`AGENT_GUIDE.md`](../AGENT_GUIDE.md) in the project root.
 
@@ -57,13 +57,13 @@ Key capability families to look for in the output:
 | `image_generation` | `image_selector` | Auto-discovers all `capability="image_generation"` tools |
 | `audio_processing` | — | FFmpeg-based local tools |
 | `enhancement` | — | Mixed providers |
-| `analysis` | — | Mixed providers |
+| `analysis` | `web_data_grounder` | Content inspection, audio probe, and live web/repo fact grounding (`grounded_facts.json`) |
 | `character_animation` | — | Local character specs, SVG rigs, pose libraries, action timelines, previews, and QA |
 | `3d_world_generation` | — | Local semantic terrain, procedural scattering, explicit landmarks, diagnostics, and HyperFrames/Three.js fly-through workspaces |
 | `3d_asset_acquisition` | — | Rights-safe local GLTF/GLB catalogs and provenance |
 | `3d_asset_generation` | — | Atlas/fal textured mesh generation and reconstruction for unique scene assets |
 | `3d_world_rendering` | — | Blender assembly and production rendering of detailed worlds |
-| `graphics` | — | Local rendering tools |
+| `graphics` | `open_design_tool`, `brand_icon_tool` | 150+ anti-AI slop publication-grade editorial systems (`open-design`) & authentic vector brand/UI icons (`brand-icon`) |
 | `music_library` | — | Discovers user-provided local tracks |
 | `music_search` | — | Discovers royalty-free search/download providers |
 | `music_generation` | — | Discovers paid/local generation providers |
@@ -87,9 +87,10 @@ Key capability families to look for in the output:
 | FFmpeg | `core/ffmpeg.md` | Video encoding, filtering, composition | `ffmpeg`, `video-toolkit` |
 | Remotion | `core/remotion.md` | React-based composition, Phase 3+ | `remotion-best-practices`, `remotion` |
 | HyperFrames | `core/hyperframes.md` | HTML/CSS/GSAP composition runtime — kinetic typography, music-to-video, product promos, website capture. Vendored at v0.7.17 (2026-06-27). | `hyperframes` (router) → `hyperframes-core` (contract), `hyperframes-creative` (palette/type/narration), `hyperframes-media` (TTS/BGM/SFX/captions), `hyperframes-animation` (all motion), `hyperframes-cli`, `hyperframes-registry`, `media-use`, `motion-graphics`, `music-to-video` (beats-driven), `website-to-video`, `remotion-to-hyperframes` (migration), `gsap-core`, `gsap-timeline` |
+| VieNeu-TTS | (tool: `vieneu_tts`, `tts_selector`) | **Primary default TTS** — offline Vietnamese neural narration ('Hải Đăng' & 'Mai Anh', v3-Turbo ONNX) | `vieneu-tts`, `text-to-speech` |
 | WhisperX | `core/whisperx.md` | Transcription with word-level timestamps — default STT (offline, free) | `speech-to-text` |
-| Azure STT | (tool: `azure_stt`) | Optional cloud speech-to-text, word-level timestamps — preferred when `AZURE_SPEECH_KEY` is set | `azure-speech-to-text` |
-| Azure TTS | (tool: `azure_tts`) | Optional cloud neural narration (SSML prosody, express-as styles) — same Speech key as `azure_stt` | `azure-text-to-speech` |
+| Azure STT | (tool: `azure_stt`) | Optional cloud speech-to-text, word-level timestamps (deprecated cloud) | `azure-speech-to-text` |
+| Azure TTS | (tool: `azure_tts`) | Optional cloud neural narration (deprecated cloud) | `azure-text-to-speech` |
 | Subtitle Sync | `core/subtitle-sync.md` | Subtitle timing and alignment | `remotion-best-practices` |
 | Color Grading | `core/color-grading.md` | FFmpeg color profiles, LUT workflow, accessibility | `ffmpeg` |
 
@@ -314,9 +315,9 @@ Claude Code accesses them via symlinks in `.claude/skills/`.
 
 | Category | Installed Skills | Source |
 |----------|-----------------|--------|
-| **Video Composition** | `remotion-best-practices`, `remotion`, `hyperframes` (router), `hyperframes-core`, `hyperframes-creative`, `hyperframes-media`, `hyperframes-animation`, `hyperframes-cli`, `hyperframes-registry`, `media-use`, `motion-graphics`, `music-to-video`, `remotion-to-hyperframes`, `website-to-video` | `remotion-dev/skills`, `digitalsamba/claude-code-video-toolkit`, `heygen-com/hyperframes` (vendored v0.7.17, see `.agents/skills/hyperframes/PROVENANCE.md`) |
-| **Video Processing** | `ffmpeg`, `video-toolkit` | `digitalsamba/claude-code-video-toolkit` |
-| **TTS & Audio** | `text-to-speech`, `speech-to-text` (whisper, default STT), `azure-speech-to-text` (optional cloud STT), `music`, `sound-effects`, `elevenlabs`, `fish-audio-tts`, `agents`, `setup-api-key` | `elevenlabs/skills`, `digitalsamba/claude-code-video-toolkit`, local CofVid skill |
+| **Video Composition / Motion Graphics** | `remotion-best-practices`, `remotion`, `hyperframes` (router), `hyperframes-core`, `hyperframes-creative`, `hyperframes-media`, `hyperframes-animation`, `hyperframes-cli`, `hyperframes-registry`, `media-use`, `motion-graphics`, `music-to-video`, `remotion-to-hyperframes`, `website-to-video`, `open-design` (Anti-AI Slop editorial design systems, title cards, stat callouts, alpha overlays), `brand-icon` (official authentic vector brand & UI icons) | `remotion-dev/skills`, `digitalsamba/claude-code-video-toolkit`, `heygen-com/hyperframes` (vendored v0.7.17, see `.agents/skills/hyperframes/PROVENANCE.md`), local CofVid skill |
+| **Video Processing & Grounding** | `ffmpeg`, `video-toolkit`, `web-data-grounding` (live repo metrics & web fact grounding) | `digitalsamba/claude-code-video-toolkit`, local CofVid skill |
+| **TTS & Audio** | `vieneu-tts` (**primary local Vietnamese v3-Turbo**), `text-to-speech`, `speech-to-text` (whisper, default STT), `sound-effects`; *[deprecated: elevenlabs, music, acestep, fish-audio-tts, azure-speech-to-text, azure-text-to-speech]* | Local CofVid skill, `elevenlabs/skills`, `digitalsamba/claude-code-video-toolkit` |
 | **Image Generation** | `flux-best-practices`, `bfl-api`, `grok-media` | `black-forest-labs/skills`, local CofVid skill |
 | **Math Animation** | `manimce-best-practices`, `manimgl-best-practices`, `manim-composer` | `adithya-s-k/manim_skill` |
 | **3D Graphics** | `threejs-world-generation` (CofVid semantic-world workflow), `threejs-animation`, `threejs-fundamentals`, `threejs-geometry`, `threejs-interaction`, `threejs-lighting`, `threejs-loaders`, `threejs-materials`, `threejs-postprocessing`, `threejs-shaders`, `threejs-textures` | Local CofVid skill + `cloudai-x/threejs-skills` |

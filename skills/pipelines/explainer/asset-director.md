@@ -31,7 +31,7 @@ Quick routing for common explainer needs:
 | Schema | `schemas/artifacts/asset_manifest.schema.json` | Artifact validation |
 | Prior artifacts | `state.artifacts["scene_plan"]["scene_plan"]`, `state.artifacts["script"]["script"]`, `state.artifacts["proposal"]["proposal_packet"]` | What to produce |
 | Playbook | Active style playbook | Image prompts, diagram style, audio preferences |
-| Tools | `tts_selector`, `image_selector`, `video_selector`, `diagram_gen`, `code_snippet`, `music_gen` — selectors auto-discover all available providers from the registry | Generation capabilities |
+| Tools | `tts_selector`, `image_selector`, `video_selector`, `direct_clip_search`, `brand_icon_tool`, `code_snippet`, `open_design_tool`, `diagram_gen`, `music_gen` — selectors auto-discover all available providers from the registry | Generation capabilities |
 | Cost tracker | `tools/cost_tracker.py` | Budget governance |
 
 ## Process
@@ -129,6 +129,36 @@ Process asset tasks grouped by tool for efficiency:
 1. Extract language and code from the scene description
 2. Apply syntax highlighting theme from playbook's overlay styles
 3. Generate highlighted image or Remotion-compatible data
+
+**Editorial & Anti-AI Slop Graphics (`open_design_tool`)**:
+1. Read `.agents/skills/open-design/SKILL.md` before calling the tool.
+2. Call `open_design_tool` with `mode="template"`.
+3. Provide a unified `theme_id` matching the channel or explainer visual identity:
+   - Swiss / Clean Technical: `"swiss-editorial"`, `"dark-data"`, or `"editorial"`
+   - Monospace / Trading / Terminal: `"trading-terminal"`
+   - Academic / Essayist: `"atelier-zero"` or `"warm-editorial"`
+4. Select the component type:
+   - `fullscreen_card`: Act openings, hero title cards, topic transitions.
+   - `stat_callout`: High-impact quantitative data points, latency/scale metrics.
+   - `lower_third`: Source credits, expert speaker name/title, section markers.
+   - `split_screen`: Architectural or conceptual comparisons (e.g. centralized vs. distributed).
+   - `quote_card`: Verbatim expert claims, book or paper quotations.
+5. Set `output_format`:
+   - `"webm_alpha"` for transparent motion overlays rendered directly over video footage.
+   - `"dom_snippet"` for native DOM sub-compositions inside HyperFrames.
+6. Populate `props` with rigorous typographic copy and verify generated asset files.
+
+**Official Brand Logos & Tech Icons (`brand_icon_tool`)**:
+1. Read `.agents/skills/brand-icon/SKILL.md` before calling.
+2. Mandatory for tech/developer (Mạch Số) and business/finance (Bàn Cờ) whenever corporate marks, frameworks, or cloud providers are mentioned (Docker, Python, AWS, Google, GitHub, etc.).
+3. Strictly forbids AI hallucination of logos. Resolve authentic SVGs directly via `brand_icon_tool`.
+4. Output SVG files to `assets/icons/` and register in `asset_manifest.json`.
+
+**Authentic Archival & Stock Media (`direct_clip_search`)**:
+1. Mandatory for documentary (Dấu Mốc), science (Vạn Vật), and real-world topics.
+2. Query open authoritative archives (Wikimedia Commons, US National Archives NARA, Library of Congress LOC, NASA) using `direct_clip_search`.
+3. Enforce high resolution (minimum 1080p, up to 5K/6K).
+4. Strictly forbids AI-generated waxy faces or fake historical images. Save media to `assets/images/` or `assets/video/` and log provenance in `asset_manifest.json`.
 
 ### Step 5: Generate Music
 

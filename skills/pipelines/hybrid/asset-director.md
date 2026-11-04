@@ -10,7 +10,7 @@ This stage prepares the support kit around the anchor edit: subtitles, diagrams,
 |-------|----------|---------|
 | Schema | `schemas/artifacts/asset_manifest.schema.json` | Artifact validation |
 | Prior artifacts | `state.artifacts["scene_plan"]["scene_plan"]`, `state.artifacts["script"]["script"]`, `state.artifacts["idea"]["brief"]` | Support needs and variant plan |
-| Tools | `subtitle_gen`, `tts_selector`, `image_selector`, `video_selector`, `diagram_gen`, `code_snippet`, `music_gen`, `audio_enhance` — selectors auto-discover all available providers from the registry | Optional support asset production |
+| Tools | `subtitle_gen`, `tts_selector`, `image_selector`, `video_selector`, `brand_icon_tool`, `direct_clip_search`, `diagram_gen`, `code_snippet`, `open_design_tool`, `music_gen`, `audio_enhance` — selectors auto-discover all available providers from the registry | Support asset production |
 | Playbook | Active style playbook | Consistency rules |
 
 ## Process
@@ -20,7 +20,12 @@ This stage prepares the support kit around the anchor edit: subtitles, diagrams,
 Start with reusable systems:
 
 - subtitle treatment,
-- lower-third or label system,
+- editorial cards and motion overlays via `open_design_tool`:
+  * Read `.agents/skills/open-design/SKILL.md` for full component specifications.
+  * Call `open_design_tool` with `mode="template"`.
+  * Pass a unified `theme_id` matching project branding (`"swiss-editorial"`, `"dark-data"`, `"editorial"`, `"atelier-zero"`, `"trading-terminal"`).
+  * Select component: `fullscreen_card` (transitions), `lower_third` (speaker/source labels), `stat_callout` (data points), `split_screen` (comparisons), or `quote_card` (expert quotes).
+  * Set `output_format="webm_alpha"` for transparent motion overlays placed over anchor footage, or `"dom_snippet"` for HyperFrames embedding.
 - stat-card system,
 - CTA container,
 - diagram style.

@@ -32,7 +32,7 @@ Read every section. For each, note:
 1. **How do top creators visualize this?** Search YouTube thumbnails, blog diagrams, conference slides for the topic.
 2. **What visual metaphors work?** Some concepts have well-known visual representations (e.g., neural networks as node graphs, encryption as locks/keys). Use these — viewers recognize them instantly.
 3. **What's novel?** Is there a visual approach nobody has tried? A fresh visualization can make an explainer memorable.
-4. **What's feasible?** Match your ambitions to available tools: `image_selector` (static images), `diagram_gen` (Mermaid flowcharts/sequences), `code_snippet` (syntax-highlighted code), Remotion (motion graphics, text animations), Manim (mathematical animations).
+4. **What's feasible?** Match your ambitions to available tools: `image_selector` (static images), `diagram_gen` (Mermaid flowcharts/sequences), `code_snippet` (syntax-highlighted code), `open_design_tool` (anti-AI slop publication-grade editorial cards and motion overlays), Remotion (motion graphics, text animations), Manim (mathematical animations).
 
 If you encounter a visualization need that no existing skill covers, use the **Skill Creator** (`skills/meta/skill-creator.md`) to create a new skill.
 
@@ -214,6 +214,10 @@ The style playbook constrains your visual choices:
 - [ ] No more than 3 consecutive scenes of the same type
 - [ ] At least 3 different scene types used in the video
 - [ ] Visual pacing alternates between high-information scenes (diagrams, animations) and breathing room (text cards, generated images)
+
+**Anti-AI Slop Rhythm check:**
+- [ ] At least 1 Fullscreen Title / Chapter Card allocated via `open_design_tool` (`fullscreen_card` or `split_screen`) for major section/act transition
+- [ ] 1-2 Stat Callout / Lower-Third / Quote cards allocated via `open_design_tool` (`stat_callout`, `lower_third`, or `quote_card`) to anchor empirical data and prevent continuous visual fatigue
 
 **Feasibility check:**
 - [ ] Every `required_asset` with `source: "generate"` is achievable with available tools
