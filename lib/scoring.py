@@ -368,7 +368,7 @@ def normalize_task_context(
 
 def _is_stock_like_provider(info: dict[str, Any]) -> bool:
     provider = str(info.get("provider", "")).lower()
-    if provider in {"pexels", "pixabay"}:
+    if provider in {"coverr", "mixkit", "pixabay"}:
         return True
 
     words = set()
@@ -554,6 +554,30 @@ def score_provider(tool, task_context: dict[str, Any]) -> ProviderScore:
                 output_quality = min(1.0, output_quality + 0.10)
             elif matched >= 1:
                 task_fit = min(1.0, task_fit + 0.05)
+
+    # TTS prioritization: Vieneu is priority #1 for Vietnamese and default offline
+    if asset_type == "voice" or info.get("capability") == "tts":
+        if info.get("provider") == "vieneu" or info.get("name") == "vieneu_tts":
+            task_fit = 1.0
+            output_quality = max(output_quality, 0.95)
+            reliability = max(reliability, 0.95)
+            cost_efficiency = 1.0
+
+    # Music prioritization: only prioritize pixabay_music, music_library, google_music
+    if asset_type == "music" or info.get("capability") in {
+        "music_generation",
+        "music_search",
+        "music_library",
+    }:
+        allowed_music = {"pixabay_music", "music_library", "google_music"}
+        tool_name = info.get("name", "")
+        if tool_name in allowed_music:
+            task_fit = min(1.0, task_fit + 0.35)
+            output_quality = min(1.0, output_quality + 0.25)
+            reliability = max(reliability, 0.9)
+        else:
+            task_fit *= 0.15
+            output_quality *= 0.4
 
     return ProviderScore(
         tool_name=info.get("name", "unknown"),

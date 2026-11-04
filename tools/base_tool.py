@@ -184,6 +184,18 @@ def _instrument_execute(fn: Callable) -> Callable:
         depth = getattr(depth_state, "value", 0)
         depth_state.value = depth + 1
         project_dir = infer_project_dir(inputs)
+        if project_dir is None and isinstance(inputs, dict):
+            # Fallback for custom pipeline_dir or tests: check for project.json in path parents
+            for k in ("project_dir", "output_path", "output_dir", "audio_path", "video_path", "image_path"):
+                val = inputs.get(k)
+                if isinstance(val, (str, Path)) and val:
+                    cand = Path(val).resolve()
+                    for parent in [cand] + list(cand.parents):
+                        if (parent / "project.json").exists():
+                            project_dir = parent
+                            break
+                    if project_dir is not None:
+                        break
 
         base = {
             "tool": tool_name,
@@ -199,6 +211,13 @@ def _instrument_execute(fn: Callable) -> Callable:
                     "output_path": str(output_path) if output_path else None,
                 },
             )
+
+        if project_dir is not None and isinstance(inputs, dict):
+            if not inputs.get("dry_run") and not inputs.get("bypass_pipeline_gate"):
+                cap = getattr(self, "capability", "")
+                if cap in ("tts", "image_generation", "video_generation"):
+                    from lib.checkpoint import check_asset_tool_gate
+                    check_asset_tool_gate(project_dir, tool_name, cap)
 
         started = time.monotonic()
         try:

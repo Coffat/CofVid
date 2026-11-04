@@ -83,9 +83,11 @@ class MusicLibrary(BaseTool):
         "knowing music options at the proposal stage",
     ]
     not_good_for = [
-        "generating new music (use music_gen / suno_music)",
-        "searching an external catalog (use freesound_music / pixabay_music)",
+        "generating new music (use google_music)",
+        "searching an external catalog (use pixabay_music)",
     ]
+
+    fallback_tools = ["pixabay_music", "google_music"]
 
     input_schema = {
         "type": "object",

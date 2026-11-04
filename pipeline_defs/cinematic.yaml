@@ -262,7 +262,7 @@ stages:
       - Audio dynamics are controlled and intelligible
       - Letterbox or frame treatment improves rather than harms the output
       - "render_runtime in edit_decisions matches proposal_packet — silent swap is a CRITICAL governance violation"
-      - "Cinematic work typically picks render_runtime='remotion' (CinematicRenderer) for video-led pieces; render_runtime='hyperframes' for kinetic title cards and HTML/GSAP-driven trailers"
+      - "For cinematic work, render_runtime='hyperframes' is the primary default for kinetic title cards, HTML/GSAP-driven trailers, and motion graphics; render_runtime='remotion' (CinematicRenderer) is secondary for React video-led compositions"
     success_criteria:
       - Schema-valid render_report artifact
       - Output file exists and passes ffprobe validation

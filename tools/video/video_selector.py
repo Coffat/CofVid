@@ -297,16 +297,32 @@ class VideoSelector(BaseTool):
         },
     }
 
+    ALLOWED_VIDEO_TOOLS = {
+        "coverr_video",
+        "mixkit_video",
+        "pixabay_video",
+        "gemini_omni_video",
+        "veo_video",
+        "video_compose",
+        "hyperframes_compose",
+    }
+
     def _providers(self) -> list[BaseTool]:
-        """Auto-discover video generation providers from the registry."""
+        """Auto-discover approved video generation providers and local engines from the registry."""
         from tools.tool_registry import registry
 
         registry.ensure_discovered()
-        return [
+        tools = [
             t
             for t in registry.get_by_capability("video_generation")
-            if t.name != self.name
+            if t.name in self.ALLOWED_VIDEO_TOOLS
         ]
+        # Include local engines (Remotion / FFmpeg via video_compose, HyperFrames)
+        for name in ("video_compose", "hyperframes_compose"):
+            t = registry.get(name)
+            if t and t not in tools:
+                tools.append(t)
+        return tools
 
     @property
     def fallback_tools(self) -> list[str]:

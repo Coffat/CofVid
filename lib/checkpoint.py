@@ -95,6 +95,56 @@ class CheckpointValidationError(ValueError):
     """Raised when a checkpoint or its canonical artifacts are invalid."""
 
 
+class GateViolationError(RuntimeError):
+    """Raised when an asset tool is invoked before required pipeline checkpoints are completed."""
+
+
+def check_asset_tool_gate(project_dir: Path, tool_name: str, capability: str) -> None:
+    """Validate that the pipeline state permits asset generation in this project.
+
+    Asset tools (TTS, image generation, video generation) can only run if:
+    1. The project has an initialized marker (project.json).
+    2. checkpoint_scene_plan.json exists.
+    3. checkpoint_scene_plan.json has status='completed' and (if required) human_approved=True.
+
+    If any check fails, raises GateViolationError.
+    """
+    marker_path = project_dir / PROJECT_MARKER_FILENAME
+    if not marker_path.exists():
+        return
+
+    scene_plan_cp_path = project_dir / "checkpoint_scene_plan.json"
+    if not scene_plan_cp_path.exists():
+        raise GateViolationError(
+            f"GATE VIOLATION: Cannot generate assets using {tool_name!r} ({capability}) for project '{project_dir.name}' "
+            f"because stage 'scene_plan' has not been completed. "
+            f"Missing required checkpoint: {scene_plan_cp_path.name}. "
+            f"CofVid protocol requires: research -> proposal -> script -> scene_plan with human approval "
+            f"before running asset generation tools."
+        )
+
+    try:
+        with open(scene_plan_cp_path, encoding="utf-8") as f:
+            data = json.load(f)
+    except Exception as exc:
+        raise GateViolationError(f"GATE VIOLATION: Failed reading {scene_plan_cp_path.name}: {exc}") from exc
+
+    status = data.get("status")
+    if status != "completed":
+        raise GateViolationError(
+            f"GATE VIOLATION: Cannot generate assets using {tool_name!r} for project '{project_dir.name}'. "
+            f"Stage 'scene_plan' status is {status!r} (must be 'completed'). "
+            f"If awaiting human approval, wait for human approval before proceeding."
+        )
+
+    if data.get("human_approval_required") and not data.get("human_approved"):
+        raise GateViolationError(
+            f"GATE VIOLATION: Stage 'scene_plan' for project '{project_dir.name}' requires human approval "
+            f"but has not been approved (human_approved=False). "
+            f"You must present the scene_plan to the user, END YOUR TURN, and await approval."
+        )
+
+
 def _validate_style_playbook(style_playbook: str | None) -> None:
     """Fail closed when a checkpoint names a visual identity that cannot load."""
 
@@ -437,6 +487,7 @@ def write_checkpoint(
     metadata: Optional[dict] = None,
 ) -> Path:
     """Write a checkpoint file for a pipeline stage."""
+    pipeline_dir = Path(pipeline_dir)
     # Backfill identity fields from the project marker so omitted kwargs
     # cannot bypass either gate enforcement or style validation.
     marker = None
@@ -565,6 +616,10 @@ def write_checkpoint(
     os.replace(tmp_path, path)
 
     return path
+
+
+# Backward-compatible alias for write_checkpoint
+save_checkpoint = write_checkpoint
 
 
 def read_checkpoint(

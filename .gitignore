@@ -36,7 +36,8 @@ corpus/
 **/corpus/
 
 # User music library (personal royalty-free tracks — not part of repo)
-music_library/
+music_library/*
+!music_library/manifest.json
 
 # Environment & credentials
 .env
@@ -104,3 +105,6 @@ venv/
 
 # Local Wan / diffusers GPU environment
 .venv-wan/
+
+# External vendor submodules/clones
+external/

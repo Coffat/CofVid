@@ -213,15 +213,17 @@ class ImageSelector(BaseTool):
         },
     }
 
+    ALLOWED_IMAGE_TOOLS = {"pixabay_image", "google_imagen"}
+
     def _providers(self) -> list[BaseTool]:
-        """Auto-discover image generation providers from the registry."""
+        """Auto-discover image generation providers from the registry, filtered to approved providers."""
         from tools.tool_registry import registry
 
         registry.ensure_discovered()
         return [
             t
             for t in registry.get_by_capability("image_generation")
-            if t.name != self.name
+            if t.name in self.ALLOWED_IMAGE_TOOLS
         ]
 
     @property

@@ -27,7 +27,7 @@ class TTSSelector(BaseTool):
     provider = "selector"
     stability = ToolStability.BETA
     runtime = ToolRuntime.HYBRID
-    agent_skills = ["text-to-speech", "elevenlabs"]
+    agent_skills = ["vieneu-tts", "text-to-speech"]
 
     capabilities = [
         "text_to_speech",
@@ -173,12 +173,33 @@ class TTSSelector(BaseTool):
         },
     }
 
+    DISABLED_TTS_PROVIDERS = {
+        "elevenlabs",
+        "azure",
+        "openai",
+        "doubao",
+        "dashscope",
+        "fish_audio",
+        "cartesia",
+        "grok",
+        "heygen",
+        "inworld",
+        "kling_official",
+        "microsoft_mai",
+        "mistral",
+        "fal.ai",
+    }
+
     def _providers(self) -> list[BaseTool]:
-        """Auto-discover TTS providers from the registry."""
+        """Auto-discover TTS providers from the registry, filtering out disabled cloud providers."""
         from tools.tool_registry import registry
 
         registry.ensure_discovered()
-        return [t for t in registry.get_by_capability("tts") if t.name != self.name]
+        return [
+            t
+            for t in registry.get_by_capability("tts")
+            if t.name != self.name and t.provider not in self.DISABLED_TTS_PROVIDERS
+        ]
 
     @property
     def fallback_tools(self) -> list[str]:
@@ -264,6 +285,13 @@ class TTSSelector(BaseTool):
                 raise ValueError("model and model_id disagree")
             adapted["model_id"] = inputs["model"]
             adapted.pop("model", None)
+        if tool.name == "vieneu_tts":
+            if inputs.get("voice_id") and not inputs.get("voice"):
+                adapted["voice"] = inputs["voice_id"]
+            if not adapted.get("voice"):
+                adapted["voice"] = "Hải Đăng"
+            return adapted
+
         if tool.name not in {"azure_tts", "mai_tts"}:
             return adapted
 
@@ -308,6 +336,17 @@ class TTSSelector(BaseTool):
         if allowed:
             candidates = [tool for tool in candidates if tool.provider in allowed]
 
+        # Prioritize vieneu as #1 choice for Vietnamese and default
+        vieneu_tool = next(
+            (
+                tool
+                for tool in candidates
+                if (tool.provider == "vieneu" or tool.name == "vieneu_tts")
+                and tool.get_status() == ToolStatus.AVAILABLE
+            ),
+            None,
+        )
+
         rankings = rank_providers(candidates, task_context)
 
         tool_by_name: dict[str, BaseTool] = {}
@@ -325,6 +364,14 @@ class TTSSelector(BaseTool):
                     and score_item.tool_name in tool_by_name
                 ):
                     return tool_by_name[score_item.tool_name], score_item
+
+        # Default or Vietnamese: if vieneu is available, pick vieneu first
+        if vieneu_tool is not None:
+            score_item = next(
+                (s for s in rankings if s.tool_name == vieneu_tool.name),
+                None,
+            )
+            return vieneu_tool, score_item
 
         for score_item in rankings:
             if score_item.tool_name in tool_by_name:

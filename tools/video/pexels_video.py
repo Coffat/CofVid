@@ -27,15 +27,15 @@ class PexelsVideo(BaseTool):
     tier = ToolTier.SOURCE
     capability = "video_generation"
     provider = "pexels"
-    stability = ToolStability.BETA
+    stability = ToolStability.EXPERIMENTAL
     execution_mode = ExecutionMode.SYNC
     determinism = Determinism.DETERMINISTIC
     runtime = ToolRuntime.API
 
     dependencies = []
     install_instructions = (
-        "Set PEXELS_API_KEY to your Pexels API key.\n"
-        "  Get one free at https://www.pexels.com/api/"
+        "Pexels API is deprecated (keys no longer issued). "
+        "Use coverr_video or mixkit_video instead."
     )
     agent_skills = []
 

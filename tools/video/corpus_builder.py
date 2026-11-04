@@ -92,10 +92,10 @@ class CorpusBuilder(BaseTool):
     ]
     install_instructions = (
         "pip install opencv-python numpy requests pillow transformers torch\n"
-        "At least one stock source must be configured:\n"
-        "  PEXELS_API_KEY for Pexels (free at https://www.pexels.com/api/)\n"
-        "  UNSPLASH_ACCESS_KEY for Unsplash (see https://unsplash.com/documentation)\n"
-        "  archive.org, nasa, and wikimedia work without API keys"
+        "Stock sources available:\n"
+        "  coverr, mixkit, archive.org, nasa, and wikimedia work without API keys\n"
+        "  PIXABAY_API_KEY for Pixabay (free at https://pixabay.com/api/docs/)\n"
+        "  UNSPLASH_ACCESS_KEY for Unsplash (see https://unsplash.com/documentation)"
     )
     agent_skills = []
 
@@ -117,7 +117,7 @@ class CorpusBuilder(BaseTool):
         "collecting candidate B-roll without repeated API calls per edit",
     ]
     not_good_for = [
-        "single-clip downloads (use pexels_video instead)",
+        "single-clip downloads (use coverr_video or mixkit_video instead)",
         "semantic retrieval itself (use clip_search)",
     ]
     fallback_tools = []

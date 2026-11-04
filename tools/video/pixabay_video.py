@@ -56,7 +56,7 @@ class PixabayVideo(BaseTool):
         "custom scenes",
         "offline use",
     ]
-    fallback_tools = ["pexels_video"]
+    fallback_tools = ["coverr_video", "mixkit_video"]
 
     input_schema = {
         "type": "object",

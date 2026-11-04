@@ -918,7 +918,16 @@ class VideoCompose(BaseTool):
                 raw_path = node
             source = Path(raw_path).resolve()
             if not source.is_file():
-                return node
+                # Fallback to resolving relative to project directory
+                cand = (public_dir.parent.parent / raw_path).resolve()
+                if cand.is_file():
+                    source = cand
+                else:
+                    cand = (public_dir.parent / raw_path).resolve()
+                    if cand.is_file():
+                        source = cand
+                    else:
+                        return node
             if source not in staged_by_source:
                 digest = hashlib.sha256(str(source).encode("utf-8")).hexdigest()[:12]
                 name = f"{digest}-{source.name}"
@@ -1620,12 +1629,22 @@ class VideoCompose(BaseTool):
             return ToolResult(success=False, error="No cuts in edit_decisions")
 
         # Resolve asset IDs in cuts to file paths
+        project_dir = output_path.parent.parent
         resolved_cuts = []
         for cut in cuts:
             source_id = cut.get("source", "")
             resolved_cut = dict(cut)
             if source_id in asset_lookup:
-                resolved_cut["source"] = asset_lookup[source_id]["path"]
+                asset_path = asset_lookup[source_id]["path"]
+                cand = (project_dir / asset_path).resolve()
+                if cand.is_file():
+                    resolved_cut["source"] = str(cand)
+                else:
+                    resolved_cut["source"] = asset_path
+            else:
+                cand = (project_dir / source_id).resolve()
+                if cand.is_file():
+                    resolved_cut["source"] = str(cand)
             resolved_cuts.append(resolved_cut)
 
         # --- Pre-compose validation gate ---
@@ -1659,6 +1678,7 @@ class VideoCompose(BaseTool):
         if self._needs_remotion(resolved_cuts):
             remotion_inputs: dict[str, Any] = {
                 "edit_decisions": dict(edit_decisions, cuts=resolved_cuts),
+                "asset_manifest": asset_manifest,
                 "output_path": str(output_path),
             }
             if profile:
@@ -1981,6 +2001,50 @@ class VideoCompose(BaseTool):
             theme_config = self._build_theme_from_playbook(playbook_name, composition_data)
             if theme_config:
                 props["themeConfig"] = theme_config
+
+        # Resolve audio & captions from asset_manifest or project
+        asset_manifest = inputs.get("asset_manifest") or {}
+        asset_lookup = {a["id"]: a for a in asset_manifest.get("assets", [])}
+
+        if "audio" in props and isinstance(props["audio"], dict):
+            # Music resolution
+            music_cfg = props["audio"].get("music")
+            if isinstance(music_cfg, dict):
+                if "src" not in music_cfg:
+                    m_id = music_cfg.get("asset_id")
+                    if m_id and m_id in asset_lookup:
+                        music_cfg["src"] = asset_lookup[m_id]["path"]
+                    elif (output_path.parent.parent / "assets/music/background.mp3").is_file():
+                        music_cfg["src"] = str(output_path.parent.parent / "assets/music/background.mp3")
+                if "fadeInSeconds" not in music_cfg and "fade_in_seconds" in music_cfg:
+                    music_cfg["fadeInSeconds"] = music_cfg["fade_in_seconds"]
+                if "fadeOutSeconds" not in music_cfg and "fade_out_seconds" in music_cfg:
+                    music_cfg["fadeOutSeconds"] = music_cfg["fade_out_seconds"]
+            # Narration resolution
+            narr_cfg = props["audio"].get("narration")
+            if isinstance(narr_cfg, dict):
+                if "src" not in narr_cfg:
+                    narr_cand = output_path.parent.parent / "assets/audio/narration_full.wav"
+                    if narr_cand.is_file():
+                        narr_cfg["src"] = str(narr_cand)
+                    elif "narration_full" in asset_lookup:
+                        narr_cfg["src"] = asset_lookup["narration_full"]["path"]
+
+        # Subtitles / Captions resolution
+        if "captions" not in props:
+            sub_cfg = props.get("subtitles")
+            if isinstance(sub_cfg, dict) and sub_cfg.get("enabled"):
+                sub_source = sub_cfg.get("source")
+                if sub_source:
+                    cand_sub = Path(sub_source)
+                    if not cand_sub.is_file():
+                        cand_sub = output_path.parent.parent / sub_source
+                    if cand_sub.is_file() and cand_sub.suffix.lower() == ".json":
+                        try:
+                            with open(cand_sub, "r", encoding="utf-8") as sf:
+                                props["captions"] = json.load(sf)
+                        except Exception:
+                            pass
 
         # remotion-composer lives at project root
         composer_dir = Path(__file__).resolve().parent.parent.parent / "remotion-composer"

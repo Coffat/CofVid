@@ -65,7 +65,10 @@ stages:
     skill: pipelines/explainer/research-director
     produces:
       - research_brief
-    tools_available: []
+    required_tools:
+      - web_data_grounder
+    tools_available:
+      - web_data_grounder
     checkpoint_required: false
     human_approval_default: false
     review_focus:
@@ -169,18 +172,24 @@ stages:
     required_tools:
       - tts_selector
       - image_selector
+      - brand_icon_tool
+      - direct_clip_search
+      - open_design_tool
+      - code_snippet
     optional_tools:
       - video_selector
       - math_animate
       - diagram_gen
-      - code_snippet
       - music_gen
     tools_available:
       - tts_selector
       - image_selector
       - video_selector
-      - diagram_gen
+      - brand_icon_tool
+      - direct_clip_search
+      - open_design_tool
       - code_snippet
+      - diagram_gen
       - music_gen
       - math_animate
     checkpoint_required: true
@@ -231,11 +240,13 @@ stages:
       - audio_mixer
     optional_tools:
       - video_stitch
+      - open_design_tool
     tools_available:
       - video_compose
       - hyperframes_compose
       - video_stitch
       - audio_mixer
+      - open_design_tool
     checkpoint_required: true
     human_approval_default: false
     review_focus:

@@ -45,7 +45,7 @@ class GoogleMusic(BaseTool):
         "  - Set GEMINI_API_KEY (or GOOGLE_API_KEY) in environment.\n"
         "  - Or set GOOGLE_APPLICATION_CREDENTIALS for Vertex AI service account."
     )
-    fallback_tools = ["music_gen"]
+    fallback_tools = ["pixabay_music", "music_library"]
     agent_skills = ["lyria"]
 
     capabilities = [

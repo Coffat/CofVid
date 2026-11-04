@@ -119,13 +119,17 @@ stages:
       - brief
     produces:
       - asset_manifest
-    optional_tools:
-      - subtitle_gen
+    required_tools:
       - tts_selector
       - image_selector
+      - brand_icon_tool
+      - direct_clip_search
+      - open_design_tool
+      - code_snippet
+    optional_tools:
+      - subtitle_gen
       - video_selector
       - diagram_gen
-      - code_snippet
       - music_gen
       - audio_enhance
     tools_available:
@@ -133,8 +137,11 @@ stages:
       - tts_selector
       - image_selector
       - video_selector
-      - diagram_gen
+      - brand_icon_tool
+      - direct_clip_search
+      - open_design_tool
       - code_snippet
+      - diagram_gen
       - music_gen
       - audio_enhance
     checkpoint_required: true
@@ -185,6 +192,7 @@ stages:
       - video_trimmer
       - color_grade
       - audio_enhance
+      - open_design_tool
     tools_available:
       - video_compose
       - hyperframes_compose
@@ -193,6 +201,7 @@ stages:
       - video_trimmer
       - color_grade
       - audio_enhance
+      - open_design_tool
     checkpoint_required: true
     human_approval_default: false
     review_focus:
@@ -200,7 +209,7 @@ stages:
       - Aspect-ratio variants preserve readability
       - Audio stays coherent across footage and generated elements
       - "render_runtime in edit_decisions matches proposal_packet — silent swap is a CRITICAL governance violation"
-      - "Hybrid typically uses render_runtime='remotion' so source footage and React support overlays compose in one pass; pick 'hyperframes' only when support layers are HTML/GSAP-native"
+      - "render_runtime='hyperframes' is the primary default for HTML/GSAP motion graphics and web support overlays; render_runtime='remotion' is secondary when source footage and React support components compose in one pass"
     success_criteria:
       - Schema-valid render_report artifact
       - Output file exists and passes ffprobe validation

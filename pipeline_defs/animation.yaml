@@ -66,7 +66,10 @@ stages:
     skill: pipelines/animation/research-director
     produces:
       - research_brief
-    tools_available: []
+    required_tools:
+      - web_data_grounder
+    tools_available:
+      - web_data_grounder
     checkpoint_required: false
     human_approval_default: false
     review_focus:
@@ -99,7 +102,7 @@ stages:
       - Free/local tool options are highlighted where applicable
       - "Audio architecture decided: single narrator / character dialogue / narrator+characters"
       - "Provider choice presented as comparison table with costs — agent recommends but user decides"
-      - "render_runtime chosen explicitly — remotion for React scene stack, hyperframes for HTML/GSAP motion graphics, ffmpeg for simple concat. See skills/core/hyperframes.md and skills/meta/animation-runtime-selector.md for the decision matrix. Record in decision_log with category render_runtime_selection."
+      - "render_runtime chosen explicitly — HyperFrames ('hyperframes') is the primary default for HTML/GSAP motion graphics, character animation, and typography; Remotion ('remotion') is secondary for React scene stacks; FFmpeg ('ffmpeg') for simple concat. See skills/core/hyperframes.md and skills/meta/animation-runtime-selector.md for the decision matrix. Record in decision_log with category render_runtime_selection."
     success_criteria:
       - Schema-valid proposal_packet with at least 3 concept_options
       - selected_concept includes animation_mode and reuse_strategy
@@ -175,13 +178,17 @@ stages:
       - proposal_packet
     produces:
       - asset_manifest
-    optional_tools:
+    required_tools:
       - tts_selector
       - image_selector
+      - brand_icon_tool
+      - direct_clip_search
+      - open_design_tool
+      - code_snippet
+    optional_tools:
       - video_selector
       - math_animate
       - diagram_gen
-      - code_snippet
       - threejs_world
       - threejs_asset_catalog
       - atlas_3d
@@ -193,9 +200,12 @@ stages:
       - tts_selector
       - image_selector
       - video_selector
+      - brand_icon_tool
+      - direct_clip_search
+      - open_design_tool
+      - code_snippet
       - math_animate
       - diagram_gen
-      - code_snippet
       - threejs_world
       - threejs_asset_catalog
       - atlas_3d

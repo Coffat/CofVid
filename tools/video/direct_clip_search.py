@@ -73,10 +73,10 @@ class DirectClipSearch(BaseTool):
         "python:requests",
     ]
     install_instructions = (
-        "At least one stock source must be configured:\n"
-        "  PEXELS_API_KEY for Pexels (free at https://www.pexels.com/api/)\n"
-        "  UNSPLASH_ACCESS_KEY for Unsplash (see https://unsplash.com/documentation)\n"
-        "  archive.org, nasa, and wikimedia work without API keys"
+        "Stock sources available:\n"
+        "  coverr, mixkit, archive.org, nasa, and wikimedia work without API keys\n"
+        "  PIXABAY_API_KEY for Pixabay (free at https://pixabay.com/api/docs/)\n"
+        "  UNSPLASH_ACCESS_KEY for Unsplash (see https://unsplash.com/documentation)"
     )
     agent_skills = []
 
@@ -101,25 +101,26 @@ class DirectClipSearch(BaseTool):
         "semantic similarity ranking (use corpus_builder + clip_search)",
         "automated slot filling without human review",
     ]
-    fallback_tools = ["corpus_builder", "pexels_video"]
+    fallback_tools = ["corpus_builder", "coverr_video", "mixkit_video", "pixabay_video"]
 
     input_schema = {
         "type": "object",
-        "required": ["output_dir", "queries"],
         "properties": {
+            "query": {
+                "type": "string",
+                "description": "Single search term (convenience alternative to queries array).",
+            },
             "output_dir": {
                 "type": "string",
                 "description": (
                     "Directory where clips and thumbnails are saved. "
-                    "e.g. projects/foo/assets/video/raw_act2"
+                    "e.g. projects/foo/assets/video/raw_act2. Defaults to projects/temp_clips."
                 ),
             },
             "queries": {
                 "type": "array",
-                "minItems": 1,
                 "items": {
                     "type": "object",
-                    "required": ["query"],
                     "properties": {
                         "query": {
                             "type": "string",
@@ -139,6 +140,16 @@ class DirectClipSearch(BaseTool):
                         },
                     },
                 },
+            },
+            "max_clip_size_bytes": {
+                "type": "integer",
+                "default": 52428800,
+                "description": "Maximum file size in bytes to download per clip (default 50MB).",
+            },
+            "per_clip_download_timeout": {
+                "type": "number",
+                "default": 15.0,
+                "description": "Timeout in seconds for downloading each individual clip.",
             },
             "sources": {
                 "type": "array",
@@ -253,8 +264,40 @@ class DirectClipSearch(BaseTool):
                 source_summary,
             )
 
-            output_dir = Path(inputs["output_dir"])
-            queries: list[dict] = list(inputs["queries"])
+            output_dir_raw = inputs.get("output_dir")
+            if not output_dir_raw:
+                output_dir = Path("projects/temp_clips")
+            else:
+                output_dir = Path(output_dir_raw)
+
+            queries_raw = inputs.get("queries")
+            if queries_raw is None:
+                if "query" in inputs and inputs["query"]:
+                    queries = [{"query": str(inputs["query"]), "slot_id": inputs.get("slot_id", "slot_01")}]
+                else:
+                    return ToolResult(
+                        success=False,
+                        error="Missing 'queries' or 'query' in inputs.",
+                    )
+            elif isinstance(queries_raw, str):
+                queries = [{"query": queries_raw, "slot_id": inputs.get("slot_id", "slot_01")}]
+            elif isinstance(queries_raw, list):
+                queries = []
+                for i, item in enumerate(queries_raw):
+                    if isinstance(item, str):
+                        queries.append({"query": item, "slot_id": f"slot_{i+1:02d}"})
+                    elif isinstance(item, dict):
+                        queries.append(item)
+                    else:
+                        queries.append({"query": str(item), "slot_id": f"slot_{i+1:02d}"})
+            else:
+                return ToolResult(
+                    success=False,
+                    error=f"Invalid format for 'queries': {type(queries_raw).__name__}",
+                )
+
+            max_clip_size_bytes = int(inputs.get("max_clip_size_bytes", 50 * 1024 * 1024))
+            per_clip_download_timeout = float(inputs.get("per_clip_download_timeout", 15.0))
             source_names: Optional[list[str]] = inputs.get("sources")
             filters_in: dict = inputs.get("filters") or {}
             clips_per_query = int(inputs.get("clips_per_query", 3))
@@ -380,7 +423,7 @@ class DirectClipSearch(BaseTool):
                         break
 
                     try:
-                        with _requests_deadline(deadline):
+                        with _requests_deadline(deadline, per_call_timeout=15.0):
                             candidates = src.search(query, filters)
                     except _DeadlineExceeded:
                         return timeout_result(phase="search", query=query, source=src.name)
@@ -435,9 +478,28 @@ class DirectClipSearch(BaseTool):
                             collected_for_query += 1
                             continue
 
+                        # Check candidate size from metadata if available
+                        meta_size = cand.extra.get("file_size_bytes") or cand.extra.get("size")
+                        if meta_size:
+                            try:
+                                if int(meta_size) > max_clip_size_bytes:
+                                    errors.append({
+                                        "phase": "download_skip_oversize",
+                                        "clip_id": clip_id,
+                                        "source": src.name,
+                                        "error": f"Metadata size ({meta_size} bytes) exceeds limit ({max_clip_size_bytes} bytes)",
+                                    })
+                                    continue
+                            except (ValueError, TypeError):
+                                pass
+
                         # Download
                         try:
-                            with _requests_deadline(deadline):
+                            with _requests_deadline(
+                                deadline,
+                                per_call_timeout=per_clip_download_timeout,
+                                max_size_bytes=max_clip_size_bytes,
+                            ):
                                 src.download(cand, clip_path)
                         except _DeadlineExceeded:
                             return timeout_result(
@@ -453,6 +515,11 @@ class DirectClipSearch(BaseTool):
                                 "source": src.name,
                                 "error": f"{type(e).__name__}: {e}",
                             })
+                            try:
+                                if clip_path.exists():
+                                    clip_path.unlink()
+                            except OSError:
+                                pass
                             continue
 
                         if not clip_path.exists() or clip_path.stat().st_size < 1024:
@@ -581,13 +648,17 @@ def _clamp_timeout(timeout: Any, remaining: float) -> Any:
 
 
 @contextmanager
-def _requests_deadline(deadline: float):
+def _requests_deadline(
+    deadline: float,
+    per_call_timeout: float = 15.0,
+    max_size_bytes: Optional[int] = None,
+):
     """Clamp adapter requests calls to the direct-search deadline.
 
     Stock-source adapters are intentionally simple and call `requests.get`
     directly. Keeping the deadline wrapper here avoids widening every adapter
     method signature while still preventing streaming downloads from running
-    past the tool-level budget.
+    past the tool-level budget or hanging on oversize files.
     """
     import requests
 
@@ -595,14 +666,44 @@ def _requests_deadline(deadline: float):
 
     def get_with_deadline(*args, **kwargs):
         remaining = remaining_seconds(deadline)
-        kwargs["timeout"] = _clamp_timeout(kwargs.get("timeout"), remaining)
+        effective_timeout = min(per_call_timeout, remaining)
+        kwargs["timeout"] = _clamp_timeout(kwargs.get("timeout"), effective_timeout)
         response = original_get(*args, **kwargs)
+
+        # Check Content-Length header against max size guardrail
+        if max_size_bytes is not None and getattr(response, "headers", None):
+            cl_header = response.headers.get("content-length") or response.headers.get("Content-Length")
+            if cl_header:
+                try:
+                    cl = int(cl_header)
+                    if cl > max_size_bytes:
+                        if hasattr(response, "close") and callable(response.close):
+                            response.close()
+                        raise ValueError(
+                            f"Content-Length ({cl} bytes) exceeds maximum limit of {max_size_bytes} bytes"
+                        )
+                except (ValueError, TypeError) as e:
+                    if "exceeds maximum limit" in str(e):
+                        raise
+
         original_iter_content = getattr(response, "iter_content", None)
         if callable(original_iter_content):
             def iter_content_with_deadline(*iter_args, **iter_kwargs):
+                stream_start = time.time()
+                bytes_downloaded = 0
                 for chunk in original_iter_content(*iter_args, **iter_kwargs):
                     remaining_seconds(deadline)
-                    yield chunk
+                    if time.time() - stream_start > per_call_timeout:
+                        raise TimeoutError(
+                            f"Download took longer than per-clip timeout of {per_call_timeout}s"
+                        )
+                    if chunk:
+                        bytes_downloaded += len(chunk)
+                        if max_size_bytes is not None and bytes_downloaded > max_size_bytes:
+                            raise ValueError(
+                                f"Streamed size ({bytes_downloaded} bytes) exceeded maximum limit of {max_size_bytes} bytes"
+                            )
+                        yield chunk
 
             response.iter_content = iter_content_with_deadline
         return response
