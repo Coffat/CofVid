@@ -1,0 +1,79 @@
+asset_generation:
+  consistency_anchors:
+  - lavender dot grid
+  - crisp 2px dark border
+  - flat solid drop shadow 0 6px 0
+  image_prompt_prefix: refined tactile bento UI card with 2px ink border and flat purple shadow
+audio:
+  music_mood: tech ambient electronic 125 bpm
+  music_volume: 0.16
+  voice_style: cold factual developer cadence, sharp articulation
+chart_palette:
+- '#10B981'
+- '#EF4444'
+- '#0284C7'
+- '#4338CA'
+- '#181826'
+identity:
+  best_for: Developer explainers, software architecture, AI infrastructure
+  category: motion-graphics
+  mood: hyper-clear, architectural, tactile, authoritative, high-energy
+  name: Mạch Số Refined Tactile Bento 2.0
+  pace: fast
+# Motion primitives live at top level: schemas/styles/playbook.schema.json
+# closes `motion` with additionalProperties:false, so primitives declared
+# inside it fail validation. Top level stays open, so they are kept here
+# verbatim rather than dropped.
+motion_primitives:
+  camera_drift: continuous slow-drift 1.0 to 1.025x
+  code_spotlight: active line zoom 1.02x with mint green border, surrounding lines dimmed to 40%
+  data_packet: svg bus stroke-dashoffset, accelerated packet pulse, node micro-bounce 1.06x
+  odometer: mechanical roll braking with expo.out
+  stamp_slam: mechanical stamp slam back.out(2.2) at -3deg rotation
+motion:
+  animation_style: snappy developer motion, cubic-bezier(0.16, 1, 0.3, 1), 280ms duration
+  pacing_rules:
+    max_scene_hold_seconds: 15.0
+    min_scene_hold_seconds: 2.0
+    stat_card_hold_seconds: 3.0
+    text_card_hold_seconds: 3.0
+    transition_duration_seconds: 0.35
+  transitions:
+  - tech-wipe
+  - zoom-through
+  - slide-left
+quality_rules:
+- Maintain 2px solid dark border on all bento cards with flat shadow 0 6px 0 #9D91E8
+- Keep dynamic cinematic scene-driven HUD non-colliding
+- All metrics must use verified grounded facts
+- Never use cartoonish back.out bounce on card reveals
+typography:
+  body:
+    font: Inter
+    weight: 600
+  code:
+    font: IBM Plex Mono
+    weight: 700
+  headings:
+    font: Inter
+    weight: 900
+  scale_system: major_third
+  weight_matrix:
+    body: 600
+    caption: 500
+    heading: 800
+    title: 900
+visual_language:
+  color_palette:
+    accent:
+    - '#10B981'
+    - '#EF4444'
+    - '#0284C7'
+    background: '#CBC3FA'
+    muted: '#525266'
+    primary:
+    - '#181826'
+    - '#9D91E8'
+    text: '#181826'
+  composition: tactile bento cards, 2px border, 0 6px 0 flat shadow, scene-driven HUD
+  texture: radial dot-grid pattern on signature lavender canvas

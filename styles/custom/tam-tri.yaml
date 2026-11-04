@@ -1,0 +1,66 @@
+asset_generation:
+  consistency_anchors:
+  - generous whitespace
+  - thoughtful cadence
+  - empathetic framing
+  image_prompt_prefix: humanist editorial typography on warm paper with terracotta
+    accents
+audio:
+  music_mood: melancholic touching reflective piano
+  music_volume: 0.14
+  voice_style: warm, reflective, empathetic, intimate narration
+chart_palette:
+- '#795C76'
+- '#C47C70'
+- '#D8B4A6'
+- '#231F20'
+identity:
+  best_for: Psychology essays, cognitive science, human behavior, decision-making
+  category: minimalist
+  mood: thoughtful, empathetic, grounded, intimate, emotionally resonant
+  name: Tâm Trí Kinetic Thought Typography
+  pace: deliberate
+motion:
+  animation_style: synchronized cognitive cadence, smooth thought waves
+  pacing_rules:
+    max_scene_hold_seconds: 12.0
+    min_scene_hold_seconds: 2.5
+    stat_card_hold_seconds: 3.0
+    text_card_hold_seconds: 3.5
+    transition_duration_seconds: 0.45
+  transitions:
+  - fade
+  - dissolve
+quality_rules:
+- Zero generic 3D brains, lightning synapses, or robotic faces
+- Kinetic typography paced to cognitive breathing rhythm
+- Separate psychological metaphor from neurological evidence
+typography:
+  body:
+    font: Inter
+    weight: 400
+  code:
+    font: IBM Plex Mono
+    weight: 400
+  headings:
+    font: Cinzel
+    weight: 600
+  scale_system: major_third
+  weight_matrix:
+    body: 400
+    caption: 400
+    heading: 600
+    title: 800
+visual_language:
+  color_palette:
+    accent:
+    - '#C47C70'
+    - '#D8B4A6'
+    background: '#FAFAF7'
+    muted: '#7E757B'
+    primary:
+    - '#231F20'
+    - '#795C76'
+    text: '#231F20'
+  composition: word-synchronized kinetic thought streams, generous breathing space
+  texture: editorial warm white paper with soft terracotta and plum accents

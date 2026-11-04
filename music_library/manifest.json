@@ -1,0 +1,298 @@
+{
+  "version": "1.0.0",
+  "license": "CC-BY 4.0 (Kevin MacLeod / Incompetech)",
+  "attribution_requirement": "Music by Kevin MacLeod (incompetech.com) Licensed under Creative Commons: By Attribution 4.0 License",
+  "total_tracks": 14,
+  "tracks": [
+    {
+      "id": "carefree",
+      "filename": "Carefree.mp3",
+      "title": "Carefree",
+      "artist": "Kevin MacLeod",
+      "license": "Creative Commons Attribution 4.0 International (CC-BY 4.0)",
+      "genre": "Lo-fi / Pop Acoustic",
+      "mood": "Carefree, cheerful, relaxed, light",
+      "tempo_bpm": 100,
+      "duration_s": 205.14,
+      "tags": [
+        "chill",
+        "lo-fi",
+        "carefree",
+        "cheerful",
+        "acoustic",
+        "lifestyle",
+        "friendly"
+      ],
+      "best_for": "Vlogs, lighthearted tutorials, casual explainers, lifestyle intros"
+    },
+    {
+      "id": "bossa-antigua",
+      "filename": "Bossa Antigua.mp3",
+      "title": "Bossa Antigua",
+      "artist": "Kevin MacLeod",
+      "license": "Creative Commons Attribution 4.0 International (CC-BY 4.0)",
+      "genre": "Latin / Bossa Nova / Jazz",
+      "mood": "Chill, sophisticated, warm, lounge",
+      "tempo_bpm": 115,
+      "duration_s": 283.35,
+      "tags": [
+        "chill",
+        "bossa-nova",
+        "jazz",
+        "warm",
+        "lounge",
+        "coffee-shop",
+        "relaxing"
+      ],
+      "best_for": "Background lounge, relaxed discussions, coffee shop ambiance, elegant showcase"
+    },
+    {
+      "id": "airport-lounge",
+      "filename": "Airport Lounge.mp3",
+      "title": "Airport Lounge",
+      "artist": "Kevin MacLeod",
+      "license": "Creative Commons Attribution 4.0 International (CC-BY 4.0)",
+      "genre": "Jazz / Easy Listening",
+      "mood": "Groovy, smooth, relaxed, urban",
+      "tempo_bpm": 105,
+      "duration_s": 307.67,
+      "tags": [
+        "chill",
+        "jazz",
+        "smooth",
+        "urban",
+        "lounge",
+        "podcast",
+        "night"
+      ],
+      "best_for": "Late-night discussion, podcast background, smooth product demos, chill commentary"
+    },
+    {
+      "id": "cool-vibes",
+      "filename": "Cool Vibes.mp3",
+      "title": "Cool Vibes",
+      "artist": "Kevin MacLeod",
+      "license": "Creative Commons Attribution 4.0 International (CC-BY 4.0)",
+      "genre": "Tech / Jazz Ambient",
+      "mood": "Smooth, focused, corporate, curious",
+      "tempo_bpm": 125,
+      "duration_s": 218.38,
+      "tags": [
+        "tech",
+        "corporate",
+        "explainer",
+        "focused",
+        "curious",
+        "software",
+        "ambient"
+      ],
+      "best_for": "Tech explainers, software feature walk-throughs, architecture breakdowns, problem-solving"
+    },
+    {
+      "id": "daily-beetle",
+      "filename": "Daily Beetle.mp3",
+      "title": "Daily Beetle",
+      "artist": "Kevin MacLeod",
+      "license": "Creative Commons Attribution 4.0 International (CC-BY 4.0)",
+      "genre": "Acoustic / Light Pop",
+      "mood": "Friendly, optimistic, curious, engaging",
+      "tempo_bpm": 110,
+      "duration_s": 316.87,
+      "tags": [
+        "corporate",
+        "explainer",
+        "friendly",
+        "optimistic",
+        "educational",
+        "tutorial"
+      ],
+      "best_for": "Step-by-step tutorials, educational guides, friendly SaaS onboarding"
+    },
+    {
+      "id": "life-of-riley",
+      "filename": "Life of Riley.mp3",
+      "title": "Life of Riley",
+      "artist": "Kevin MacLeod",
+      "license": "Creative Commons Attribution 4.0 International (CC-BY 4.0)",
+      "genre": "Folk / Acoustic / Uplifting",
+      "mood": "Sunny, joyful, optimistic, breezy",
+      "tempo_bpm": 128,
+      "duration_s": 235.36,
+      "tags": [
+        "corporate",
+        "optimistic",
+        "uplifting",
+        "joyful",
+        "success",
+        "breezy"
+      ],
+      "best_for": "Success stories, positive testimonials, milestone announcements, team retrospectives"
+    },
+    {
+      "id": "sneaky-snitch",
+      "filename": "Sneaky Snitch.mp3",
+      "title": "Sneaky Snitch",
+      "artist": "Kevin MacLeod",
+      "license": "Creative Commons Attribution 4.0 International (CC-BY 4.0)",
+      "genre": "Humorous / Orchestral",
+      "mood": "Playful, mischievous, sneaky, curious",
+      "tempo_bpm": 120,
+      "duration_s": 136.62,
+      "tags": [
+        "tech",
+        "explainer",
+        "humor",
+        "mischievous",
+        "playful",
+        "curious",
+        "comparison"
+      ],
+      "best_for": "Revealing common mistakes, \"what went wrong\" breakdowns, fun comparisons, plot twists"
+    },
+    {
+      "id": "impact-moderato",
+      "filename": "Impact Moderato.mp3",
+      "title": "Impact Moderato",
+      "artist": "Kevin MacLeod",
+      "license": "Creative Commons Attribution 4.0 International (CC-BY 4.0)",
+      "genre": "Cinematic / Orchestral",
+      "mood": "Dramatic, intense, serious, suspenseful",
+      "tempo_bpm": 90,
+      "duration_s": 75.68,
+      "tags": [
+        "cinematic",
+        "dramatic",
+        "suspense",
+        "serious",
+        "intense",
+        "trailer",
+        "orchestral"
+      ],
+      "best_for": "Trailer teasers, problem impact statements, high-stakes narratives, crisis overview"
+    },
+    {
+      "id": "black-vortex",
+      "filename": "Black Vortex.mp3",
+      "title": "Black Vortex",
+      "artist": "Kevin MacLeod",
+      "license": "Creative Commons Attribution 4.0 International (CC-BY 4.0)",
+      "genre": "Cinematic / Action",
+      "mood": "Driving, dark, powerful, dramatic",
+      "tempo_bpm": 140,
+      "duration_s": 169.72,
+      "tags": [
+        "cinematic",
+        "action",
+        "driving",
+        "powerful",
+        "intense",
+        "countdown",
+        "reveal"
+      ],
+      "best_for": "Action sequences, competitive benchmarks, urgent calls-to-action, high-energy reveals"
+    },
+    {
+      "id": "the-complex",
+      "filename": "The Complex.mp3",
+      "title": "The Complex",
+      "artist": "Kevin MacLeod",
+      "license": "Creative Commons Attribution 4.0 International (CC-BY 4.0)",
+      "genre": "Cinematic / Dark Orchestral",
+      "mood": "Mysterious, intense, deep, reflective",
+      "tempo_bpm": 80,
+      "duration_s": 267.76,
+      "tags": [
+        "cinematic",
+        "mysterious",
+        "deep",
+        "reflective",
+        "investigative",
+        "orchestral"
+      ],
+      "best_for": "Deep dives into complex challenges, investigative stories, systemic problems"
+    },
+    {
+      "id": "heartbreaking",
+      "filename": "Heartbreaking.mp3",
+      "title": "Heartbreaking",
+      "artist": "Kevin MacLeod",
+      "license": "Creative Commons Attribution 4.0 International (CC-BY 4.0)",
+      "genre": "Cinematic / Melancholic",
+      "mood": "Emotional, poignant, touching, reflective",
+      "tempo_bpm": 65,
+      "duration_s": 96.05,
+      "tags": [
+        "cinematic",
+        "emotional",
+        "melancholic",
+        "poignant",
+        "reflective",
+        "piano"
+      ],
+      "best_for": "Human interest stories, before/after empathy phases, overcoming obstacles"
+    },
+    {
+      "id": "prelude-and-action",
+      "filename": "Prelude and Action.mp3",
+      "title": "Prelude and Action",
+      "artist": "Kevin MacLeod",
+      "license": "Creative Commons Attribution 4.0 International (CC-BY 4.0)",
+      "genre": "Cinematic / Action Orchestral",
+      "mood": "Urgent, heroic, propulsive, grand",
+      "tempo_bpm": 135,
+      "duration_s": 98.85,
+      "tags": [
+        "cinematic",
+        "heroic",
+        "propulsive",
+        "action",
+        "grand",
+        "epic",
+        "orchestral"
+      ],
+      "best_for": "Product launch countdowns, breakthrough reveals, heroic capability showcases"
+    },
+    {
+      "id": "monkeys-spinning-monkeys",
+      "filename": "Monkeys Spinning Monkeys.mp3",
+      "title": "Monkeys Spinning Monkeys",
+      "artist": "Kevin MacLeod",
+      "license": "Creative Commons Attribution 4.0 International (CC-BY 4.0)",
+      "genre": "Comedy / Upbeat Folk",
+      "mood": "Silly, lively, quirky, viral",
+      "tempo_bpm": 144,
+      "duration_s": 125.07,
+      "tags": [
+        "upbeat",
+        "modern",
+        "quirky",
+        "viral",
+        "silly",
+        "fun",
+        "fast"
+      ],
+      "best_for": "Fast social media reels, humorous asides, quirky animations, short-form punchy cuts"
+    },
+    {
+      "id": "fluffing-a-duck",
+      "filename": "Fluffing a Duck.mp3",
+      "title": "Fluffing a Duck",
+      "artist": "Kevin MacLeod",
+      "license": "Creative Commons Attribution 4.0 International (CC-BY 4.0)",
+      "genre": "Humorous / Upbeat Brass",
+      "mood": "Bouncy, comical, quirky, lighthearted",
+      "tempo_bpm": 130,
+      "duration_s": 67.37,
+      "tags": [
+        "upbeat",
+        "modern",
+        "comical",
+        "bouncy",
+        "quirky",
+        "brass",
+        "cartoon"
+      ],
+      "best_for": "Comedy sketches, blooper reels, lightweight explainer humor, cartoonish motion"
+    }
+  ]
+}

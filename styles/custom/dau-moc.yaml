@@ -1,0 +1,65 @@
+asset_generation:
+  consistency_anchors:
+  - paper texture
+  - burgundy highlighter
+  - wax seal accents
+  image_prompt_prefix: historical archival newspaper clipping and document collage
+audio:
+  music_mood: dramatic intense historical orchestral
+  music_volume: 0.15
+  voice_style: investigative historical documentary, grounded, resonant
+chart_palette:
+- '#873F43'
+- '#B18B55'
+- '#4B5A61'
+- '#2B2420'
+identity:
+  best_for: Historical investigations, turning points, geopolitical conflicts
+  category: retro
+  mood: thoughtful, authoritative, human, atmospheric, tangible
+  name: Dấu Mốc Vox Paper Collage
+  pace: moderate
+motion:
+  animation_style: tactile stop-motion paper layering, animated pencil routes
+  pacing_rules:
+    max_scene_hold_seconds: 12.0
+    min_scene_hold_seconds: 2.5
+    stat_card_hold_seconds: 3.0
+    text_card_hold_seconds: 3.5
+    transition_duration_seconds: 0.4
+  transitions:
+  - cut
+  - dissolve
+quality_rules:
+- Ground every story in authentic archival primary sources
+- Strictly ban AI-generated human portraits of historical figures
+- Any illustrative modern reconstruction must bear explicit stamp
+typography:
+  body:
+    font: Newsreader
+    weight: 400
+  code:
+    font: Special Elite
+    weight: 400
+  headings:
+    font: Playfair Display
+    weight: 700
+  scale_system: major_third
+  weight_matrix:
+    body: 400
+    caption: 400
+    heading: 700
+    title: 800
+visual_language:
+  color_palette:
+    accent:
+    - '#B18B55'
+    - '#4B5A61'
+    background: '#FAF8F3'
+    muted: '#8C7E74'
+    primary:
+    - '#2B2420'
+    - '#873F43'
+    text: '#2B2420'
+  composition: vox-style archival paper collage, torn paper edges, route lines
+  texture: tactile parchment paper and historic archival scan layers

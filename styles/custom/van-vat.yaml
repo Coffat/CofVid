@@ -1,0 +1,65 @@
+asset_generation:
+  consistency_anchors:
+  - fine technical lines
+  - scale bars
+  - warm paper background
+  image_prompt_prefix: scientific blueprint architectural diagram on warm paper
+audio:
+  music_mood: cinematic deep investigative orchestral
+  music_volume: 0.14
+  voice_style: scientific editorial, calm, precise, awe-inspiring
+chart_palette:
+- '#397B72'
+- '#83A7B4'
+- '#E3D8BE'
+- '#1C2526'
+identity:
+  best_for: Science documentaries, particle physics, astronomy, natural history
+  category: minimalist
+  mood: curious, contemplative, architecturally precise, quietly wondrous
+  name: Vạn Vật Minimalist Blueprint
+  pace: deliberate
+motion:
+  animation_style: architectural vector path reveals, smooth easing
+  pacing_rules:
+    max_scene_hold_seconds: 12.0
+    min_scene_hold_seconds: 2.5
+    stat_card_hold_seconds: 3.0
+    text_card_hold_seconds: 3.5
+    transition_duration_seconds: 0.4
+  transitions:
+  - fade
+  - dissolve
+quality_rules:
+- Every dimensional reveal must feature an explicit scale bar
+- Zero AI fantasy biology or ungrounded space art
+- Maintain generous negative space
+typography:
+  body:
+    font: Inter
+    weight: 400
+  code:
+    font: IBM Plex Mono
+    weight: 500
+  headings:
+    font: Inter
+    weight: 700
+  scale_system: major_third
+  weight_matrix:
+    body: 400
+    caption: 400
+    heading: 700
+    title: 800
+visual_language:
+  color_palette:
+    accent:
+    - '#83A7B4'
+    - '#E3D8BE'
+    background: '#FAFAF7'
+    muted: '#667A78'
+    primary:
+    - '#1C2526'
+    - '#397B72'
+    text: '#1C2526'
+  composition: minimalist blueprint cross-sections, scale bars, coordinate guides
+  texture: fine architectural linework on warm paper

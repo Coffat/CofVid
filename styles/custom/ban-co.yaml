@@ -1,0 +1,65 @@
+asset_generation:
+  consistency_anchors:
+  - frosted glass bento
+  - verified filing footnotes
+  - forest green growth accents
+  image_prompt_prefix: frosted glass bento card financial report with green metrics
+audio:
+  music_mood: propulsive grand corporate orchestral
+  music_volume: 0.14
+  voice_style: executive corporate briefing, authoritative, commercially literate
+chart_palette:
+- '#376B50'
+- '#B18D55'
+- '#557B6D'
+- '#1B2624'
+identity:
+  best_for: Business strategy, macroeconomics, capital markets, industry competition
+  category: motion-graphics
+  mood: analytical, composed, authoritative, commercially literate
+  name: Bàn Cờ Bento Grid Financial Motion
+  pace: moderate
+motion:
+  animation_style: smooth counter number rolls, disciplined metric settling
+  pacing_rules:
+    max_scene_hold_seconds: 10.0
+    min_scene_hold_seconds: 2.0
+    stat_card_hold_seconds: 3.0
+    text_card_hold_seconds: 3.0
+    transition_duration_seconds: 0.35
+  transitions:
+  - cut
+  - wipe
+quality_rules:
+- Every financial metric must state accounting basis and public source
+- Zero crypto hype candlesticks or raining coin graphics
+- Differentiate audited historical earnings from forward estimates
+typography:
+  body:
+    font: Inter
+    weight: 500
+  code:
+    font: IBM Plex Mono
+    weight: 700
+  headings:
+    font: Inter
+    weight: 800
+  scale_system: major_third
+  weight_matrix:
+    body: 500
+    caption: 400
+    heading: 700
+    title: 800
+visual_language:
+  color_palette:
+    accent:
+    - '#B18D55'
+    - '#557B6D'
+    background: '#FAFAF7'
+    muted: '#5E6C66'
+    primary:
+    - '#1B2624'
+    - '#376B50'
+    text: '#1B2624'
+  composition: frosted glass bento cards, verified financial footnotes, counter transitions
+  texture: crisp corporate frosted glass cards on sage gray and warm paper
