@@ -1,0 +1,14 @@
+{
+  "channel": "dau-moc",
+  "motionPrinciples": [
+    "Subtle cinematic push-in on archival photographs and historical documents.",
+    "Restrained timeline point reveals moving left-to-right or top-to-bottom.",
+    "Map campaign routes animated with measured pace, never erratic speed.",
+    "Zero fast twitch cuts or sci-fi glitch effects."
+  ],
+  "easings": {
+    "archivalPush": "sine.inOut",
+    "timelineStep": "power2.out",
+    "mapRouteTrace": "power1.inOut"
+  }
+}

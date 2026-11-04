@@ -1,0 +1,61 @@
+{
+  "channel": "van-vat",
+  "name": "VẠN VẬT — Audio & Sound Design Manifest",
+  "designPhilosophy": "Expansive, wondrous, natural, and contemplative soundscape honoring the scale of the cosmos and the precision of life science.",
+  "agentPolicy": "ADAPTIVE ATELIER: These BGM tracks and SFX cues are curated recommendations. The AI Director should actively select and place sounds matching the emotional and analytical context of each scene.",
+  "recommendedBgm": [
+    {
+      "role": "primary",
+      "trackId": "impact-moderato",
+      "title": "Impact Moderato",
+      "file": "music_library/Impact Moderato.mp3",
+      "genre": "Cinematic / Orchestral",
+      "tempoBpm": 100,
+      "mood": "Wondrous, dramatic, cosmic, contemplative",
+      "bestForContext": "Astrophysics, planetary orbits, deep space scale, massive natural events, and fundamental physics laws."
+    },
+    {
+      "role": "micro-science / nature",
+      "trackId": "daily-beetle",
+      "title": "Daily Beetle",
+      "file": "music_library/Daily Beetle.mp3",
+      "genre": "Acoustic / Natural Pop",
+      "tempoBpm": 110,
+      "mood": "Warm, curious, gentle, optimistic",
+      "bestForContext": "Biological ecosystems, microscopic organisms, botany, insect life, and everyday science phenomena."
+    }
+  ],
+  "curatedSfxPalette": [
+    {
+      "sfxId": "chime",
+      "file": "assets/sfx/chime.mp3",
+      "semanticTrigger": "Discovery moment, celestial body alignment, revelation of a natural pattern."
+    },
+    {
+      "sfxId": "sparkle",
+      "file": "assets/sfx/sparkle.mp3",
+      "semanticTrigger": "Chemical reaction, stardust illumination, microscopic spore release."
+    },
+    {
+      "sfxId": "whoosh-cinematic",
+      "file": "assets/sfx/whoosh-cinematic.mp3",
+      "semanticTrigger": "Cosmic scale shift (zoom from atom to galaxy, planetary transit)."
+    },
+    {
+      "sfxId": "impact-bass-1",
+      "file": "assets/sfx/impact-bass-1.mp3",
+      "semanticTrigger": "Gravitational wave hit, meteorite collision, seismic earth shift."
+    },
+    {
+      "sfxId": "camera-shutter",
+      "file": "assets/sfx/camera-shutter.mp3",
+      "semanticTrigger": "Macro specimen capture, astronomical snapshot, microscope freeze."
+    }
+  ],
+  "mixingStandards": {
+    "voiceoverLufs": -14.0,
+    "bgmLevelDuckedDb": -18.0,
+    "bgmLevelSwellDb": -12.0,
+    "sfxLevelDb": -10.0
+  }
+}

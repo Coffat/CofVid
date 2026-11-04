@@ -1,0 +1,55 @@
+{
+  "channel": "tam-tri",
+  "fonts": {
+    "headline": {
+      "preferred": "Lora, serif",
+      "alternatives": "Source Serif 4, serif"
+    },
+    "body": {
+      "preferred": "Inter, sans-serif",
+      "alternatives": "Manrope, sans-serif"
+    },
+    "labelsAndDiagrams": {
+      "preferred": "Inter, Manrope, sans-serif",
+      "alternatives": "IBM Plex Sans, sans-serif"
+    },
+    "studyData": {
+      "preferred": "IBM Plex Mono, monospace",
+      "alternatives": "Roboto Mono, monospace"
+    }
+  },
+  "scale": {
+    "heroHeadline": {
+      "fontSize": "88-112px",
+      "lineHeight": "0.98-1.12",
+      "fontWeight": "600-700",
+      "guidance": "Reflective, clear, 2-4 lines"
+    },
+    "sectionStatement": {
+      "fontSize": "62-80px",
+      "fontWeight": "600-700",
+      "guidance": "A question, misconception, or insight"
+    },
+    "bodyExplanation": {
+      "fontSize": "38-48px",
+      "lineHeight": "1.3-1.5",
+      "fontWeight": "400-500",
+      "guidance": "Plain language, short phrases"
+    },
+    "diagramLabel": {
+      "fontSize": "28-36px",
+      "fontWeight": "450-600",
+      "guidance": "A few words per label"
+    },
+    "studyMetadata": {
+      "fontSize": "22-28px",
+      "fontWeight": "500-600",
+      "guidance": "Researcher, year, measure, source"
+    },
+    "subtitles": {
+      "fontSize": "44-54px",
+      "fontWeight": "500-600",
+      "guidance": "Maximum 2 lines"
+    }
+  }
+}

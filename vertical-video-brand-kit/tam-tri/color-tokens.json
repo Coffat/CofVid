@@ -1,0 +1,29 @@
+{
+  "channel": "tam-tri",
+  "name": "TÂM TRÍ — Video Design System",
+  "style": "Humanist Editorial × Psychology Magazine × Swiss Minimalism",
+  "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "aspectRatio": "9:16"
+  },
+  "basePalette": {
+    "paper": "#FAFAF7",
+    "white": "#FFFFFF",
+    "ink": "#292526",
+    "mutedInk": "#77716F",
+    "rule": "#E7E2DF",
+    "deep": "#262126"
+  },
+  "channelAccents": {
+    "mutedPlum": "#795C76",
+    "terracotta": "#C47C70",
+    "dustyRose": "#E9DED8"
+  },
+  "colorRules": [
+    "Keep graphic backgrounds mainly white or warm white (#FAFAF7).",
+    "Use muted plum (#795C76) for primary concept or key phrase; terracotta (#C47C70) for human/emotional context.",
+    "Dusty rose (#E9DED8) should be a quiet field, not a full-screen saturated wash.",
+    "Preserve natural skin tones in footage; avoid clinical coldness or glowing brain graphics."
+  ]
+}

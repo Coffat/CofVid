@@ -1,0 +1,14 @@
+{
+  "channel": "ban-co",
+  "motionPrinciples": [
+    "Deliberate, credible pacing reflecting investigative business journalism.",
+    "Progressive reveal of data series on charts to match narration.",
+    "Measured wipes between macroeconomic chapters.",
+    "Tabular numbers count up with precision, zero cartoon bounce."
+  ],
+  "easings": {
+    "executivePrecision": "power4.out",
+    "chartTrace": "power2.out",
+    "chapterTransition": "power2.inOut"
+  }
+}

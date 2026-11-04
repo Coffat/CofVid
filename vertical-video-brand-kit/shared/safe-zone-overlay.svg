@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="1080" height="1920" id="universal-safe-zone-overlay">
+  <defs>
+    <pattern id="diagonalHatchRed" width="20" height="20" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="20" stroke="rgba(255, 68, 68, 0.25)" stroke-width="4" />
+    </pattern>
+    <pattern id="diagonalHatchYellow" width="20" height="20" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="20" stroke="rgba(255, 187, 0, 0.2)" stroke-width="3" />
+    </pattern>
+  </defs>
+
+  <style>
+    .zone-label { font-family: 'Inter', -apple-system, sans-serif; font-size: 20px; font-weight: 700; fill: #FFFFFF; letter-spacing: 1px; }
+    .zone-sub { font-family: 'Inter', -apple-system, sans-serif; font-size: 14px; font-weight: 500; fill: rgba(255,255,255,0.7); }
+    .guide-line { stroke-dasharray: 8 6; stroke-width: 2; }
+  </style>
+
+  <!-- Top Exclusion (Platform Status & Nav) -->
+  <rect x="0" y="0" width="1080" height="220" fill="url(#diagonalHatchRed)" stroke="rgba(255,68,68,0.6)" stroke-width="2" />
+  <rect x="30" y="20" width="340" height="40" rx="8" fill="rgba(255,68,68,0.85)" />
+  <text x="45" y="47" class="zone-label" fill="#FFF">TOP UI EXCLUSION (220px)</text>
+  <text x="45" y="80" class="zone-sub">Search / Following / For You / Close button</text>
+
+  <!-- Bottom Exclusion (Account & Caption UI) -->
+  <rect x="0" y="1540" width="1080" height="380" fill="url(#diagonalHatchRed)" stroke="rgba(255,68,68,0.6)" stroke-width="2" />
+  <rect x="30" y="1560" width="460" height="44" rx="8" fill="rgba(255,68,68,0.85)" />
+  <text x="45" y="1590" class="zone-label" fill="#FFF">BOTTOM UI EXCLUSION (380px)</text>
+  <text x="45" y="1630" class="zone-sub">Username / 3-Line Caption / Sound Title / Progress Bar</text>
+
+  <!-- Right Rail Exclusion (Interaction Icons) -->
+  <rect x="940" y="650" width="140" height="890" fill="url(#diagonalHatchYellow)" stroke="rgba(255,187,0,0.6)" stroke-width="2" />
+  <rect x="945" y="665" width="125" height="70" rx="8" fill="rgba(255,187,0,0.85)" />
+  <text x="955" y="695" class="zone-label" style="font-size: 15px; fill: #000;">RIGHT RAIL</text>
+  <text x="955" y="720" class="zone-sub" style="font-size: 11px; fill: #222;">Like / Share</text>
+
+  <!-- Left Margin Padding -->
+  <rect x="0" y="220" width="80" height="1320" fill="rgba(0,0,0,0.3)" stroke="rgba(255,255,255,0.2)" stroke-width="1" />
+
+  <!-- Action Safe Master Box -->
+  <rect x="80" y="220" width="860" height="1320" fill="none" stroke="#39D5FF" stroke-width="3" />
+  <rect x="80" y="220" width="360" height="34" rx="4" fill="#39D5FF" />
+  <text x="95" y="244" class="zone-label" style="font-size: 14px; fill: #0B1220;">ACTION SAFE BOUNDS (860 × 1320)</text>
+
+  <!-- Headline Target Zone -->
+  <rect x="100" y="270" width="820" height="260" fill="none" stroke="rgba(57, 213, 255, 0.4)" class="guide-line" />
+  <text x="120" y="300" class="zone-sub" style="fill: #39D5FF;">HEADLINE & HOOK ZONE (y: 270 - 530)</text>
+
+  <!-- Main Visual / Diagram Focal Zone -->
+  <rect x="100" y="550" width="820" height="710" fill="none" stroke="rgba(255, 255, 255, 0.3)" class="guide-line" />
+  <text x="120" y="580" class="zone-sub" style="fill: #FFF;">MAIN VISUAL / DATA / INFOGRAPHIC CENTER (y: 550 - 1260)</text>
+
+  <!-- Subtitle Protected Zone -->
+  <rect x="90" y="1300" width="840" height="210" fill="rgba(0, 200, 100, 0.08)" stroke="#00E676" stroke-width="2" />
+  <rect x="90" y="1300" width="280" height="28" rx="4" fill="#00E676" />
+  <text x="100" y="1320" class="zone-label" style="font-size: 13px; fill: #0B1220;">SUBTITLE SAFE ZONE (y: 1300 - 1510)</text>
+
+  <!-- Optical Center Crosshair -->
+  <line x1="540" y1="220" x2="540" y2="1540" stroke="rgba(255,255,255,0.2)" stroke-dasharray="4 4" />
+  <line x1="80" y1="880" x2="940" y2="880" stroke="rgba(255,255,255,0.2)" stroke-dasharray="4 4" />
+  <circle cx="540" cy="880" r="12" fill="none" stroke="#39D5FF" stroke-width="2" />
+</svg>

@@ -1,0 +1,30 @@
+{
+  "channel": "van-vat",
+  "name": "VẠN VẬT — Video Design System",
+  "style": "Scientific Editorial × Natural History Museum × Minimalist Infographic",
+  "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "aspectRatio": "9:16"
+  },
+  "basePalette": {
+    "paper": "#FAFAF7",
+    "white": "#FFFFFF",
+    "ink": "#242624",
+    "mutedInk": "#70736E",
+    "rule": "#E6E5DF",
+    "deep": "#172321"
+  },
+  "channelAccents": {
+    "botanicalTeal": "#397B72",
+    "mineralBlue": "#83A7B4",
+    "sand": "#E3D8BE"
+  },
+  "colorRules": [
+    "Keep graphic surfaces predominantly white or warm white.",
+    "Use botanical-teal (#397B72) for the main highlighted organism, process, or concept; mineral-blue (#83A7B4) and sand (#E3D8BE) as supporting accents.",
+    "Preserve natural colors in wildlife, landscape, geological, and astronomical footage.",
+    "Dark backgrounds used selectively for deep ocean, night-sky, or astronomy.",
+    "Avoid neon green, electric purple, rainbow gradients, and glowing outlines."
+  ]
+}

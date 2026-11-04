@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>COFFAT MEDIA — PHÒNG NGHE THỬ NHẠC NỀN & SOUND EFFECT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700;1,8..60,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-paper: #FAFAF7;
+      --bg-card: #FFFFFF;
+      --text-ink: #222222;
+      --text-muted: #6B6B68;
+      --border-rule: #E5E4DF;
+      --accent-blue: #3157A4;
+      --accent-orange: #E27B50;
+      --accent-teal: #397B72;
+      --accent-burgundy: #873F43;
+      --accent-plum: #795C76;
+      --accent-forest: #376B50;
+      --accent-gold: #B18D55;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-paper);
+      color: var(--text-ink);
+      font-family: 'Be Vietnam Pro', sans-serif;
+      line-height: 1.6;
+      padding: 40px 24px 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    header {
+      border-bottom: 2px solid var(--text-ink);
+      padding-bottom: 24px;
+      margin-bottom: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .header-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    h1 {
+      font-family: 'Source Serif 4', serif;
+      font-size: 38px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .header-desc {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 650px;
+    }
+    .channel-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-rule);
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 36px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    }
+    .channel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-rule);
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .channel-title-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .channel-badge {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .channel-name {
+      font-family: 'Source Serif 4', serif;
+      font-size: 26px;
+      font-weight: 700;
+    }
+    .channel-tagline {
+      font-size: 14px;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+    .grid-two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+    @media (max-width: 860px) {
+      .grid-two-col { grid-template-columns: 1fr; }
+    }
+    .sub-panel {
+      background: var(--bg-paper);
+      border: 1px solid var(--border-rule);
+      border-radius: 8px;
+      padding: 20px;
+    }
+    .sub-panel-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .audio-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-rule);
+      border-radius: 6px;
+      padding: 16px;
+      margin-bottom: 14px;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .audio-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+    .track-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    .track-title {
+      font-weight: 700;
+      font-size: 16px;
+    }
+    .track-tags {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .track-description {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+    audio {
+      width: 100%;
+      height: 36px;
+      border-radius: 4px;
+    }
+    .sfx-pill-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .sfx-item {
+      background: #FFFFFF;
+      border: 1px solid var(--border-rule);
+      padding: 10px 14px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .sfx-info {
+      flex: 1;
+    }
+    .sfx-name {
+      font-weight: 600;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sfx-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .sfx-player {
+      width: 180px;
+      height: 32px;
+    }
+    .instructions-box {
+      background: #222222;
+      color: #FAFAF7;
+      padding: 24px;
+      border-radius: 8px;
+      margin-top: 40px;
+      font-size: 14px;
+    }
+    .instructions-box h3 {
+      font-family: 'IBM Plex Mono', monospace;
+      color: #E27B50;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <div class="header-tag">Coffat Media Audio OS · Sound Curation Suite</div>
+      <h1>Phòng Nghe Thử & Thẩm Định Âm Thanh (BGM & SFX)</h1>
+    </div>
+    <div class="header-desc">
+      Trực tiếp trải nghiệm các bản nhạc nền (Background Music) và hiệu ứng âm thanh (Sound Effects) được chọn lọc riêng cho 5 kênh tài liệu 9:16 trước khi phê duyệt lưu trữ.
+    </div>
+  </header>
+
+  <!-- 1. MẠCH SỐ -->
+  <section class="channel-section">
+    <div class="channel-header">
+      <div class="channel-title-group">
+        <span class="channel-badge" style="background:#DCE4F1; color:#3157A4;">KÊNH 01</span>
+        <h2 class="channel-name" style="color:#3157A4;">MẠCH SỐ</h2>
+      </div>
+      <div class="channel-tagline">"Giải mã thế giới công nghệ, AI và hạ tầng số"</div>
+    </div>
+    <div class="grid-two-col">
+      <!-- BGM -->
+      <div class="sub-panel">
+        <div class="sub-panel-title">🎵 Nhạc Nền Tuyển Chọn (BGM)</div>
+        <div class="audio-card">
+          <div class="track-meta">
+            <span class="track-title">1. Cool Vibes (Primary)</span>
+            <span class="track-tags">125 BPM · Tech Jazz Ambient</span>
+          </div>
+          <div class="track-description">Nhịp điệu điện tử điềm tĩnh, thông minh, mang tính giải mã kiến trúc phần mềm và thuật toán.</div>
+          <audio controls src="../music_library/Cool Vibes.mp3"></audio>
+        </div>
+        <div class="audio-card">
+          <div class="track-meta">
+            <span class="track-title">2. The Complex (Deep Dive)</span>
+            <span class="track-tags">90 BPM · Dark Orchestral Tech</span>
+          </div>
+          <div class="track-description">Âm hưởng sâu lắng, bí ẩn, phù hợp cho các chủ đề điều tra lỗ hổng bảo mật hoặc rủi ro AI.</div>
+          <audio controls src="../music_library/The Complex.mp3"></audio>
+        </div>
+      </div>
+      <!-- SFX -->
+      <div class="sub-panel">
+        <div class="sub-panel-title">⚡ Bộ Sound Effect (Tactile SFX)</div>
+        <div class="sfx-pill-grid">
+          <div class="sfx-item">
+            <div class="sfx-info">
+              <div class="sfx-name">⌨️ Gõ Bàn Phím (typing)</div>
+              <div class="sfx-desc">Code terminal, gõ lệnh prompt, nhập dữ liệu.</div>
+            </div>
+            <audio class="sfx-player" controls src="../assets/sfx/typing.mp3"></audio>
+          </div>
+          <div class="sfx-item">
+            <div class="sfx-info">
+              <div class="sfx-name">🖱️ Bấm Nút Nhẹ (click-soft)</div>
+              <div class="sfx-desc">Chuyển tab, chọn node diagram vi mạch.</div>
+            </div>
+            <audio class="sfx-player" controls src="../assets/sfx/click-soft.mp3"></audio>
+          </div>
+          <div class="sfx-item">
+            <div class="sfx-info">
+              <div class="sfx-name">📸 Chụp Màn Hình (camera-shutter)</div>
+              <div class="sfx-desc">Đóng khung bằng chứng, bắt ảnh chụp interface.</div>
+            </div>
+            <audio class="sfx-player" controls src="../assets/sfx/camera-shutter.mp3"></audio>
+          </div>
+          <div class="sfx-item">
+            <div class="sfx-info">
+              <div class="sfx-name">💨 Quét Dữ Liệu (whoosh-short)</div>
+              <div class="sfx-desc">Dịch chuyển luồng dữ liệu, lật trang giải thích.</div>
+            </div>
+            <audio class="sfx-player" controls src="../assets/sfx/whoosh-short.mp3"></audio>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. VẠN VẬT -->
+  <section class="channel-section">
+    <div class="channel-header">
+      <div class="channel-title-group">
+        <span class="channel-badge" style="background:#E3D8BE; color:#397B72;">KÊNH 02</span>
+        <h2 class="channel-name" style="color:#397B72;">VẠN VẬT</h2>
+      </div>
+      <div class="channel-tagline">"Khám phá vũ trụ, sinh học và các hiện tượng tự nhiên"</div>
+    </div>
+    <div class="grid-two-col">
+      <!-- BGM -->
+      <div class="sub-panel">
+        <div class="sub-panel-title">🎵 Nhạc Nền Tuyển Chọn (BGM)</div>
+        <div class="audio-card">
+          <div class="track-meta">
+            <span class="track-title">1. Impact Moderato (Primary)</span>
+            <span class="track-tags">100 BPM · Cinematic Orchestral</span>
+          </div>
+          <div class="track-description">Sự kỳ vĩ của không gian, quy luật vật lý vũ trụ, mở ra sự choáng ngợp và tò mò.</div>
+          <audio controls src="../music_library/Impact Moderato.mp3"></audio>
+        </div>
+        <div class="audio-card">
+          <div class="track-meta">
+            <span class="track-title">2. Daily Beetle (Micro Science)</span>
+            <span class="track-tags">110 BPM · Acoustic Natural Pop</span>
+          </div>
+          <div class="track-description">Thế giới côn trùng, sự phát triển sinh học, đời sống thực vật tự nhiên gần gũi.</div>
+          <audio controls src="../music_library/Daily Beetle.mp3"></audio>
+        </div>
+      </div>
+      <!-- SFX -->
+      <div class="sub-panel">
+        <div class="sub-panel-title">⚡ Bộ Sound Effect (Tactile SFX)</div>
+        <div class="sfx-pill-grid">
+          <div class="sfx-item">
+            <div class="sfx-info">
+              <div class="sfx-name">🔔 Chuông Ánh Sáng (chime)</div>
+              <div class="sfx-desc">Khoảnh khắc phát hiện quy luật, tinh cầu tỏa sáng.</div>
+            </div>
+            <audio class="sfx-player" controls src="../assets/sfx/chime.mp3"></audio>
+          </div>
+          <div class="sfx-item">
+            <div class="sfx-info">
+              <div class="sfx-name">✨ Lấp Lánh Vi Mô (sparkle)</div>
+              <div class="sfx-desc">Phản ứng hóa học, phấn hoa, hạt nguyên tử.</div>
+            </div>
+            <audio class="sfx-player" controls src="../assets/sfx/sparkle.mp3"></audio>
+          </div>
+          <div class="sfx-item">
+            <div class="sfx-info">
+              <div class="sfx-name">🌌 Không Gian Bao La (whoosh-cinematic)</div>
+              <div class="sfx-desc">Zoom từ Trái Đất ra dải Ngân Hà, chuyển cảnh thiên văn.</div>
+            </div>
+            <audio class="sfx-player" controls src="../assets/sfx/whoosh-cinematic.mp3"></audio>
+          </div>
+          <div class="sfx-item">
+            <div class="sfx-info">
+              <div class="sfx-name">💥 Trọng Lực Trầm (impact-bass-1)</div>
+              <div class="sfx-desc">Va chạm thiên thạch, kích hoạt phản ứng tổng hợp.</div>
+            </div>
+            <audio class="sfx-player" controls src="../assets/sfx/impact-bass-1.mp3"></audio>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. DẤU MỐC -->
+  <section class="channel-section">
+    <div class="channel-header">
+      <div class="channel-title-group">
+        <span class="channel-badge" style="background:#E8DFD0; color:#873F43;">KÊNH 03</span>
+        <h2 class="channel-name" style="color:#873F43;">DẤU MỐC</h2>
+      </div>
+      <div class="channel-tagline">"Những biến cố và nhân vật đã thay đổi dòng chảy lịch sử"</div>
+    </div>
+    <div class="grid-two-col">
+      <!-- BGM -->
+      <div class="sub-panel">
+        <div class="sub-panel-title">🎵 Nhạc Nền Tuyển Chọn (BGM)</div>
+        <div class="audio-card">
+          <div class="track-meta">
+            <span class="track-title">1. Prelude and Action (Primary)</span>
+            <span class="track-tags">130 BPM · Heroic Orchestral</span>
+          </div>
+          <div class="track-description">Sử thi, dồn dập, hào hùng, tái hiện các trận đánh lớn và những quyết định xoay chuyển vận mệnh.</div>
+          <audio controls src="../music_library/Prelude and Action.mp3"></audio>
+        </div>
+        <div class="audio-card">
+          <div class="track-meta">
+            <span class="track-title">2. The Complex (Solemn Archive)</span>
+            <span class="track-tags">90 BPM · Suspenseful Strings</span>
+          </div>
+          <div class="track-description">Trầm mặc, trang nghiêm của bảo tàng và tài liệu mật, phù hợp cho sự sụp đổ của các đế chế.</div>
+          <audio controls src="../music_library/The Complex.mp3"></audio>
+        </div>
+      </div>
+      <!-- SFX -->
+      <div class="sub-panel">
+        <div class="sub-panel-title">⚡ Bộ Sound Effect (Tactile SFX)</div>
+        <div class="sfx-pill-grid">
+          <div class="sfx-item">
+            <div class="sfx-info">
+              <div class="sfx-name">📜 Lật Trang Sử (whoosh-cinematic)</div>
+              <div class="sfx-desc">Mở bản đồ chiến dịch, giở tài liệu cổ thư.</div>
+            </div>
+            <audio class="sfx-player" controls src="../assets/sfx/whoosh-cinematic.mp3"></audio>
+          </div>
+          <div class="sfx-item">
+            <div class="sfx-info">
+              <div class="sfx-name">🏛️ Va Đập Niên Đại (impact-bass-2)</div>
+              <div class="sfx-desc">Mốc son năm tháng, đế chế sụp đổ, dấu triện đóng xuống.</div>
+            </div>
+            <audio class="sfx-player" controls src="../assets/sfx/impact-bass-2.mp3"></audio>
+          </div>
+          <div class="sfx-item">
+            <div class="sfx-info">
+              <div class="sfx-name">🎞️ Bắt Ảnh Lưu Trữ (camera-shutter)</div>
+              <div class="sfx-desc">Hiển thị di vật bảo tàng, ảnh đen trắng lịch sử.</div>
+            </div>
+            <audio class="sfx-player" controls src="../assets/sfx/camera-shutter.mp3"></audio>
+          </div>
+          <div class="sfx-item">
+            <div class="sfx-info">
+              <div class="sfx-name">⏳ Kịch Tính Tăng Dần (riser)</div>
+              <div class="sfx-desc">Cao trào trước khi tiết lộ cái kết của một nhân vật.</div>
+            </div>
+            <audio class="sfx-player" controls src="../assets/sfx/riser.mp3"></audio>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. TÂM TRÍ -->
+  <section class="channel-section">
+    <div class="channel-header">
+      <div class="channel-title-group">
+        <span class="channel-badge" style="background:#E9DED8; color:#795C76;">KÊNH 04</span>
+        <h2 class="channel-name" style="color:#795C76;">TÂM TRÍ</h2>
+      </div>
+      <div class="channel-tagline">"Giải mã cách con người suy nghĩ, cảm nhận và hành động"</div>
+    </div>
+    <div class="grid-two-col">
+      <!-- BGM -->
+      <div class="sub-panel">
+        <div class="sub-panel-title">🎵 Nhạc Nền Tuyển Chọn (BGM)</div>
+        <div class="audio-card">
+          <div class="track-meta">
+            <span class="track-title">1. Heartbreaking (Primary)</span>
+            <span class="track-tags">75 BPM · Melancholic Piano & Strings</span>
+          </div>
+          <div class="track-description">Dương cầm da diết, lắng đọng, mở ra không gian tự vấn nội tâm và thấu cảm cảm xúc con người.</div>
+          <audio controls src="../music_library/Heartbreaking.mp3"></audio>
+        </div>
+        <div class="audio-card">
+          <div class="track-meta">
+            <span class="track-title">2. Airport Lounge (Human Conversation)</span>
+            <span class="track-tags">105 BPM · Warm Minimalist Jazz</span>
+          </div>
+          <div class="track-description">Ấm áp, gần gũi, như một cuộc trò chuyện cởi mở giữa hai người bạn về thói quen tâm lý.</div>
+          <audio controls src="../music_library/Airport Lounge.mp3"></audio>
+        </div>
+      </div>
+      <!-- SFX -->
+      <div class="sub-panel">
+        <div class="sub-panel-title">⚡ Bộ Sound Effect (Tactile SFX)</div>
+        <div class="sfx-pill-grid">
+          <div class="sfx-item">
+            <div class="sfx-info">
+              <div class="sfx-name">💡 Khoảnh Khắc 'Aha!' (ding)</div>
+              <div class="sfx-desc">Nhận ra bẫy tâm lý, thấu hiểu nguyên nhân gốc rễ.</div>
+            </div>
+            <audio class="sfx-player" controls src="../assets/sfx/ding.mp3"></audio>
+          </div>
+          <div class="sfx-item">
+            <div class="sfx-info">
+              <div class="sfx-name">🌬️ Nhịp Thở Suy Tưởng (whoosh)</div>
+              <div class="sfx-desc">Khoảng lặng chuyển tiếp giữa các tầng suy nghĩ.</div>
+            </div>
+            <audio class="sfx-player" controls src="../assets/sfx/whoosh.mp3"></audio>
+          </div>
+          <div class="sfx-item">
+            <div class="sfx-info">
+              <div class="sfx-name">🫧 Khai Mở Nhận Thức (pop)</div>
+              <div class="sfx-desc">Bong bóng định kiến vỡ tan, xuất hiện từ khóa mới.</div>
+            </div>
+            <audio class="sfx-player" controls src="../assets/sfx/pop.mp3"></audio>
+          </div>
+          <div class="sfx-item">
+            <div class="sfx-info">
+              <div class="sfx-name">🕊️ Thức Tỉnh Điềm Tĩnh (chime)</div>
+              <div class="sfx-desc">Đúc kết bài học chữa lành hoặc tha thứ cho bản thân.</div>
+            </div>
+            <audio class="sfx-player" controls src="../assets/sfx/chime.mp3"></audio>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. BÀN CỜ -->
+  <section class="channel-section">
+    <div class="channel-header">
+      <div class="channel-title-group">
+        <span class="channel-badge" style="background:#E2E8E1; color:#376B50;">KÊNH 05</span>
+        <h2 class="channel-name" style="color:#376B50;">BÀN CỜ</h2>
+      </div>
+      <div class="channel-tagline">"Giải mã thế giới kinh doanh, dòng tiền và chiến lược doanh nghiệp"</div>
+    </div>
+    <div class="grid-two-col">
+      <!-- BGM -->
+      <div class="sub-panel">
+        <div class="sub-panel-title">🎵 Nhạc Nền Tuyển Chọn (BGM)</div>
+        <div class="audio-card">
+          <div class="track-meta">
+            <span class="track-title">1. Black Vortex (Primary)</span>
+            <span class="track-tags">128 BPM · Driving Corporate Tension</span>
+          </div>
+          <div class="track-description">Nhịp trống dồn dập, kịch tính, biểu thị cuộc chiến tranh giành thị phần và áp lực thương trường.</div>
+          <audio controls src="../music_library/Black Vortex.mp3"></audio>
+        </div>
+        <div class="audio-card">
+          <div class="track-meta">
+            <span class="track-title">2. Cool Vibes (Financial Analysis)</span>
+            <span class="track-tags">125 BPM · Analytical Ledger Beat</span>
+          </div>
+          <div class="track-description">Sự điềm tĩnh của nhà đầu tư lão luyện khi mổ xẻ báo cáo tài chính và biên lợi nhuận.</div>
+          <audio controls src="../music_library/Cool Vibes.mp3"></audio>
+        </div>
+      </div>
+      <!-- SFX -->
+      <div class="sub-panel">
+        <div class="sub-panel-title">⚡ Bộ Sound Effect (Tactile SFX)</div>
+        <div class="sfx-pill-grid">
+          <div class="sfx-item">
+            <div class="sfx-info">
+              <div class="sfx-name">📈 Chỉ Số Nhảy Số (click)</div>
+              <div class="sfx-desc">Ticker chứng khoán nhảy, biểu đồ doanh thu tăng trưởng.</div>
+            </div>
+            <audio class="sfx-player" controls src="../assets/sfx/click.mp3"></audio>
+          </div>
+          <div class="sfx-item">
+            <div class="sfx-info">
+              <div class="sfx-name">🏢 Quyết Định Quyền Lực (impact-bass-1)</div>
+              <div class="sfx-desc">Thâu tóm sáp nhập, quyết định triệu đô tại phòng họp HĐQT.</div>
+            </div>
+            <audio class="sfx-player" controls src="../assets/sfx/impact-bass-1.mp3"></audio>
+          </div>
+          <div class="sfx-item">
+            <div class="sfx-info">
+              <div class="sfx-name">📊 Cắt Phân Đoạn (whoosh-short)</div>
+              <div class="sfx-desc">Lật mở chương báo cáo mới, quét thanh dòng tiền Sankey.</div>
+            </div>
+            <audio class="sfx-player" controls src="../assets/sfx/whoosh-short.mp3"></audio>
+          </div>
+          <div class="sfx-item">
+            <div class="sfx-info">
+              <div class="sfx-name">🔔 Tin Tức Sàn Giao Dịch (notification)</div>
+              <div class="sfx-desc">Thông báo phá sản, sụp đổ thị trường, biến động cổ phiếu.</div>
+            </div>
+            <audio class="sfx-player" controls src="../assets/sfx/notification.mp3"></audio>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="instructions-box">
+    <h3>💡 Hướng dẫn kiểm duyệt & lưu trữ:</h3>
+    <p>1. Bấm nút <strong>Play (▶)</strong> trên bất kỳ file nào ở trên để nghe trực tiếp chất lượng âm thanh và nhịp điệu.</p>
+    <p>2. Khi bạn đồng ý với sự phân bổ BGM & SFX này, hãy phản hồi trong Antigravity để Agent ghi nhận chính thức vào file <code>audio-manifest.json</code> trong từng kênh.</p>
+  </div>
+
+</body>
+</html>

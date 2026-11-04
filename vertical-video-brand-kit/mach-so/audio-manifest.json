@@ -1,0 +1,61 @@
+{
+  "channel": "mach-so",
+  "name": "MẠCH SỐ — Audio & Sound Design Manifest",
+  "designPhilosophy": "Intelligent, restrained, evidence-led electronic and ambient soundscape mimicking data infrastructure and digital logic.",
+  "agentPolicy": "ADAPTIVE ATELIER: These BGM tracks and SFX cues are curated recommendations. The AI Director should actively select and place sounds matching the emotional and analytical context of each scene.",
+  "recommendedBgm": [
+    {
+      "role": "primary",
+      "trackId": "cool-vibes",
+      "title": "Cool Vibes",
+      "file": "music_library/Cool Vibes.mp3",
+      "genre": "Tech / Jazz Ambient",
+      "tempoBpm": 125,
+      "mood": "Focused, curious, steady, analytical",
+      "bestForContext": "Explaining software architecture, algorithms, neural networks, technical diagrams, and system mechanics."
+    },
+    {
+      "role": "deep-dive / investigative",
+      "trackId": "the-complex",
+      "title": "The Complex",
+      "file": "music_library/The Complex.mp3",
+      "genre": "Cinematic / Dark Orchestral Tech",
+      "tempoBpm": 90,
+      "mood": "Mysterious, serious, high-stakes, analytical tension",
+      "bestForContext": "Investigative segments, AI ethical dilemmas, cybersecurity breaches, and deep digital infrastructure exposés."
+    }
+  ],
+  "curatedSfxPalette": [
+    {
+      "sfxId": "typing",
+      "file": "assets/sfx/typing.mp3",
+      "semanticTrigger": "Terminal code snippets appearing, prompt typing, CLI execution, data input."
+    },
+    {
+      "sfxId": "click-soft",
+      "file": "assets/sfx/click-soft.mp3",
+      "semanticTrigger": "Interactive UI node selection, subtle branch highlight on a diagram."
+    },
+    {
+      "sfxId": "camera-shutter",
+      "file": "assets/sfx/camera-shutter.mp3",
+      "semanticTrigger": "Freezing a frame of evidence, capturing an interface screenshot, highlighting a real server rack."
+    },
+    {
+      "sfxId": "whoosh-short",
+      "file": "assets/sfx/whoosh-short.mp3",
+      "semanticTrigger": "Fast data packet sweep, page transitions, sliding comparison columns."
+    },
+    {
+      "sfxId": "error",
+      "file": "assets/sfx/error.mp3",
+      "semanticTrigger": "Highlighting a software bug, algorithm failure, or cybersecurity vulnerability."
+    }
+  ],
+  "mixingStandards": {
+    "voiceoverLufs": -14.0,
+    "bgmLevelDuckedDb": -18.0,
+    "bgmLevelSwellDb": -12.0,
+    "sfxLevelDb": -10.0
+  }
+}

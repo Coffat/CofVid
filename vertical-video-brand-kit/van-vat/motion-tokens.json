@@ -1,0 +1,14 @@
+{
+  "channel": "van-vat",
+  "motionPrinciples": [
+    "Steady microscope / macro camera pushes.",
+    "Gradual reveal of scale (cellular -> organism -> ecosystem).",
+    "Time-lapse pacing mimicking biological and geological phenomena.",
+    "Zero fast whip-pans or EDM video cuts; nature takes time to observe."
+  ],
+  "easings": {
+    "macroPush": "sine.inOut",
+    "observationReveal": "power2.out",
+    "growthTrace": "power1.inOut"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "channel": "dau-moc",
+  "fonts": {
+    "headline": {
+      "preferred": "Playfair Display, serif",
+      "alternatives": "Source Serif 4, Lora, serif"
+    },
+    "body": {
+      "preferred": "Inter, sans-serif",
+      "alternatives": "Manrope, IBM Plex Sans, sans-serif"
+    },
+    "archivalDates": {
+      "preferred": "IBM Plex Mono, monospace",
+      "alternatives": "Roboto Mono, monospace"
+    }
+  },
+  "scale": {
+    "heroHeadline": {
+      "fontSize": "88-114px",
+      "lineHeight": "0.96-1.1",
+      "fontWeight": "600-700",
+      "guidance": "Epic historical turning point question or claim"
+    },
+    "sectionStatement": {
+      "fontSize": "62-82px",
+      "fontWeight": "600-700",
+      "guidance": "Historical event milestone or chapter"
+    },
+    "bodyExplanation": {
+      "fontSize": "38-48px",
+      "lineHeight": "1.3-1.5",
+      "fontWeight": "400-500",
+      "guidance": "Historical context and evidence explanation"
+    },
+    "figureLabel": {
+      "fontSize": "28-36px",
+      "fontWeight": "450-600",
+      "guidance": "Map annotations, document citations, museum ledger"
+    },
+    "archivalMetadata": {
+      "fontSize": "22-30px",
+      "fontWeight": "500-600",
+      "guidance": "Year, reign, dynasty, archive accession number"
+    },
+    "subtitles": {
+      "fontSize": "44-54px",
+      "fontWeight": "500-600",
+      "guidance": "Maximum 2 lines"
+    }
+  }
+}

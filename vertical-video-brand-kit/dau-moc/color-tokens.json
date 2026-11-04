@@ -1,0 +1,29 @@
+{
+  "channel": "dau-moc",
+  "name": "DẤU MỐC — Video Design System",
+  "style": "Historical Editorial × Archive Newspaper × Contemporary Documentary",
+  "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "aspectRatio": "9:16"
+  },
+  "basePalette": {
+    "paper": "#FAF8F3",
+    "white": "#FFFFFF",
+    "ink": "#292624",
+    "mutedInk": "#716B63",
+    "rule": "#DED8CF",
+    "deep": "#211D1B"
+  },
+  "channelAccents": {
+    "burgundy": "#873F43",
+    "antiqueGold": "#B18B55",
+    "parchment": "#E8DFD0"
+  },
+  "colorRules": [
+    "Use paper (#FAF8F3) for most graphic scenes; pure white when cleaner contrast is appropriate.",
+    "Use burgundy (#873F43) to identify the key event, date, person, or turning point.",
+    "Use antique gold (#B18B55) sparingly; avoid metallic or shiny effects.",
+    "Preserve original colors and tonal range of archival materials; avoid artificial sepia washes over real photos."
+  ]
+}

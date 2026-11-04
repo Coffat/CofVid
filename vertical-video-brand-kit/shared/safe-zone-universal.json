@@ -1,0 +1,100 @@
+{
+  "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "aspectRatio": "9:16",
+    "description": "Standard Vertical Video for Mobile Short-Form (TikTok, YouTube Shorts, Instagram Reels, Facebook Reels)"
+  },
+  "universalSafeZone": {
+    "topExclusion": {
+      "yStart": 0,
+      "yEnd": 220,
+      "height": 220,
+      "reason": "Platform status bar, search bar, back navigation, sound selector, live icon"
+    },
+    "bottomExclusion": {
+      "yStart": 1540,
+      "yEnd": 1920,
+      "height": 380,
+      "reason": "Account handle (@username), video caption (up to 3 lines), audio title marquee, seekbar / timeline scrubber, primary CTA sticker"
+    },
+    "rightRailExclusion": {
+      "xStart": 940,
+      "xEnd": 1080,
+      "width": 140,
+      "yStart": 650,
+      "yEnd": 1540,
+      "reason": "Platform interaction stack: Like, Comment, Bookmark, Share, Audio Disc spin"
+    },
+    "leftMargin": {
+      "xStart": 0,
+      "xEnd": 80,
+      "width": 80,
+      "reason": "Padding for edge-to-edge optical balance and bezel clipping on rounded phone screens"
+    },
+    "actionSafeBounds": {
+      "x": 80,
+      "y": 220,
+      "width": 860,
+      "height": 1320,
+      "description": "Guaranteed 100% visible area across all platforms under all UI states"
+    }
+  },
+  "dedicatedZones": {
+    "headlineZone": {
+      "x": 80,
+      "y": 240,
+      "width": 860,
+      "height": 320,
+      "alignment": "center",
+      "maxLines": 3
+    },
+    "mainVisualFocalZone": {
+      "x": 80,
+      "y": 480,
+      "width": 860,
+      "height": 800,
+      "description": "Primary visual subject, 3D object, character, diagram, or cinematic footage focal point"
+    },
+    "dataCardZone": {
+      "x": 100,
+      "y": 620,
+      "width": 820,
+      "height": 620,
+      "description": "Infographic cards, statistics, timelines, comparisons"
+    },
+    "subtitleZone": {
+      "x": 90,
+      "y": 1300,
+      "width": 840,
+      "height": 220,
+      "description": "Subtitles & dynamic karaoke text. Placed strictly above bottom UI exclusion to avoid collision with captions"
+    },
+    "brandSignatureZone": {
+      "x": 80,
+      "y": 180,
+      "width": 300,
+      "height": 60,
+      "alignment": "top-left",
+      "description": "Discreet channel badge / logo watermark"
+    }
+  },
+  "platformOverrides": {
+    "tiktok": {
+      "bottomUIHeight": 360,
+      "rightRailWidth": 130
+    },
+    "youtubeShorts": {
+      "bottomUIHeight": 300,
+      "rightRailWidth": 120
+    },
+    "instagramReels": {
+      "bottomUIHeight": 260,
+      "rightRailWidth": 110
+    },
+    "facebookReels": {
+      "bottomUIHeight": 280,
+      "rightRailWidth": 110
+    }
+  }
+}

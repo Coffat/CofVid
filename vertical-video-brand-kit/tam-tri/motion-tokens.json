@@ -1,0 +1,14 @@
+{
+  "channel": "tam-tri",
+  "motionPrinciples": [
+    "Contemplative pacing giving breathing room for human reflection.",
+    "Gentle focus shifts mimicking mental attention shifts.",
+    "Gradual reveal of psychological diagrams and cognitive loops.",
+    "Zero harsh jump cuts or aggressive strobe effects."
+  ],
+  "easings": {
+    "thoughtEmergence": "power3.out",
+    "gentleBreathing": "sine.inOut",
+    "cognitiveReveal": "power2.out"
+  }
+}

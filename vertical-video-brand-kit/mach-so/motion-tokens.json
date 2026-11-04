@@ -1,0 +1,32 @@
+{
+  "channel": "mach-so",
+  "version": "2.0",
+  "motionPrinciples": [
+    "Clean cuts between distinct pieces of technical evidence.",
+    "Snappy card reveal using cubic-bezier(0.16, 1, 0.3, 1) in 280ms with scale 0.97 -> 1.0, eliminating cartoon bounce.",
+    "Continuous subtle camera slow-drift (scale 1.0 -> 1.025x) across each scene to maintain visual momentum.",
+    "SVG bus connector paths progressive stroke-dashoffset drawing (0.45s).",
+    "Data packet pulse with acceleration and micro-bounce (1.06x) on destination nodes.",
+    "Code Terminal with Line Spotlight: active line highlighted with glowing mint border & 1.02x scale, surrounding lines dimmed to 40%.",
+    "Data counters rolling at high velocity and braking decisively with expo.out.",
+    "Verification stamps slamming down with scale 1.5 -> 1.0, rotation -3deg, and mechanical back.out(2.2).",
+    "Seamless transitions using Directional Tech Wipe or Zoom-Through across scene boundaries."
+  ],
+  "easings": {
+    "snappyCardReveal": "cubic-bezier(0.16, 1, 0.3, 1)",
+    "odometerDecel": "expo.out",
+    "stampSlam": "back.out(2.2)",
+    "dataPacketFlow": "power2.inOut",
+    "svgBusDraw": "power2.out",
+    "cameraSlowDrift": "none",
+    "techWipeTransition": "power3.in"
+  },
+  "durations": {
+    "cardRevealMs": 280,
+    "cardStaggerMs": 60,
+    "svgBusDrawMs": 450,
+    "packetTravelMs": 450,
+    "stampSlamMs": 320,
+    "lineSpotlightMs": 350
+  }
+}

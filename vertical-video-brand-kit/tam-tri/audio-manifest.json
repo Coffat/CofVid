@@ -1,0 +1,61 @@
+{
+  "channel": "tam-tri",
+  "name": "TÂM TRÍ — Audio & Sound Design Manifest",
+  "designPhilosophy": "Intimate, reflective, empathetic piano and warm chamber acoustics providing psychological breathing space.",
+  "agentPolicy": "ADAPTIVE ATELIER: These BGM tracks and SFX cues are curated recommendations. The AI Director should actively select and place sounds matching the emotional and analytical context of each scene.",
+  "recommendedBgm": [
+    {
+      "role": "primary",
+      "trackId": "heartbreaking",
+      "title": "Heartbreaking",
+      "file": "music_library/Heartbreaking.mp3",
+      "genre": "Cinematic Melancholic Piano & Strings",
+      "tempoBpm": 75,
+      "mood": "Poignant, touching, deeply introspective, human",
+      "bestForContext": "Exploring cognitive bias, loneliness, childhood emotional patterns, grief, and overcoming psychological hurdles."
+    },
+    {
+      "role": "conversational / habit study",
+      "trackId": "airport-lounge",
+      "title": "Airport Lounge",
+      "file": "music_library/Airport Lounge.mp3",
+      "genre": "Warm Minimalist Jazz",
+      "tempoBpm": 105,
+      "mood": "Relaxed, conversational, calm, thoughtful",
+      "bestForContext": "Daily human habits, social psychology experiments, productivity psychology, and decision-making discussions."
+    }
+  ],
+  "curatedSfxPalette": [
+    {
+      "sfxId": "ding",
+      "file": "assets/sfx/ding.mp3",
+      "semanticTrigger": "'Aha!' moment of self-realization, recognizing a cognitive trap, mental breakthrough."
+    },
+    {
+      "sfxId": "whoosh",
+      "file": "assets/sfx/whoosh.mp3",
+      "semanticTrigger": "Subconscious breath transition, shifting focus between inward thoughts and outward reality."
+    },
+    {
+      "sfxId": "pop",
+      "file": "assets/sfx/pop.mp3",
+      "semanticTrigger": "Shattering an illusion, popping a preconception, revealing an emotional trigger."
+    },
+    {
+      "sfxId": "chime",
+      "file": "assets/sfx/chime.mp3",
+      "semanticTrigger": "Final therapeutic takeaway, grounding thought, acceptance of reality."
+    },
+    {
+      "sfxId": "click-soft",
+      "file": "assets/sfx/click-soft.mp3",
+      "semanticTrigger": "Study citation label appearing, subtle behavioral category tag."
+    }
+  ],
+  "mixingStandards": {
+    "voiceoverLufs": -14.0,
+    "bgmLevelDuckedDb": -19.0,
+    "bgmLevelSwellDb": -13.0,
+    "sfxLevelDb": -12.0
+  }
+}

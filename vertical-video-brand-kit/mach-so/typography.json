@@ -1,0 +1,55 @@
+{
+  "channel": "mach-so",
+  "fonts": {
+    "headline": {
+      "preferred": "Inter, Manrope, sans-serif",
+      "alternatives": "IBM Plex Sans, sans-serif"
+    },
+    "body": {
+      "preferred": "Inter, sans-serif",
+      "alternatives": "Manrope, IBM Plex Sans, sans-serif"
+    },
+    "technical": {
+      "preferred": "IBM Plex Mono, monospace",
+      "alternatives": "Roboto Mono, monospace"
+    },
+    "quote": {
+      "preferred": "Source Serif 4, serif",
+      "alternatives": "Lora, serif"
+    }
+  },
+  "scale": {
+    "heroHeadline": {
+      "fontSize": "88-116px",
+      "lineHeight": "0.94-1.08",
+      "fontWeight": "700-800",
+      "guidance": "Short, strong line breaks; usually 2-4 lines"
+    },
+    "sectionStatement": {
+      "fontSize": "64-82px",
+      "fontWeight": "650-750",
+      "guidance": "One claim or question"
+    },
+    "bodyExplanation": {
+      "fontSize": "38-48px",
+      "lineHeight": "1.25-1.45",
+      "fontWeight": "400-500",
+      "guidance": "Short phrases, not paragraphs"
+    },
+    "diagramLabel": {
+      "fontSize": "28-36px",
+      "fontWeight": "450-600",
+      "guidance": "Keep labels concise"
+    },
+    "eyebrowMetadata": {
+      "fontSize": "22-28px",
+      "fontWeight": "600-700",
+      "guidance": "Uppercase only when useful; restrained tracking"
+    },
+    "subtitles": {
+      "fontSize": "44-54px",
+      "fontWeight": "500-600",
+      "guidance": "Maximum 2 lines; test on phone"
+    }
+  }
+}

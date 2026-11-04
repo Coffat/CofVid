@@ -1,0 +1,61 @@
+{
+  "channel": "dau-moc",
+  "name": "DẤU MỐC — Audio & Sound Design Manifest",
+  "designPhilosophy": "Solemn, museum-grade, archival strings and heroic orchestral percussion capturing historical weight and epochal turning points.",
+  "agentPolicy": "ADAPTIVE ATELIER: These BGM tracks and SFX cues are curated recommendations. The AI Director should actively select and place sounds matching the emotional and analytical context of each scene.",
+  "recommendedBgm": [
+    {
+      "role": "primary",
+      "trackId": "prelude-and-action",
+      "title": "Prelude and Action",
+      "file": "music_library/Prelude and Action.mp3",
+      "genre": "Cinematic Action Orchestral",
+      "tempoBpm": 130,
+      "mood": "Heroic, propulsive, grand, epochal",
+      "bestForContext": "Decisive battles, revolutions, coronation ceremonies, and major military campaigns."
+    },
+    {
+      "role": "solemn archive / collapse",
+      "trackId": "the-complex",
+      "title": "The Complex",
+      "file": "music_library/The Complex.mp3",
+      "genre": "Cinematic / Suspenseful Strings",
+      "tempoBpm": 90,
+      "mood": "Solemn, tragic, reflective, museum stillness",
+      "bestForContext": "Fall of empires, archaeological excavations, peace treaties, and archival manuscript examinations."
+    }
+  ],
+  "curatedSfxPalette": [
+    {
+      "sfxId": "whoosh-cinematic",
+      "file": "assets/sfx/whoosh-cinematic.mp3",
+      "semanticTrigger": "Unrolling historic maps, turning ancient parchment folios, time-lapse of centuries."
+    },
+    {
+      "sfxId": "impact-bass-2",
+      "file": "assets/sfx/impact-bass-2.mp3",
+      "semanticTrigger": "Imperial wax seal stamped, dynasty fall announcement, milestone year strike."
+    },
+    {
+      "sfxId": "camera-shutter",
+      "file": "assets/sfx/camera-shutter.mp3",
+      "semanticTrigger": "Presenting authentic museum artifacts or original historical photographs."
+    },
+    {
+      "sfxId": "riser",
+      "file": "assets/sfx/riser.mp3",
+      "semanticTrigger": "Suspense build-up preceding a fateful historical turning point or tactical trap."
+    },
+    {
+      "sfxId": "ding",
+      "file": "assets/sfx/ding.mp3",
+      "semanticTrigger": "Key historical fact highlight, treaty signing point, date indicator."
+    }
+  ],
+  "mixingStandards": {
+    "voiceoverLufs": -14.0,
+    "bgmLevelDuckedDb": -18.0,
+    "bgmLevelSwellDb": -12.0,
+    "sfxLevelDb": -10.0
+  }
+}

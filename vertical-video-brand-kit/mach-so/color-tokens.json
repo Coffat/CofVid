@@ -1,0 +1,29 @@
+{
+  "channel": "mach-so",
+  "name": "MẠCH SỐ — Video Design System",
+  "style": "Swiss Editorial × Technology Magazine × Data Journalism",
+  "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "aspectRatio": "9:16"
+  },
+  "basePalette": {
+    "paper": "#FAFAF7",
+    "white": "#FFFFFF",
+    "ink": "#222222",
+    "mutedInk": "#6B6B68",
+    "rule": "#E5E4DF",
+    "deep": "#111820"
+  },
+  "channelAccents": {
+    "signalBlue": "#3157A4",
+    "signalOrange": "#E27B50",
+    "paleBlue": "#DCE4F1"
+  },
+  "colorRules": [
+    "A typical graphic frame should be mostly paper (#FAFAF7) or white (#FFFFFF).",
+    "Use signal-blue (#3157A4) for the primary highlighted concept; signal-orange (#E27B50) for turning point or warning.",
+    "Keep body text in ink (#222222); use muted-ink (#6B6B68) only for secondary information.",
+    "Do not use neon cyan, electric purple, rainbow gradients, or glowing synthetic circuit boards."
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "channel": "ban-co",
+  "name": "BÀN CỜ — Video Design System",
+  "style": "Financial Journalism × Swiss Editorial × Corporate Annual Report",
+  "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "aspectRatio": "9:16"
+  },
+  "basePalette": {
+    "paper": "#FAFAF7",
+    "white": "#FFFFFF",
+    "ink": "#242724",
+    "mutedInk": "#70756F",
+    "rule": "#E3E6E1",
+    "deep": "#19231E"
+  },
+  "channelAccents": {
+    "forestGreen": "#376B50",
+    "brass": "#B18D55",
+    "sageGray": "#E2E8E1"
+  },
+  "colorRules": [
+    "Use white or warm white (#FAFAF7) as the dominant graphic surface.",
+    "Use forest-green (#376B50) for the primary chart series or highlighted business mechanism.",
+    "Use brass (#B18D55) for benchmark or secondary emphasis only; avoid shiny gold effects.",
+    "Do not use red and green as the only indicators of good and bad; pair with explicit values and arrows.",
+    "Avoid neon trading colors, electric gradients, and black-and-gold luxury finance ads."
+  ]
+}

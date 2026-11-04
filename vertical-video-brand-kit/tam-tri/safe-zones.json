@@ -1,0 +1,19 @@
+{
+  "channel": "tam-tri",
+  "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "aspectRatio": "9:16"
+  },
+  "margins": {
+    "left": 90,
+    "right": 90,
+    "top": 140,
+    "bottom": 300
+  },
+  "subtitles": {
+    "placement": "lower-middle safe region",
+    "fontSize": "44-54px",
+    "maxLines": 2
+  }
+}
